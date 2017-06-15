@@ -1,0 +1,51 @@
+---
+
+- name: Provision VMs
+  block:
+  - name: Create VMs
+    proxmox_kvm:
+      state: present
+      node: "{{ proxmox_node }}"
+      api_user: "{{ proxmox_api_user }}"
+      api_password: "{{ proxmox_api_password }}"
+      api_host: "{{ proxmox_api_host }}"
+      name: "{{ item }}"
+    register: pve_stats
+    with_items: "{{ proxmox_provision_hosts }}"
+    delegate_to: localhost
+
+  - name: Start VMs
+    proxmox_kvm:
+      state: started
+      node: "{{ proxmox_node }}"
+      api_user: "{{ proxmox_api_user }}"
+      api_password: "{{ proxmox_api_password }}"
+      api_host: "{{ proxmox_api_host }}"
+    with_items: "{{ proxmox_provision_hosts }}"
+    delegate_to: localhost
+
+  - set_fact:
+      provision_created: true
+    when: pve_stats.changed
+
+  when: proxmox_deploy
+
+- name: Remove VMs
+  block:
+  - name: Destroy VMs
+    proxmox_kvm:
+      state: absent
+      node: "{{ proxmox_node }}"
+      api_user: "{{ proxmox_api_user }}"
+      api_password: "{{ proxmox_api_password }}"
+      api_host: "{{ proxmox_api_host }}"
+      name: "{{ item }}"
+    register: pve_stats
+    with_items: "{{ proxmox_provision_hosts }}"
+    delegate_to: localhost
+
+  - set_fact:
+      provision_created: true
+    when: pve_stats.changed
+
+  when: not proxmox_deploy

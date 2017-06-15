@@ -1,0 +1,17 @@
+Host pve1
+    Hostname 128.112.168.26
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/pu_pve_rsa
+
+Host pve2
+    Hostname 128.112.168.27
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/pu_pve_rsa
+
+Host pve3
+    Hostname 128.112.168.28
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/pu_pve_rsa

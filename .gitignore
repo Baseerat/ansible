@@ -103,5 +103,4 @@ ENV/
 .idea/
 .DS_Store
 .vagrant/
-servers/princeton/keys/pu_pve_rsa
-servers/princeton/keys/pu_pve_vm_rsa
+*_rsa
