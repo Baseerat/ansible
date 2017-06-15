@@ -2,5 +2,26 @@
 
 - hosts: localhost
   connection: local
-  roles:
-    - proxmox-provision
+  gather_facts: false
+
+  vars:
+    provision_vmids: [ 120, ]
+    deploy: true
+
+  tasks:
+    - name: Include roles
+      include_role:
+        name: proxmox-provision
+      vars:
+        proxmox_provision_vmid: "{{ item }}"
+        proxmox_deploy: "{{ deploy }}"
+      with_items: "{{ provision_vmids }}"
+
+#- hosts: servers
+#  tasks:
+#    - name: Testing
+#      command: hostname
+#      register: output
+#
+#    - debug:
+#        msg: "{{ output }}"

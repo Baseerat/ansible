@@ -1,51 +1,138 @@
 ---
 
-- name: Provision VMs
+- name: Provision VM
   block:
-  - name: Create VMs
+  - name: Add VM *.clone_vmid to inventory
+    add_host:
+      name: "{{ proxmox_provision_ip_prefix }}{{ proxmox_provision_clone_vmid }}"
+      instance_name: "{{ proxmox_provision_hostname_prefix }}-{{ proxmox_provision_clone_vmid }}"
+      groups: template_servers
+
+  - name: Clone VM
     proxmox_kvm:
       state: present
       node: "{{ proxmox_node }}"
       api_user: "{{ proxmox_api_user }}"
       api_password: "{{ proxmox_api_password }}"
       api_host: "{{ proxmox_api_host }}"
-      name: "{{ item }}"
+      clone: "{{ proxmox_provision_hostname_prefix }}-{{ proxmox_provision_clone_vmid }}"
+      vmid: "{{ proxmox_provision_clone_vmid }}"
+      name: "{{ proxmox_provision_hostname_prefix }}-{{ proxmox_provision_vmid }}"
+      newid: "{{ proxmox_provision_vmid }}"
     register: pve_stats
-    with_items: "{{ proxmox_provision_hosts }}"
     delegate_to: localhost
 
-  - name: Start VMs
+  - name: Start VM
     proxmox_kvm:
       state: started
       node: "{{ proxmox_node }}"
       api_user: "{{ proxmox_api_user }}"
       api_password: "{{ proxmox_api_password }}"
       api_host: "{{ proxmox_api_host }}"
-    with_items: "{{ proxmox_provision_hosts }}"
+      name: "{{ proxmox_provision_hostname_prefix }}-{{ proxmox_provision_vmid }}"
+      vmid: "{{ proxmox_provision_vmid }}"
     delegate_to: localhost
 
-  - set_fact:
-      provision_created: true
-    when: pve_stats.changed
+  - name: Wait for SSH with *.clone_vmid to come up
+    wait_for:
+      host: "{{ proxmox_provision_ip_prefix }}{{ proxmox_provision_clone_vmid }}"
+      port: 22
+      delay: 1
+      state: started
+    delegate_to: pve1
+
+  - name: Change VM IP address
+    template: src=roles/proxmox-provision/templates/interfaces_static.j2 dest=/etc/network/interfaces owner=root group=root mode=0644 backup=yes
+    vars:
+      proxmox_provision_address: "{{ proxmox_provision_ip_prefix }}{{ proxmox_provision_vmid }}"
+    delegate_to: 10.10.10.{{ proxmox_provision_clone_vmid }}
+    become: true
+
+  - name: Update hostname
+    replace:
+      path: /etc/hostname
+      regexp: "ubuntu-14-{{ proxmox_provision_clone_vmid }}"
+      replace: "ubuntu-14-{{ proxmox_provision_vmid }}"
+    delegate_to: 10.10.10.{{ proxmox_provision_clone_vmid }}
+    become: true
+
+  - name: Update IP address in hosts
+    replace:
+      path: /etc/hosts
+      regexp: "{{ proxmox_provision_ip_prefix }}{{ proxmox_provision_clone_vmid }}"
+      replace: "{{ proxmox_provision_ip_prefix }}{{ proxmox_provision_vmid }}"
+    delegate_to: 10.10.10.{{ proxmox_provision_clone_vmid }}
+    become: true
+
+  - name: Update hostname in hosts
+    replace:
+      path: /etc/hosts
+      regexp: "ubuntu-14-{{ proxmox_provision_clone_vmid }}"
+      replace: "ubuntu-14-{{ proxmox_provision_vmid }}"
+    delegate_to: 10.10.10.{{ proxmox_provision_clone_vmid }}
+    become: true
+
+  - name: Add VM to inventory
+    add_host:
+      name: "{{ proxmox_provision_ip_prefix }}{{ proxmox_provision_vmid }}"
+      instance_name: "{{ proxmox_provision_hostname_prefix }}-{{ proxmox_provision_vmid }}"
+      groups: servers
+
+  - name: Reboot VM
+    command: /sbin/reboot
+    delegate_to: 10.10.10.{{ proxmox_provision_clone_vmid }}
+    become: true
+
+  - name: Wait for SSH with *.vmid to come up
+    wait_for:
+      host: "{{ proxmox_provision_ip_prefix }}{{ proxmox_provision_vmid }}"
+      port: 22
+      delay: 1
+      state: started
+    delegate_to: pve1
+
+#  - name: Testing
+#    command: cat /etc/network/interfaces
+#    register: output
+#    delegate_to: 10.10.10.101
+#
+#  - debug:
+#      msg: "{{ output }}"
+#    delegate_to: 10.10.10.101
+
+#  - set_fact:
+#      provision_created: true
+#    when: pve_stats.changed
 
   when: proxmox_deploy
 
-- name: Remove VMs
+- name: Remove VM
   block:
-  - name: Destroy VMs
+  - name: Stop VM
+    proxmox_kvm:
+      state: stopped
+      node: "{{ proxmox_node }}"
+      api_user: "{{ proxmox_api_user }}"
+      api_password: "{{ proxmox_api_password }}"
+      api_host: "{{ proxmox_api_host }}"
+      name: "{{ proxmox_provision_hostname_prefix }}-{{ proxmox_provision_vmid }}"
+      vmid: "{{ proxmox_provision_vmid }}"
+    delegate_to: localhost
+
+  - name: Destroy VM
     proxmox_kvm:
       state: absent
       node: "{{ proxmox_node }}"
       api_user: "{{ proxmox_api_user }}"
       api_password: "{{ proxmox_api_password }}"
       api_host: "{{ proxmox_api_host }}"
-      name: "{{ item }}"
+      name: "{{ proxmox_provision_hostname_prefix }}-{{ proxmox_provision_vmid }}"
+      vmid: "{{ proxmox_provision_vmid }}"
     register: pve_stats
-    with_items: "{{ proxmox_provision_hosts }}"
     delegate_to: localhost
 
-  - set_fact:
-      provision_created: true
-    when: pve_stats.changed
+#  - set_fact:
+#      provision_created: true
+#    when: pve_stats.changed
 
   when: not proxmox_deploy

@@ -1,0 +1,21 @@
+# {{ ansible_managed }}
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto {{ proxmox_provision_interface }}
+iface {{ proxmox_provision_interface }} inet static
+	address {{ proxmox_provision_address }}
+	netmask {{ proxmox_provision_netmask }}
+	network {{ proxmox_provision_network }}
+	broadcast {{ proxmox_provision_broadcast }}
+	gateway {{ proxmox_provision_gateway }}
+	dns-nameservers {{ proxmox_provision_dns_nameservers }}
+	dns-search {{ proxmox_provision_dns_search }}
+
+
+
+
+
