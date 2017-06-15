@@ -92,19 +92,19 @@
     delegate_to: pve1
 
 #  - name: Testing
-#    command: cat /etc/network/interfaces
+#    command: hostname
 #    register: output
-#    delegate_to: 10.10.10.101
+#    delegate_to: 10.10.10.{{ proxmox_provision_clone_vmid }}
 #
 #  - debug:
 #      msg: "{{ output }}"
-#    delegate_to: 10.10.10.101
+#    delegate_to: 10.10.10.{{ proxmox_provision_clone_vmid }}
 
 #  - set_fact:
 #      provision_created: true
 #    when: pve_stats.changed
 
-  when: proxmox_deploy
+  when: proxmox_provision
 
 - name: Remove VM
   block:
@@ -135,4 +135,4 @@
 #      provision_created: true
 #    when: pve_stats.changed
 
-  when: not proxmox_deploy
+  when: not proxmox_provision

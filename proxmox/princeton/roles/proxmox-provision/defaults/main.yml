@@ -3,7 +3,7 @@
 proxmox_node: mshahbaz-poweredge-1-pve
 proxmox_api_user: root@pam
 proxmox_api_password: PrincetonP4OVS
-proxmox_api_host: 128.112.168.26
+proxmox_api_password: PrincetonP4OVS
 
 proxmox_provision_clone_vmid: 101
 proxmox_provision_hostname_prefix: ubuntu-14

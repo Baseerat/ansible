@@ -1,0 +1,28 @@
+---
+
+- hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    api_host: 128.112.168.26
+    vmids: [ 120, 121, 122, 123, ]
+    provision: true
+
+  tasks:
+    - include_role:
+        name: proxmox-provision
+      vars:
+        proxmox_api_host: "{{ api_host }}"
+        proxmox_provision_vmid: "{{ item }}"
+        proxmox_provision: "{{ provision }}"
+      with_items: "{{ vmids }}"
+
+- hosts: servers
+  gather_facts: false
+  tasks:
+    - command: hostname
+      register: output
+
+    - debug:
+        msg: "{{ output.stdout }}"
