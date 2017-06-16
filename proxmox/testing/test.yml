@@ -1,5 +1,80 @@
-- hosts: all
-  order: sorted
-  gather_facts: False
+## credit: http://fabian-affolter.ch/blog/the-lineinfile-module-of-ansible/
+--- 
+- hosts: localhost
+  gather_facts: false
+ 
   tasks:
-    - debug: var=inventory_hostname
+#  - name: create a complete empty file
+#    command: /usr/bin/touch /test/test.conf
+ 
+#  - name: create a new file with lineinfile
+#    lineinfile: dest=./test.conf
+#                regexp='^' line=''
+#                state=present
+#                create=True
+                 
+#  - name: add a string to the new file
+#    lineinfile: dest=./test.conf
+#                regexp='^'
+#                line='Hello, World!'
+#                state=present
+
+#  - name: add a multiline string to the file and delete the string from before
+#  # Be aware, with the given regex the string will be added everytime the playbook runs
+#    lineinfile: dest=./test.conf
+#                regexp='^'
+#                line='#This is a comment\n#Another comment\n#Another comment, again\n#Again a comment\n#The last comment'
+#                state=present
+
+#  - name: add a single line, in this case the same as the comment but uncommented
+#    lineinfile: dest=./test.conf
+#                regexp='^Another'
+#                insertafter='^#Another'
+#                line='Another comment, no longer a comment'
+#                state=present
+
+#  - name: remove the line '#Again a comment'
+#    lineinfile: dest=./test.conf
+#                regexp='^#Again'
+#                state=absent
+
+#  - name: add a new string at the beginning of the file
+#    lineinfile: dest=./test.conf
+#                regexp='^This'
+#                insertbefore=BOF
+#                line='This is no longer a comment'
+
+#  - name: add a new string before the match
+#    lineinfile: dest=./test.conf
+#                regexp='^Another'
+#                insertbefore='^#Another'
+#                line='Another comment, no longer'
+
+#  - name: add a new string at the end of the file
+#    lineinfile: dest=./test.conf
+#                regexp=''
+#                insertafter=EOF
+#                line='The latest entry'
+
+  - name: Check if pve*_data_servers group exists in the inventory file
+    lineinfile:
+      path: ./test.conf
+      regexp: "^\\[pve1_data_servers\\]"
+      line: "[pve1_data_servers]\n"
+      state: absent
+
+#  - replace:
+#      path: ./test.conf
+#      regexp: "^\\[pve1_servers\\]"
+#      replace: "[pve1_servers]\nubuntu-14-123 ansible_host=10.10.10.123"
+#
+#  - replace:
+#      path: ./test.conf
+#      regexp: "^\\[pve1_data_servers\\]"
+#      replace: "[pve1_data_servers]\nubuntu-14-123 ansible_host=10.10.10.123"
+
+
+  - lineinfile:
+      path: ./test.conf
+      regexp: "^ubuntu-14-120 ansible_host=10.10.10.120"
+      state: absent

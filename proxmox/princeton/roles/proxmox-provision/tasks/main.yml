@@ -2,11 +2,11 @@
 
 - name: Provision VM
   block:
-  - name: Add VM *.clone_vmid to inventory
+  - name: Add VM *.clone_vmid to pve*_servers groups
     add_host:
       name: "{{ proxmox_provision_ip_prefix }}{{ proxmox_provision_clone_vmid }}"
       instance_name: "{{ proxmox_provision_hostname_prefix }}-{{ proxmox_provision_clone_vmid }}"
-      groups: template_servers
+      groups: "{{ proxmox_name }}_servers"
 
   - name: Clone VM
     proxmox_kvm:
@@ -19,7 +19,6 @@
       vmid: "{{ proxmox_provision_clone_vmid }}"
       name: "{{ proxmox_provision_hostname_prefix }}-{{ proxmox_provision_vmid }}"
       newid: "{{ proxmox_provision_vmid }}"
-    register: pve_stats
     delegate_to: localhost
 
   - name: Start VM
@@ -39,16 +38,16 @@
       port: 22
       delay: 1
       state: started
-    delegate_to: pve1
+    delegate_to: "{{ proxmox_name }}"
 
-  - name: Change VM IP address
+  - name: Change IP address of the VM
     template: src=roles/proxmox-provision/templates/interfaces_static.j2 dest=/etc/network/interfaces owner=root group=root mode=0644 backup=yes
     vars:
       proxmox_provision_address: "{{ proxmox_provision_ip_prefix }}{{ proxmox_provision_vmid }}"
     delegate_to: 10.10.10.{{ proxmox_provision_clone_vmid }}
     become: true
 
-  - name: Update hostname
+  - name: Update hostname in /etc/hostname
     replace:
       path: /etc/hostname
       regexp: "ubuntu-14-{{ proxmox_provision_clone_vmid }}"
@@ -56,7 +55,7 @@
     delegate_to: 10.10.10.{{ proxmox_provision_clone_vmid }}
     become: true
 
-  - name: Update IP address in hosts
+  - name: Update IP address in /etc/hosts
     replace:
       path: /etc/hosts
       regexp: "{{ proxmox_provision_ip_prefix }}{{ proxmox_provision_clone_vmid }}"
@@ -64,7 +63,7 @@
     delegate_to: 10.10.10.{{ proxmox_provision_clone_vmid }}
     become: true
 
-  - name: Update hostname in hosts
+  - name: Update hostname in /etc/hosts
     replace:
       path: /etc/hosts
       regexp: "ubuntu-14-{{ proxmox_provision_clone_vmid }}"
@@ -72,11 +71,11 @@
     delegate_to: 10.10.10.{{ proxmox_provision_clone_vmid }}
     become: true
 
-  - name: Add VM to inventory
+  - name: Add VM to pve*_servers groups
     add_host:
       name: "{{ proxmox_provision_ip_prefix }}{{ proxmox_provision_vmid }}"
       instance_name: "{{ proxmox_provision_hostname_prefix }}-{{ proxmox_provision_vmid }}"
-      groups: servers
+      groups: "{{ proxmox_name }}_servers"
 
   - name: Reboot VM
     command: /sbin/reboot
@@ -89,7 +88,26 @@
       port: 22
       delay: 1
       state: started
-    delegate_to: pve1
+    delegate_to: "{{ proxmox_name }}"
+
+  - name: Check if pve*_data_servers group exists in the inventory file
+    lineinfile:
+      path: ./inventory.ini
+      regexp: "^\\[{{ proxmox_name }}_data_servers\\]"
+      line: "[{{ proxmox_name }}_data_servers]"
+      state: present
+
+  - name: Add VM to the pve*_servers group in the inventory file
+    replace:
+      path: ./inventory.ini
+      regexp: "^\\[{{ proxmox_name }}_servers\\]"
+      replace: "[{{ proxmox_name }}_servers]\n{{ proxmox_provision_hostname_prefix }}-{{ proxmox_provision_vmid }} ansible_host={{ proxmox_provision_ip_prefix }}{{ proxmox_provision_vmid }}"
+
+  - name: Add VM to the pve*_data_servers group in the inventory file
+    replace:
+      path: ./inventory.ini
+      regexp: "^\\[{{ proxmox_name }}_data_servers\\]"
+      replace: "[{{ proxmox_name }}_data_servers]\n{{ proxmox_provision_hostname_prefix }}-{{ proxmox_provision_vmid }} ansible_host={{ proxmox_provision_ip_prefix }}{{ proxmox_provision_vmid }}"
 
 #  - name: Testing
 #    command: hostname
@@ -100,14 +118,25 @@
 #      msg: "{{ output }}"
 #    delegate_to: 10.10.10.{{ proxmox_provision_clone_vmid }}
 
-#  - set_fact:
-#      provision_created: true
-#    when: pve_stats.changed
+#  - debug:
+#      msg: "{{ groups }}"
 
-  when: proxmox_provision
+  when: proxmox_provision and '{{ proxmox_name }}_data_servers' not in groups
 
 - name: Remove VM
   block:
+  - name: Remove VM from the inventory file
+    lineinfile:
+      path: ./inventory.ini
+      regexp: "^{{ proxmox_provision_hostname_prefix }}-{{ proxmox_provision_vmid }} ansible_host={{ proxmox_provision_ip_prefix }}{{ proxmox_provision_vmid }}"
+      state: absent
+
+  - name: Remove pve*_data_servers group from the inventory file
+    lineinfile:
+      path: ./inventory.ini
+      regexp: "^\\[{{ proxmox_name }}_data_servers\\]"
+      state: absent
+
   - name: Stop VM
     proxmox_kvm:
       state: stopped
@@ -128,11 +157,6 @@
       api_host: "{{ proxmox_api_host }}"
       name: "{{ proxmox_provision_hostname_prefix }}-{{ proxmox_provision_vmid }}"
       vmid: "{{ proxmox_provision_vmid }}"
-    register: pve_stats
     delegate_to: localhost
 
-#  - set_fact:
-#      provision_created: true
-#    when: pve_stats.changed
-
-  when: not proxmox_provision
+  when: not proxmox_provision and '{{ proxmox_name }}_data_servers' in groups

@@ -5,18 +5,18 @@
   gather_facts: false
 
   vars:
-    api_host: 128.112.168.26
-    vmids: [ 120, 121, 122, 123, ]
-    provision: true
+    proxmox_name: pve1
+    proxmox_node: mshahbaz-poweredge-1-pve
+    proxmox_api_host: 128.112.168.26
+    proxmox_provision_vmids: [ 120, ]
+    proxmox_provision: false
 
   tasks:
     - include_role:
         name: proxmox-provision
       vars:
-        proxmox_api_host: "{{ api_host }}"
         proxmox_provision_vmid: "{{ item }}"
-        proxmox_provision: "{{ provision }}"
-      with_items: "{{ vmids }}"
+      with_items: "{{ proxmox_provision_vmids }}"
 
 - hosts: servers
   gather_facts: false
