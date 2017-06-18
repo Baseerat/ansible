@@ -41,7 +41,13 @@
   delegate_to: "{{ proxmox_name }}"
 
 - name: Change ip address in /etc/network/interfaces
-  template: src=roles/proxmox/templates/interfaces_static.j2 dest=/etc/network/interfaces owner=root group=root mode=0644 backup=yes
+  template:
+    src: roles/proxmox/templates/interfaces_static.j2
+    dest: /etc/network/interfaces
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
   vars:
     proxmox_address: "{{ proxmox_ip_prefix }}{{ proxmox_vmid }}"
   delegate_to: "{{ proxmox_ip_prefix }}{{ proxmox_clone_vmid }}"
