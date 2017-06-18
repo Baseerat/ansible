@@ -5,8 +5,8 @@
   gather_facts: false
   become: true
 
-  vars:
-    provision_docker: true
+  vars_files:
+    - "vars/docker.yml"
 
   roles:
     - docker
