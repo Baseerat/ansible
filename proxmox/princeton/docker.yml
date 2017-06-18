@@ -6,7 +6,7 @@
   become: true
 
   vars:
-    provision_docker: false
+    provision_docker: true
 
   roles:
     - docker

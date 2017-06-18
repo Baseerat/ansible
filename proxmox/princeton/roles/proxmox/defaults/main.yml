@@ -13,3 +13,4 @@ proxmox_broadcast: "{{ proxmox_ip_prefix }}255"
 proxmox_gateway: "{{ proxmox_ip_prefix }}1"
 proxmox_dns_nameservers: 128.112.136.10
 proxmox_dns_search: cs.princeton.edu
+
