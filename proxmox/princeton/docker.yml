@@ -1,0 +1,12 @@
+---
+
+- name: Provision docker
+  hosts: pve*-servers
+  gather_facts: false
+  become: true
+
+  vars:
+    provision_docker: false
+
+  roles:
+    - docker

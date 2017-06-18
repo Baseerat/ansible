@@ -1,0 +1,21 @@
+---
+
+- name: Provision proxmox VMs
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    proxmox_name: pve1
+    proxmox_node: mshahbaz-poweredge-1-pve
+    proxmox_api_host: 128.112.168.26
+    proxmox_user: mshahbaz
+    proxmox_vmids: [ 120, ]
+    provision_proxmox: false
+
+  tasks:
+    - include_role:
+        name: proxmox
+      vars:
+        proxmox_vmid: "{{ item }}"
+      with_items: "{{ proxmox_vmids }}"
