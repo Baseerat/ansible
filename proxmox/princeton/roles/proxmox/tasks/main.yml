@@ -1,15 +1,15 @@
 ---
 
-- name: Create VM
-  include: create_vm.yml
+- name: Create VMs
+  include: create_vms.yml
   vars:
     proxmox_vmid: "{{ item }}"
   with_items: "{{ proxmox_vmids }}"
 #  when: provision_proxmox
   tags: create_vms
 
-- name: Remove VM
-  include: remove_vm.yml
+- name: Remove VMs
+  include: remove_vms.yml
   vars:
     proxmox_vmid: "{{ item }}"
   with_items: "{{ proxmox_vmids }}"
