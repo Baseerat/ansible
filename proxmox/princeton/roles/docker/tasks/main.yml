@@ -2,8 +2,10 @@
 
 - name: Install docker
   include: install_docker.yml
-  when: provision_docker
+#  when: provision_docker
+  tags: install
 
 - name: Remove docker
   include: remove_docker.yml
-  when: not provision_docker
+#  when: not provision_docker
+  tags: remove

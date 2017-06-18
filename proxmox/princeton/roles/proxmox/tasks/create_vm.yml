@@ -94,13 +94,13 @@
 
 - name: Ensure that {{ proxmox_name }}-servers group exists in the inventory file
   lineinfile:
-    path: ./inventory.ini
+    path: "{{ inventory_file }}"
     line: "[{{ proxmox_name }}-servers]"
     state: present
 
 - name: Add VM to the {{ proxmox_name }}-servers group in the inventory file
   lineinfile:
-    path: ./inventory.ini
+    path: "{{ inventory_file }}"
     line: "{{ proxmox_name }}-server-{{ proxmox_vmid }} ansible_host={{ proxmox_ip_prefix }}{{ proxmox_vmid }} ansible_user={{ proxmox_user }} ansible_ssh_common_args='{{ ssh_common_args }}'"
     insertafter: "^\\[{{ proxmox_name }}-servers\\]"
     state: present

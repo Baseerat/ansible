@@ -5,11 +5,13 @@
   vars:
     proxmox_vmid: "{{ item }}"
   with_items: "{{ proxmox_vmids }}"
-  when: provision_proxmox
+#  when: provision_proxmox
+  tags: create_vms
 
 - name: Remove VM
   include: remove_vm.yml
   vars:
     proxmox_vmid: "{{ item }}"
   with_items: "{{ proxmox_vmids }}"
-  when: not provision_proxmox
+#  when: not provision_proxmox
+  tags: remove_vms
