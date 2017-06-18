@@ -1,10 +1,16 @@
 ---
 
 - name: Test
-  hosts: localhost
-  connection: local
+  hosts: masters
+#  connection: local
   gather_facts: false
 
   tasks:
     - debug:
         msg: "{{ inventory_file }}"
+
+    - name: copy pu_pve_vm_rsa ssh key
+      copy:
+        src: ./keys/pu_pve_vm_rsa
+        dest: ~/.ssh/id_rsa
+        mode: 0600

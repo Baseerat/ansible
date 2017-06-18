@@ -1,0 +1,110 @@
+---
+
+# Define the user you which to use for provisioning on the hosts. It is
+# implied that this user will exist on all nodes
+setup_user: mshahbaz
+
+# Define all of your hosts here.  The FQDN and IP address are important to
+# get right since they will be defined in the certificates kubernetes uses
+# for communication
+host_roles:
+  - ubuntu-1:
+      type: master
+#      fqdn: ubuntu-1.interubernet.local
+      ipaddress: 10.10.10.120
+  - ubuntu-2:
+      type: minion
+#      fqdn: ubuntu-2.interubernet.local
+      ipaddress: 10.10.10.121
+  - ubuntu-3:
+      type: minion
+#      fqdn: ubuntu-3.interubernet.local
+      ipaddress: 10.10.10.122
+  - ubuntu-4:
+      type: minion
+#      fqdn: ubuntu-4.interubernet.local
+      ipaddress: 10.10.10.123
+  - ubuntu-5:
+      type: minion
+#      fqdn: ubuntu-5.interubernet.local
+      ipaddress: 10.10.10.124
+
+
+# Most of these settings are not incredibly important for your first configuration
+# however make sure that the two CIDRs defined below are unique to your network as
+# the cluster_node_cidr will need to be routed on your L3 gateway.  Also make sure
+# that the cluster_node_cidr is big as each host get's assigned a /24 out of it.
+cluster_info:
+  cluster_name: local_cluster
+  cluster_domain: k8s.cluster.local
+  service_network_cidr: 10.11.12.0/24
+  dns_service_ip: 10.11.12.254
+
+# Again - not super critical to change this stuff but you can
+pki_info:
+  cert_path: /var/lib/kube_certs
+  key_size: 2048
+  ca_expire: 87600h
+  key_expire: 87600h
+  cert_country: US
+  cert_province: NJ
+  cert_city: Princeton
+  cert_org: Princeton Org
+  cert_email: mshahbaz@cs.princeton.com
+  cert_ou: Princeton
+  cert_name: kubernetes
+
+# You can change these if you want but for sure leave the 'kubelet' token.  You can
+# change the password for it if you want but the username needs to be there.
+auth_tokens:
+  - token1:
+      uid: mshahbaz
+      username: mshahbaz
+      password: nopass
+  - token2:
+      uid: kubelet
+      username: kubelet
+      password: nopass
+
+# I recommend leaving this alone until you get a better understanding of Kubernetes
+auth_policy:
+  - policy1:
+      username: "*"
+      group: ""
+      namespace: ""
+      resource: ""
+      apigroup: ""
+      nonresourcepath: "*"
+      readonly: true
+  - policy2:
+      username: admin
+      group: ""
+      namespace: "*"
+      resource: "*"
+      apigroup: "*"
+      nonresourcepath: ""
+      readonly: false
+  - policy3:
+      username: scheduler
+      group: ""
+      namespace: "*"
+      resource: "*"
+      apigroup: "*"
+      nonresourcepath: ""
+      readonly: false
+  - policy4:
+      username: kubelet
+      group: ""
+      namespace: "*"
+      resource: "*"
+      apigroup: "*"
+      nonresourcepath: ""
+      readonly: false
+  - policy5:
+      username: ""
+      group: system:serviceaccounts
+      namespace: "*"
+      resource: "*"
+      apigroup: "*"
+      nonresourcepath: "*"
+      readonly:  false

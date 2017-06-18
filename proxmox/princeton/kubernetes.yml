@@ -1,0 +1,13 @@
+---
+
+- name: Provision kubernetes
+  hosts:
+    - masters
+    - minions
+#  gather_facts: false
+
+  vars_files:
+    - "vars/kubernetes.yml"
+
+  roles:
+    - kubernetes
