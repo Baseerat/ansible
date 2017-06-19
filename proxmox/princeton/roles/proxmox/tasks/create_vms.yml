@@ -1,6 +1,6 @@
 ---
 
-- name: Add VM to 'all' group
+- name: add VM to 'all' group
   add_host:
     name: "{{ proxmox_ip_prefix }}{{ proxmox_clone_vmid }}"
     instance_name: "{{ proxmox_name }}-server-{{ proxmox_clone_vmid }}"
@@ -8,7 +8,7 @@
     ansible_user: "{{ proxmox_user }}"
     ansible_ssh_common_args: "{{ ssh_common_args }}"
 
-- name: Clone VM
+- name: clone VM
   proxmox_kvm:
     state: present
     node: "{{ proxmox_node }}"
@@ -21,7 +21,7 @@
     newid: "{{ proxmox_vmid }}"
   delegate_to: localhost
 
-- name: Start VM
+- name: start VM
   proxmox_kvm:
     state: started
     node: "{{ proxmox_node }}"
@@ -32,7 +32,7 @@
     vmid: "{{ proxmox_vmid }}"
   delegate_to: localhost
 
-- name: Wait for ssh to come up
+- name: wait for ssh to come up
   wait_for:
     host: "{{ proxmox_ip_prefix }}{{ proxmox_clone_vmid }}"
     port: 22
@@ -40,7 +40,7 @@
     state: started
   delegate_to: "{{ proxmox_name }}"
 
-- name: Change ip address in /etc/network/interfaces
+- name: change ip address in /etc/network/interfaces
   template:
     src: roles/proxmox/templates/interfaces_static.j2
     dest: /etc/network/interfaces
@@ -53,7 +53,7 @@
   delegate_to: "{{ proxmox_ip_prefix }}{{ proxmox_clone_vmid }}"
   become: true
 
-- name: Update hostname in /etc/hostname
+- name: update hostname in /etc/hostname
   replace:
     path: /etc/hostname
     regexp: "ubuntu-14-{{ proxmox_clone_vmid }}"
@@ -61,7 +61,7 @@
   delegate_to: "{{ proxmox_ip_prefix }}{{ proxmox_clone_vmid }}"
   become: true
 
-- name: Update ip address in /etc/hosts
+- name: update ip address in /etc/hosts
   replace:
     path: /etc/hosts
     regexp: "{{ proxmox_ip_prefix }}{{ proxmox_clone_vmid }}"
@@ -69,7 +69,7 @@
   delegate_to: "{{ proxmox_ip_prefix }}{{ proxmox_clone_vmid }}"
   become: true
 
-- name: Update hostname in /etc/hosts
+- name: update hostname in /etc/hosts
   replace:
     path: /etc/hosts
     regexp: "ubuntu-14-{{ proxmox_clone_vmid }}"
@@ -77,7 +77,7 @@
   delegate_to: "{{ proxmox_ip_prefix }}{{ proxmox_clone_vmid }}"
   become: true
 
-- name: Add VM to {{ proxmox_name }}-servers groups
+- name: add VM to {{ proxmox_name }}-servers groups
   add_host:
     name: "{{ proxmox_ip_prefix }}{{ proxmox_vmid }}"
     instance_name: "{{ proxmox_name }}-server-{{ proxmox_vmid }}"
@@ -85,12 +85,12 @@
     ansible_user: "{{ proxmox_user }}"
     ansible_ssh_common_args: "{{ ssh_common_args }}"
 
-- name: Reboot VM
+- name: reboot VM
   command: /sbin/reboot
   delegate_to: "{{ proxmox_ip_prefix }}{{ proxmox_clone_vmid }}"
   become: true
 
-- name: Wait for ssh to come up
+- name: wait for ssh to come up
   wait_for:
     host: "{{ proxmox_ip_prefix }}{{ proxmox_vmid }}"
     port: 22
@@ -98,20 +98,20 @@
     state: started
   delegate_to: "{{ proxmox_name }}"
 
-- name: Ensure that {{ proxmox_name }}-servers group exists in the inventory file
+- name: ensure that {{ proxmox_name }}-servers group exists in the inventory file
   lineinfile:
     path: "{{ inventory_file }}"
     line: "[{{ proxmox_name }}-servers]"
     state: present
 
-- name: Add VM to the {{ proxmox_name }}-servers group in the inventory file
+- name: add VM to the {{ proxmox_name }}-servers group in the inventory file
   lineinfile:
     path: "{{ inventory_file }}"
     line: "{{ proxmox_name }}-server-{{ proxmox_vmid }} ansible_host={{ proxmox_ip_prefix }}{{ proxmox_vmid }} ansible_user={{ proxmox_user }} ansible_ssh_common_args='{{ ssh_common_args }}'"
     insertafter: "^\\[{{ proxmox_name }}-servers\\]"
     state: present
 
-- name: Refresh invetory
+- name: refresh invetory
   meta: refresh_inventory
 
 #- debug:

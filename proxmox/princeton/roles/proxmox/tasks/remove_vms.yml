@@ -1,18 +1,18 @@
 ---
 
-- name: Remove VM from the {{ proxmox_name }}-servers group in the inventory file
+- name: remove VM from the {{ proxmox_name }}-servers group in the inventory file
   lineinfile:
     path: "{{ inventory_file }}"
     line: "{{ proxmox_name }}-server-{{ proxmox_vmid }} ansible_host={{ proxmox_ip_prefix }}{{ proxmox_vmid }} ansible_user={{ proxmox_user }} ansible_ssh_common_args='{{ ssh_common_args }}'"
     state: absent
 
-- name: Remove {{ proxmox_name }}-servers group from the inventory file
+- name: remove {{ proxmox_name }}-servers group from the inventory file
   lineinfile:
     path: "{{ inventory_file }}"
     line: "[{{ proxmox_name }}-servers]"
     state: absent
 
-- name: Stop VM
+- name: stop VM
   proxmox_kvm:
     state: stopped
     node: "{{ proxmox_node }}"
@@ -23,7 +23,7 @@
     vmid: "{{ proxmox_vmid }}"
   delegate_to: localhost
 
-- name: Destroy VM
+- name: destroy VM
   proxmox_kvm:
     state: absent
     node: "{{ proxmox_node }}"
