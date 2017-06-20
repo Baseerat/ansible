@@ -1,0 +1,20 @@
+[Unit]
+Description=Kubernetes API Server
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+
+[Service]
+ExecStart=/usr/bin/kube-apiserver \
+    --bind-address=0.0.0.0 \
+    --insecure-bind-address=0.0.0.0 \
+    --etcd-servers=http://{{ansible_default_ipv4.address}}:2379 \
+    --service-cluster-ip-range={{ cluster_info.service_network_cidr }} \
+    --admission-control=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ResourceQuota \
+    --advertise-address={{ansible_default_ipv4.address}} \
+    --allow-privileged=true \
+    --service-node-port-range=30000-32767 \
+    --v=2
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

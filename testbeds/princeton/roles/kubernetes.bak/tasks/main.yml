@@ -1,0 +1,11 @@
+---
+
+- include: master_build.yml
+  tags: master
+  when:
+    "'masters' in group_names"
+
+- include: minion_build.yml
+  tags: minion
+  when:
+    "'minions' in group_names"

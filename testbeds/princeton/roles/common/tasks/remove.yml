@@ -1,0 +1,24 @@
+---
+
+#- name: remove systemd
+#  become: true
+#  apt:
+#    name: systemd
+#    purge: yes
+#    state: absent
+
+- name: remove bridge-utils
+  become: true
+  apt:
+    name: bridge-utils
+    purge: yes
+    state: absent
+
+- name: remove unzip
+  become: true
+  apt:
+    name: unzip
+    purge: yes
+    state: absent
+    update_cache: yes
+

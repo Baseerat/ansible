@@ -1,0 +1,9 @@
+---
+
+- name: Provision common
+  hosts: pve*-servers
+  gather_facts: false
+  become: true
+
+  roles:
+    - common

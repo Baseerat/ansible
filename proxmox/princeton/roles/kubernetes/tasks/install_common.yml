@@ -1,7 +1,0 @@
----
-
-- name: install systemd for ubuntu 14.04 (trusty)
-  become: true
-  apt:
-    update_cache: yes
-    name: systemd
