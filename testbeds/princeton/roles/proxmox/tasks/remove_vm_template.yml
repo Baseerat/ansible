@@ -1,0 +1,17 @@
+---
+
+- name: delete template VM
+  proxmox_kvm:
+    state: absent
+    node: "{{ inventory_hostname }}"
+    api_user: "{{ proxmox_api_user }}"
+    api_password: "{{ proxmox_api_password }}"
+    api_host: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+    name: "{{ proxmox_base_vm_hostname }}"
+    vmid: "{{ proxmox_base_vm_vmid }}"
+  delegate_to: localhost
+
+- name: delete template file
+  file:
+    path: "{{ proxmox_base_vm_template_path }}/{{ proxmox_base_vm_template }}"
+    state: absent

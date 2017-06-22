@@ -1,9 +1,8 @@
 ---
 
 - name: provision proxmox VMs
-  hosts: localhost
-  connection: local
-  gather_facts: false
+  hosts: mshahbaz-poweredge-*-pve
+  gather_facts: true
 
   vars_files:
     - "vars/proxmox.yml"

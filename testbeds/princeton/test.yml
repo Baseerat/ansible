@@ -1,19 +1,9 @@
 ---
 
 - name: Test
-  hosts: pve*-servers
-  gather_facts: false
+  hosts: all
+  gather_facts: true
 
   tasks:
     - debug:
-        msg: "{{ inventory_file }}"
-
-    - apt:
-        name: bridge-utils
-        update_cache: yes
-      become: true
-
-    - copy:
-        src: ./keys/pu_pve_vm_rsa
-        dest: ~/.ssh/id_rsa
-        mode: 0600
+        msg: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"

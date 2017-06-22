@@ -1,15 +1,23 @@
 ---
 
+- name: add VM template
+  include: add_vm_template.yml
+  tags: add_vm_template
+
 - name: create VMs
   include: create_vms.yml
   vars:
     proxmox_vm_vmid: "{{ item }}"
-  with_items: "{{ proxmox_vm_vmids }}"
+  with_items: "{{ nodes[inventory_hostname]['vmids'] }}"
   tags: create_vms
 
 - name: destroy VMs
   include: destroy_vms.yml
   vars:
     proxmox_vm_vmid: "{{ item }}"
-  with_items: "{{ proxmox_vm_vmids }}"
+  with_items: "{{ nodes[inventory_hostname]['vmids'] }}"
   tags: destroy_vms
+
+- name: remove VM template
+  include: remove_vm_template.yml
+  tags: remove_vm_template
