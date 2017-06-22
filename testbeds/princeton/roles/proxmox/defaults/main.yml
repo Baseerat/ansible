@@ -5,7 +5,7 @@ proxmox_api_password: PrincetonP4OVS
 
 proxmox_base_vm_vmid: 101
 proxmox_base_vm_hostname: "ubuntu-14-{{ proxmox_base_vm_vmid }}"
-proxmox_base_vm_template_url_path: "http://www.cs.princeton.edu/~mshahbaz/files"
+proxmox_base_vm_template_url_path: "http://pisces.cs.princeton.edu/files"
 proxmox_base_vm_template_path: /var/lib/vz/dump
 proxmox_base_vm_template: "vzdump-qemu-{{ proxmox_base_vm_hostname }}.vma.lzo"
 
