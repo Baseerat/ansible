@@ -31,12 +31,8 @@
   shell: brctl addif docker0 br0
   become: true
 
-- name: create a gre tunnel using br0
-  openvswitch_port:
-    bridge: br0
-    port: gre0
-    state: present
-    set: interface gre0 type=gre options:remote_ip={{ item }}
+- name: create gre tunnels for each endpoint using br0
+  include: roles/kubernetes/tasks/create_gre_tunnel.yml remote_node="{{ item }}"
   with_items: "{{ nodes[inventory_hostname]['remote_nodes'] }}"
   become: true
 

@@ -74,7 +74,7 @@
       - "--containerized"
       - "--address=0.0.0.0"
       - "--hostname-override={{ inventory_hostname }}"
-      - "--api-servers=http://{{ nodes[inventory_hostname]['master_node'] }}:{{ k8s_api_server_port }}"
+      - "--api-servers=http://{{ nodes[inventory_hostname]['address_prefix'] }}{{ nodes[inventory_hostname]['master_node'] }}:{{ k8s_api_server_port }}"
       - "--allow-privileged=true"
       - "--v=2"
       - "--logtostderr=true"
@@ -89,7 +89,7 @@
     image: gcr.io/google_containers/hyperkube-amd64:v{{ k8s_version }}
     command:
       - "/hyperkube proxy"
-      - "master=http://{{ nodes[inventory_hostname]['master_node'] }}:{{ k8s_api_server_port }}"
+      - "master=http://{{ nodes[inventory_hostname]['address_prefix'] }}{{ nodes[inventory_hostname]['master_node'] }}:{{ k8s_api_server_port }}"
       - "--v=2"
       - "--logtostderr=true"
   when: '"minion" in nodes[inventory_hostname]["type"]'

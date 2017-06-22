@@ -3,17 +3,28 @@
 nodes:
   pve1-k8s-node-120:
     type: "master:minion"
-    master_node: 10.10.10.120
-    remote_nodes: ["10.10.10.121", "10.10.10.122", "10.10.10.123"]
+    address_prefix: 10.10.10.
+    master_node: 120
+    remote_nodes:
+      - pve_id: 1
+        vm_id: 121
+      - pve_id: 1
+        vm_id: 122
   pve1-k8s-node-121:
     type: "minion"
-    master_node: 10.10.10.120
-    remote_nodes: ["10.10.10.120", "10.10.10.122", "10.10.10.123"]
+    address_prefix: 10.10.10.
+    master_node: 120
+    remote_nodes:
+      - pve_id: 1
+        vm_id: 120
+      - pve_id: 1
+        vm_id: 122
   pve1-k8s-node-122:
     type: "minion"
-    master_node: 10.10.10.120
-    remote_nodes: ["10.10.10.120", "10.10.10.121", "10.10.10.123"]
-  pve1-k8s-node-123:
-    type: "minion"
-    master_node: 10.10.10.120
-    remote_nodes: ["10.10.10.120", "10.10.10.121", "10.10.10.122"]
+    address_prefix: 10.10.10.
+    master_node: 120
+    remote_nodes:
+      - pve_id: 1
+        vm_id: 120
+      - pve_id: 1
+        vm_id: 121
