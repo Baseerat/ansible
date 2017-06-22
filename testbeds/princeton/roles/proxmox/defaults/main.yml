@@ -1,16 +1,21 @@
 ---
 
+proxmox_node: mshahbaz-poweredge-1-pve
+
 proxmox_api_user: root@pam
 proxmox_api_password: PrincetonP4OVS
+proxmox_api_host: 128.112.168.26
 
-proxmox_clone_vmid: 101
-proxmox_hostname_prefix: ubuntu-14
-proxmox_ip_prefix: 10.10.10.
-proxmox_interface: eth0
-proxmox_netmask: 255.255.255.0
-proxmox_network: "{{ proxmox_ip_prefix }}0"
-proxmox_broadcast: "{{ proxmox_ip_prefix }}255"
-proxmox_gateway: "{{ proxmox_ip_prefix }}1"
-proxmox_dns_nameservers: 128.112.136.10
-proxmox_dns_search: cs.princeton.edu
-
+proxmox_vm_vmids: [ 120, ]
+proxmox_vm_base_vmid: 101
+proxmox_vm_base_hostname: "ubuntu-14-{{ proxmox_vm_base_vmid }}"
+proxmox_vm_user: mshahbaz
+proxmox_vm_hostname_prefix: k8s-node-
+proxmox_vm_network_address_prefix: 10.10.10.
+proxmox_vm_network_interface: eth0
+proxmox_vm_network_netmask: 255.255.255.0
+proxmox_vm_network_network: "{{ proxmox_vm_network_address_prefix }}0"
+proxmox_vm_network_broadcast: "{{ proxmox_vm_network_address_prefix }}255"
+proxmox_vm_network_gateway: "{{ proxmox_vm_network_address_prefix }}1"
+proxmox_vm_dns_nameservers: 128.112.136.10
+proxmox_vm_dns_search: cs.princeton.edu

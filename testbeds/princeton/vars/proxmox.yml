@@ -1,7 +1,8 @@
 ---
 
-proxmox_name: pve1
 proxmox_node: mshahbaz-poweredge-1-pve
+
 proxmox_api_host: 128.112.168.26
-proxmox_user: mshahbaz
-proxmox_vmids: [ 120, ]
+
+proxmox_vm_vmids: [ 120, ]
+proxmox_vm_user: mshahbaz

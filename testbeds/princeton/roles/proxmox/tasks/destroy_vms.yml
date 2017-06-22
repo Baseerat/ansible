@@ -1,0 +1,38 @@
+---
+
+- name: remove VM from the {{ proxmox_node }}-vms group in the inventory file
+  lineinfile:
+    path: "{{ inventory_file }}"
+    line: "{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }} ansible_host={{ proxmox_vm_network_address_prefix }}{{ proxmox_vm_vmid }} ansible_user={{ proxmox_vm_user }} ansible_ssh_common_args='{{ proxmox_ssh_common_args }}'"
+    state: absent
+
+- name: remove {{ proxmox_node }}-vms group from the inventory file
+  lineinfile:
+    path: "{{ inventory_file }}"
+    line: "[{{ proxmox_node }}-vms]"
+    state: absent
+
+- name: stop VM
+  proxmox_kvm:
+    state: stopped
+    node: "{{ proxmox_node }}"
+    api_user: "{{ proxmox_api_user }}"
+    api_password: "{{ proxmox_api_password }}"
+    api_host: "{{ proxmox_api_host }}"
+    name: "{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }}"
+    vmid: "{{ proxmox_vm_vmid }}"
+  delegate_to: localhost
+
+- name: destroy VM
+  proxmox_kvm:
+    state: absent
+    node: "{{ proxmox_node }}"
+    api_user: "{{ proxmox_api_user }}"
+    api_password: "{{ proxmox_api_password }}"
+    api_host: "{{ proxmox_api_host }}"
+    name: "{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }}"
+    vmid: "{{ proxmox_vm_vmid }}"
+  delegate_to: localhost
+
+#- debug:
+#    msg: "{{ groups }}"

@@ -1,6 +1,6 @@
 ---
 
-- name: Provision proxmox VMs
+- name: provision proxmox VMs
   hosts: localhost
   connection: local
   gather_facts: false

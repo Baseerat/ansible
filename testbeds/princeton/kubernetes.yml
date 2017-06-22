@@ -1,9 +1,0 @@
----
-
-- name: Provision kubernetes
-  hosts:
-    - masters
-    - minions
-
-  roles:
-    - kubernetes

@@ -3,13 +3,13 @@
 - name: create VMs
   include: create_vms.yml
   vars:
-    proxmox_vmid: "{{ item }}"
-  with_items: "{{ proxmox_vmids }}"
+    proxmox_vm_vmid: "{{ item }}"
+  with_items: "{{ proxmox_vm_vmids }}"
   tags: create_vms
 
-- name: remove VMs
-  include: remove_vms.yml
+- name: destroy VMs
+  include: destroy_vms.yml
   vars:
-    proxmox_vmid: "{{ item }}"
-  with_items: "{{ proxmox_vmids }}"
-  tags: remove_vms
+    proxmox_vm_vmid: "{{ item }}"
+  with_items: "{{ proxmox_vm_vmids }}"
+  tags: destroy_vms

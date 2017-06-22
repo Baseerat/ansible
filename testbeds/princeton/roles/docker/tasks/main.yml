@@ -1,0 +1,9 @@
+---
+
+- name: install docker
+  include: install.yml
+  tags: install
+
+- name: remove docker
+  include: remove.yml
+  tags: remove

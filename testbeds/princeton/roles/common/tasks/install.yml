@@ -1,10 +1,9 @@
 ---
 
-#- name: install systemd
-#  become: true
-#  apt:
-#    update_cache: yes
-#    name: systemd
+- name: update cache
+  become: true
+  apt:
+    update_cache: yes
 
 - name: install bridge-utils
   become: true
@@ -15,4 +14,6 @@
   become: true
   apt:
     name: unzip
-    update_cache: yes
+
+
+- name
