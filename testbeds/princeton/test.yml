@@ -1,9 +1,9 @@
 ---
 
 - name: Test
-  hosts: all
+  hosts: mshahbaz*k8s-node-*
   gather_facts: true
 
   tasks:
     - debug:
-        msg: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+        msg: "{{ vmid }} {{ pveid }}"

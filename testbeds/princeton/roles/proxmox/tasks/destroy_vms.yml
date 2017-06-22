@@ -3,7 +3,7 @@
 - name: remove VM from the {{ inventory_hostname }}-vms group in the inventory file
   lineinfile:
     path: "{{ inventory_file }}"
-    line: "{{ inventory_hostname }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }} ansible_host={{ proxmox_vm_network_address_prefix }}{{ proxmox_vm_vmid }} ansible_user={{ proxmox_vm_user }} ansible_ssh_common_args='{{ proxmox_ssh_common_args }}'"
+    line: "{{ proxmox_name_prefix }}{{ proxmox_pve_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }} ansible_host={{ proxmox_vm_network_address_prefix }}{{ proxmox_vm_id }} ansible_user={{ proxmox_vm_user }} ansible_ssh_common_args='{{ proxmox_ssh_common_args }}' pve_id={{ proxmox_pve_id }} vm_id={{ proxmox_vm_id }}"
     state: absent
   delegate_to: localhost
 
@@ -21,8 +21,8 @@
     api_user: "{{ proxmox_api_user }}"
     api_password: "{{ proxmox_api_password }}"
     api_host: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
-    name: "{{ inventory_hostname }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }}"
-    vmid: "{{ proxmox_vm_vmid }}"
+    name: "{{ proxmox_name_prefix }}{{ proxmox_pve_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }}"
+    vmid: "{{ proxmox_vm_id }}"
   delegate_to: localhost
 
 - name: destroy VM
@@ -32,8 +32,8 @@
     api_user: "{{ proxmox_api_user }}"
     api_password: "{{ proxmox_api_password }}"
     api_host: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
-    name: "{{ inventory_hostname }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }}"
-    vmid: "{{ proxmox_vm_vmid }}"
+    name: "{{ proxmox_name_prefix }}{{ proxmox_pve_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }}"
+    vmid: "{{ proxmox_vm_id }}"
   delegate_to: localhost
 
 #- debug:

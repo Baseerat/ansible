@@ -2,8 +2,11 @@
 
 nodes:
   mshahbaz-poweredge-1-pve:
-    vmids: [120, 121 ]
+    pve_id: 1
+    vm_ids: [120, 121 ]
   mshahbaz-poweredge-2-pve:
-    vmids: [ ]
+    pve_id: 2
+    vm_ids: [ ]
   mshahbaz-poweredge-3-pve:
-    vmids: [ ]
+    pve_id: 3
+    vm_ids: [ ]

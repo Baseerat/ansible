@@ -7,15 +7,17 @@
 - name: create VMs
   include: create_vms.yml
   vars:
-    proxmox_vm_vmid: "{{ item }}"
-  with_items: "{{ nodes[inventory_hostname]['vmids'] }}"
+    proxmox_vm_id: "{{ item }}"
+    proxmox_pve_id: "{{ nodes[inventory_hostname]['pve_id'] }}"
+  with_items: "{{ nodes[inventory_hostname]['vm_ids'] }}"
   tags: create_vms
 
 - name: destroy VMs
   include: destroy_vms.yml
   vars:
-    proxmox_vm_vmid: "{{ item }}"
-  with_items: "{{ nodes[inventory_hostname]['vmids'] }}"
+    proxmox_vm_id: "{{ item }}"
+    proxmox_pve_id: "{{ nodes[inventory_hostname]['pve_id'] }}"
+  with_items: "{{ nodes[inventory_hostname]['vm_ids'] }}"
   tags: destroy_vms
 
 - name: remove VM template

@@ -7,7 +7,7 @@ iface lo inet loopback
 # The primary network interface
 auto {{ proxmox_vm_network_interface }}
 iface {{ proxmox_vm_network_interface }} inet static
-	address {{ proxmox_vm_network_address_prefix }}{{ proxmox_vm_vmid }}
+	address {{ proxmox_vm_network_address_prefix }}{{ proxmox_vm_id }}
 	netmask {{ proxmox_vm_network_netmask }}
 	network {{ proxmox_vm_network_network }}
 	broadcast {{ proxmox_vm_network_broadcast }}

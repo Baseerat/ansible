@@ -3,7 +3,7 @@
 - name: add VM to {{ inventory_hostname }}-vms group
   add_host:
     name: "{{ proxmox_vm_network_address_prefix }}{{ proxmox_base_vm_vmid }}"
-    instance_name: "{{ inventory_hostname }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_base_vm_vmid }}"
+    instance_name: "{{ proxmox_name_prefix }}{{ proxmox_pve_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_base_vm_vmid }}"
     groups: "{{ inventory_hostname }}-vms"
     ansible_user: "{{ proxmox_vm_user }}"
     ansible_ssh_common_args: "{{ proxmox_ssh_common_args }}"
@@ -17,8 +17,8 @@
     api_host: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
     clone: "{{ proxmox_base_vm_hostname }}"
     vmid: "{{ proxmox_base_vm_vmid }}"
-    name: "{{ inventory_hostname }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }}"
-    newid: "{{ proxmox_vm_vmid }}"
+    name: "{{ proxmox_name_prefix }}{{ proxmox_pve_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }}"
+    newid: "{{ proxmox_vm_id }}"
   delegate_to: localhost
 
 - name: start VM
@@ -28,8 +28,8 @@
     api_user: "{{ proxmox_api_user }}"
     api_password: "{{ proxmox_api_password }}"
     api_host: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
-    name: "{{ inventory_hostname }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }}"
-    vmid: "{{ proxmox_vm_vmid }}"
+    name: "{{ proxmox_name_prefix }}{{ proxmox_pve_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }}"
+    vmid: "{{ proxmox_vm_id }}"
   delegate_to: localhost
 
 - name: wait for ssh to come up
@@ -55,7 +55,7 @@
   replace:
     path: /etc/hostname
     regexp: "{{ proxmox_base_vm_hostname }}"
-    replace: "{{ inventory_hostname }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }}"
+    replace: "{{ proxmox_name_prefix }}{{ proxmox_pve_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }}"
   delegate_to: "{{ proxmox_vm_network_address_prefix }}{{ proxmox_base_vm_vmid }}"
   become: true
 
@@ -63,7 +63,7 @@
   replace:
     path: /etc/hosts
     regexp: "{{ proxmox_vm_network_address_prefix }}{{ proxmox_base_vm_vmid }}"
-    replace: "{{ proxmox_vm_network_address_prefix }}{{ proxmox_vm_vmid }}"
+    replace: "{{ proxmox_vm_network_address_prefix }}{{ proxmox_vm_id }}"
   delegate_to: "{{ proxmox_vm_network_address_prefix }}{{ proxmox_base_vm_vmid }}"
   become: true
 
@@ -71,14 +71,14 @@
   replace:
     path: /etc/hosts
     regexp: "{{ proxmox_base_vm_hostname }}"
-    replace: "{{ inventory_hostname }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }}"
+    replace: "{{ proxmox_name_prefix }}{{ proxmox_pve_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }}"
   delegate_to: "{{ proxmox_vm_network_address_prefix }}{{ proxmox_base_vm_vmid }}"
   become: true
 
 - name: add VM to {{ inventory_hostname }}-vms groups
   add_host:
-    name: "{{ proxmox_vm_network_address_prefix }}{{ proxmox_vm_vmid }}"
-    instance_name: "{{ inventory_hostname }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }}"
+    name: "{{ proxmox_vm_network_address_prefix }}{{ proxmox_vm_id }}"
+    instance_name: "{{ proxmox_name_prefix }}{{ proxmox_pve_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }}"
     groups: "{{ inventory_hostname }}-vms"
     ansible_user: "{{ proxmox_vm_user }}"
     ansible_ssh_common_args: "{{ proxmox_ssh_common_args }}"
@@ -90,7 +90,7 @@
 
 - name: wait for ssh to come up
   wait_for:
-    host: "{{ proxmox_vm_network_address_prefix }}{{ proxmox_vm_vmid }}"
+    host: "{{ proxmox_vm_network_address_prefix }}{{ proxmox_vm_id }}"
     port: 22
     delay: 1
     state: started
@@ -106,7 +106,7 @@
 - name: add VM to the {{ inventory_hostname }}-vms group in the inventory file
   lineinfile:
     path: "{{ inventory_file }}"
-    line: "{{ inventory_hostname }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }} ansible_host={{ proxmox_vm_network_address_prefix }}{{ proxmox_vm_vmid }} ansible_user={{ proxmox_vm_user }} ansible_ssh_common_args='{{ proxmox_ssh_common_args }}'"
+    line: "{{ proxmox_name_prefix }}{{ proxmox_pve_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }} ansible_host={{ proxmox_vm_network_address_prefix }}{{ proxmox_vm_id }} ansible_user={{ proxmox_vm_user }} ansible_ssh_common_args='{{ proxmox_ssh_common_args }}' pve_id={{ proxmox_pve_id }} vm_id={{ proxmox_vm_id }}"
     insertafter: "^\\[{{ inventory_hostname }}-vms\\]"
     state: present
   delegate_to: localhost
