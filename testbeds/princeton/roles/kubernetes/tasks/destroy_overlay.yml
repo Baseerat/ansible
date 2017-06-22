@@ -5,14 +5,14 @@
     name: docker
     state: stopped
 
-- name: update k8s_cluster_subnet_first_octect
-  shell: "var={{ k8s_cluster_subnet_first_octect_base }};var=$((var+{{ pve_id }}));echo $var"
-  register: k8s_cluster_subnet_first_octect
+- name: update k8s_overlay_subnet_first_octect
+  shell: "var={{ k8s_overlay_subnet_first_octect_base }};var=$((var+{{ pve_id }}));echo $var"
+  register: k8s_overlay_subnet_first_octect
 
 - name: clear docker subnet
   lineinfile:
     path: "{{ docker_defautl_config }}"
-    line: 'DOCKER_OPTS="--bip={{ k8s_cluster_subnet_first_octect.stdout }}.{{ vm_id }}.0.1/{{ k8s_cluster_subnet_mask }}"'
+    line: 'DOCKER_OPTS="--bip={{ k8s_overlay_subnet_first_octect.stdout }}.{{ vm_id }}.0.1/{{ k8s_overlay_subnet_mask }}"'
     state: absent
   become: true
 
@@ -22,7 +22,7 @@
     state: started
 
 - name: remove br0 from docker0 bridge
-  shell: sudo brctl delif docker0 br0
+  shell: brctl delif docker0 br0
   become: true
 
 - name: delete ovs bridge 'br0'
@@ -31,11 +31,11 @@
     state: absent
   become: true
 
-- name: remove static route for cluster traffic
-  shell: sudo ip route del {{ k8s_cluster_subnet_first_octect.stdout }}.0.0.0/8 dev docker0
+- name: remove static route for overlay traffic
+  shell: ip route del {{ k8s_overlay_subnet_first_octect.stdout }}.0.0.0/8 dev docker0
   become: true
 
 #- debug:
-#    msg: "{{ k8s_cluster_subnet_first_octect.stdout }}"
+#    msg: "{{ k8s_overlay_subnet_first_octect.stdout }}"
 
 

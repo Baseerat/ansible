@@ -57,3 +57,11 @@
     url: "{{ docker_compose_url }}"
     dest: /usr/local/bin/docker-compose
     mode: 0755
+
+- name: install python-pip
+  apt:
+    name: python-pip
+
+- name: install docker-py
+  pip:
+    name: docker-py

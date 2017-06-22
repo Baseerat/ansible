@@ -4,6 +4,14 @@
   include: create_overlay.yml
   tags: create_overlay
 
+- name: create k8s cluster
+  include: create_cluster.yml
+  tags: create_cluster
+
+- name: destroy k8s cluster
+  include: destroy_cluster.yml
+  tags: destroy_cluster
+
 - name: destroy overlay network
   include: destroy_overlay.yml
   tags: destroy_overlay
