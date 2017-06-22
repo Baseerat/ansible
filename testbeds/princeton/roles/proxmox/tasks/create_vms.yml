@@ -3,7 +3,7 @@
 - name: add VM to {{ inventory_hostname }}-vms group
   add_host:
     name: "{{ proxmox_vm_network_address_prefix }}{{ proxmox_base_vm_vmid }}"
-    instance_name: "{{ proxmox_vm_hostname_prefix }}{{ proxmox_base_vm_vmid }}"
+    instance_name: "{{ inventory_hostname }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_base_vm_vmid }}"
     groups: "{{ inventory_hostname }}-vms"
     ansible_user: "{{ proxmox_vm_user }}"
     ansible_ssh_common_args: "{{ proxmox_ssh_common_args }}"
@@ -17,7 +17,7 @@
     api_host: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
     clone: "{{ proxmox_base_vm_hostname }}"
     vmid: "{{ proxmox_base_vm_vmid }}"
-    name: "{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }}"
+    name: "{{ inventory_hostname }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }}"
     newid: "{{ proxmox_vm_vmid }}"
   delegate_to: localhost
 
@@ -28,7 +28,7 @@
     api_user: "{{ proxmox_api_user }}"
     api_password: "{{ proxmox_api_password }}"
     api_host: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
-    name: "{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }}"
+    name: "{{ inventory_hostname }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }}"
     vmid: "{{ proxmox_vm_vmid }}"
   delegate_to: localhost
 
@@ -55,7 +55,7 @@
   replace:
     path: /etc/hostname
     regexp: "{{ proxmox_base_vm_hostname }}"
-    replace: "{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }}"
+    replace: "{{ inventory_hostname }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }}"
   delegate_to: "{{ proxmox_vm_network_address_prefix }}{{ proxmox_base_vm_vmid }}"
   become: true
 
@@ -71,14 +71,14 @@
   replace:
     path: /etc/hosts
     regexp: "{{ proxmox_base_vm_hostname }}"
-    replace: "{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }}"
+    replace: "{{ inventory_hostname }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }}"
   delegate_to: "{{ proxmox_vm_network_address_prefix }}{{ proxmox_base_vm_vmid }}"
   become: true
 
 - name: add VM to {{ inventory_hostname }}-vms groups
   add_host:
     name: "{{ proxmox_vm_network_address_prefix }}{{ proxmox_vm_vmid }}"
-    instance_name: "{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }}"
+    instance_name: "{{ inventory_hostname }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }}"
     groups: "{{ inventory_hostname }}-vms"
     ansible_user: "{{ proxmox_vm_user }}"
     ansible_ssh_common_args: "{{ proxmox_ssh_common_args }}"
@@ -106,7 +106,7 @@
 - name: add VM to the {{ inventory_hostname }}-vms group in the inventory file
   lineinfile:
     path: "{{ inventory_file }}"
-    line: "{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }} ansible_host={{ proxmox_vm_network_address_prefix }}{{ proxmox_vm_vmid }} ansible_user={{ proxmox_vm_user }} ansible_ssh_common_args='{{ proxmox_ssh_common_args }}'"
+    line: "{{ inventory_hostname }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_vmid }} ansible_host={{ proxmox_vm_network_address_prefix }}{{ proxmox_vm_vmid }} ansible_user={{ proxmox_vm_user }} ansible_ssh_common_args='{{ proxmox_ssh_common_args }}'"
     insertafter: "^\\[{{ inventory_hostname }}-vms\\]"
     state: present
   delegate_to: localhost
