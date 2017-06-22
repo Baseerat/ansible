@@ -5,9 +5,9 @@
     path: "{{ proxmox_base_vm_template_path }}/{{ proxmox_base_vm_template }}"
   register: stat_result
 
-- name: get_template
+- name: get template
   get_url:
-    url: "{{ proxmox_base_vm_template_url_path }}"
+    url: "{{ proxmox_base_vm_template_url_path }}/{{ proxmox_base_vm_template }}"
     dest: "{{ proxmox_base_vm_template_path }}/{{ proxmox_base_vm_template }}"
   when: stat_result.stat.exists == False
 
