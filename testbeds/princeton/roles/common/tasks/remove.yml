@@ -51,15 +51,15 @@
     path: /usr/local/bin/docker-compose
     state: absent
 
+- name: remove docker-py
+  pip:
+    name: docker-py
+    state: absent
+
 - name: remove python-pip
   apt:
     name: python-pip
     purge: yes
-    state: absent
-
-- name: remove docker-py
-  pip:
-    name: docker-py
     state: absent
 
 - name: update cache

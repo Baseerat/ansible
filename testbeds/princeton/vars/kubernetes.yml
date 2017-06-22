@@ -4,8 +4,16 @@ nodes:
   pve1-k8s-node-120:
     type: "master:minion"
     master_node: 10.10.10.120
-    remote_nodes: ["10.10.10.121",]
+    remote_nodes: ["10.10.10.121", "10.10.10.122", "10.10.10.123"]
   pve1-k8s-node-121:
     type: "minion"
     master_node: 10.10.10.120
-    remote_nodes: ["10.10.10.120",]
+    remote_nodes: ["10.10.10.120", "10.10.10.122", "10.10.10.123"]
+  pve1-k8s-node-122:
+    type: "minion"
+    master_node: 10.10.10.120
+    remote_nodes: ["10.10.10.120", "10.10.10.121", "10.10.10.123"]
+  pve1-k8s-node-123:
+    type: "minion"
+    master_node: 10.10.10.120
+    remote_nodes: ["10.10.10.120", "10.10.10.121", "10.10.10.122"]
