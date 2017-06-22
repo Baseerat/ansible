@@ -1,0 +1,6 @@
+---
+
+k8s_cluster_subnet_first_octect_base: "170"
+k8s_cluster_subnet_mask: 16
+
+docker_defautl_config: "/etc/default/docker"

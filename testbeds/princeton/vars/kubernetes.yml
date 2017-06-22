@@ -1,0 +1,7 @@
+---
+
+nodes:
+  pve1-k8s-node-120:
+    remote_ips: ["10.10.10.121",]
+  pve1-k8s-node-121:
+    remote_ips: ["10.10.10.120",]

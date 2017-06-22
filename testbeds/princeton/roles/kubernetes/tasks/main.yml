@@ -1,0 +1,9 @@
+---
+
+- name: create overlay network
+  include: create_overlay.yml
+  tags: create_overlay
+
+- name: destroy overlay network
+  include: destroy_overlay.yml
+  tags: destroy_overlay
