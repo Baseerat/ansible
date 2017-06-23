@@ -21,16 +21,16 @@
     name: docker
     state: started
 
-- name: create an ovs bridge 'br0'
+- name: create an ovs bridge: br0
   openvswitch_bridge:
     bridge: br0
     state: present
   become: true
 
-- name: enable stp on br0
+- name: enable stp on br0 # TODO: change this to flow rules
   command: ovs-vsctl set bridge br0 stp_enable=true
 
-- name: add br0 to docker0 bridge # TODO: change this flow rules
+- name: add br0 to docker0 bridge
   shell: brctl addif docker0 br0
   become: true
 

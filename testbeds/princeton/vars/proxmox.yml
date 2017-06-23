@@ -13,5 +13,4 @@ nodes:
     pve_id: 3
     vm_ids: [ ]
     address_prefix: 10.10.12.
-
-# TODO: update promox scripts with address_prefix for each node, separately.
+    

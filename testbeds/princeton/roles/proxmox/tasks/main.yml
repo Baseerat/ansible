@@ -9,6 +9,7 @@
   vars:
     proxmox_vm_id: "{{ item }}"
     proxmox_pve_id: "{{ nodes[inventory_hostname]['pve_id'] }}"
+    proxmox_vm_network_address_prefix: "{{ nodes[inventory_hostname]['address_prefix'] }}"
   with_items: "{{ nodes[inventory_hostname]['vm_ids'] }}"
   tags: create_vms
 
@@ -17,6 +18,7 @@
   vars:
     proxmox_vm_id: "{{ item }}"
     proxmox_pve_id: "{{ nodes[inventory_hostname]['pve_id'] }}"
+    proxmox_vm_network_address_prefix: "{{ nodes[inventory_hostname]['address_prefix'] }}"
   with_items: "{{ nodes[inventory_hostname]['vm_ids'] }}"
   tags: destroy_vms
 
