@@ -21,7 +21,7 @@
     name: docker
     state: started
 
-- name: create an ovs bridge: br0
+- name: create an ovs bridge br0
   openvswitch_bridge:
     bridge: br0
     state: present
