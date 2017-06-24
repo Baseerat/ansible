@@ -1,10 +1,13 @@
 ---
 
+pve1_address_prefix: 10.10.1.
+pve1_master_node: 120
+
 nodes:
   pve1-k8s-node-120:
     type: "master:minion"
-    address_prefix: 10.10.10.
-    master_node: 120
+    address_prefix: "{{ pve1_address_prefix }}"
+    master_node: "{{ pve1_master_node }}"
     remote_nodes:
       - pve_id: 1
         vm_id: 121
@@ -12,8 +15,8 @@ nodes:
         vm_id: 122
   pve1-k8s-node-121:
     type: "minion"
-    address_prefix: 10.10.10.
-    master_node: 120
+    address_prefix: "{{ pve1_address_prefix }}"
+    master_node: "{{ pve1_master_node }}"
     remote_nodes:
       - pve_id: 1
         vm_id: 120
@@ -21,8 +24,8 @@ nodes:
         vm_id: 122
   pve1-k8s-node-122:
     type: "minion"
-    address_prefix: 10.10.10.
-    master_node: 120
+    address_prefix: "{{ pve1_address_prefix }}"
+    master_node: "{{ pve1_master_node }}"
     remote_nodes:
       - pve_id: 1
         vm_id: 120

@@ -4,6 +4,7 @@
   service:
     name: docker
     state: stopped
+  become: true
 
 - name: update k8s_overlay_subnet_first_octect
   shell: "var={{ k8s_overlay_subnet_first_octect_base }};var=$((var+{{ pve_id }}));echo $var"
@@ -20,6 +21,7 @@
   service:
     name: docker
     state: started
+  become: true
 
 - name: create an ovs bridge br0
   openvswitch_bridge:
@@ -29,6 +31,7 @@
 
 - name: enable stp on br0 # TODO: change this to flow rules
   command: ovs-vsctl set bridge br0 stp_enable=true
+  become: true
 
 - name: add br0 to docker0 bridge
   shell: brctl addif docker0 br0

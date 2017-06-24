@@ -4,6 +4,7 @@
   service:
     name: docker
     state: stopped
+  become: true
 
 - name: update k8s_overlay_subnet_first_octect
   shell: "var={{ k8s_overlay_subnet_first_octect_base }};var=$((var+{{ pve_id }}));echo $var"
@@ -20,12 +21,13 @@
   service:
     name: docker
     state: started
+  become: true
 
 - name: remove br0 from docker0 bridge
   shell: brctl delif docker0 br0
   become: true
 
-- name: delete ovs bridge 'br0'
+- name: delete ovs bridge br0
   openvswitch_bridge:
     bridge: br0
     state: absent

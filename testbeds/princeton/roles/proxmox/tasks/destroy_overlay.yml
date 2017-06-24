@@ -1,0 +1,16 @@
+---
+
+- name: remove br0 from vmbr0 bridge
+  shell: brctl delif vmbr0 br0
+
+- name: delete ovs bridge br0
+  openvswitch_bridge:
+    bridge: br0
+    state: absent
+
+- name: remove static route for overlay traffic
+  shell: ip route del {{ proxmox_vm_overlay_subnet_prefix }}0.0/16 dev vmbr0
+
+- name: remove common utilities
+  include: roles/proxmox/tasks/remove_common.yml
+
