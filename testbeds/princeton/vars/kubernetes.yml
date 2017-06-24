@@ -1,33 +1,67 @@
 ---
 
-pve1_address_prefix: 10.10.1.
-pve1_master_node: 120
+master:
+  pve_id: 2
+  vm_id: 120
 
 nodes:
-  pve1-k8s-node-120:
+  pve2-k8s-node-120:
     type: "master:minion"
-    address_prefix: "{{ pve1_address_prefix }}"
-    master_node: "{{ pve1_master_node }}"
+    master: "{{ master }}"
     remote_nodes:
-      - pve_id: 1
+      - pve_id: 2
         vm_id: 121
-      - pve_id: 1
-        vm_id: 122
-  pve1-k8s-node-121:
-    type: "minion"
-    address_prefix: "{{ pve1_address_prefix }}"
-    master_node: "{{ pve1_master_node }}"
-    remote_nodes:
-      - pve_id: 1
+      - pve_id: 3
         vm_id: 120
-      - pve_id: 1
+      - pve_id: 3
+        vm_id: 121
+      - pve_id: 3
         vm_id: 122
-  pve1-k8s-node-122:
+  pve2-k8s-node-121:
     type: "minion"
-    address_prefix: "{{ pve1_address_prefix }}"
-    master_node: "{{ pve1_master_node }}"
+    master: "{{ master }}"
     remote_nodes:
-      - pve_id: 1
+      - pve_id: 2
         vm_id: 120
-      - pve_id: 1
+      - pve_id: 3
+        vm_id: 120
+      - pve_id: 3
+        vm_id: 121
+      - pve_id: 3
+        vm_id: 122
+  pve3-k8s-node-120:
+    type: "minion"
+    master: "{{ master }}"
+    remote_nodes:
+      - pve_id: 2
+        vm_id: 120
+      - pve_id: 2
+        vm_id: 121
+      - pve_id: 3
+        vm_id: 121
+      - pve_id: 3
+        vm_id: 122
+  pve3-k8s-node-121:
+    type: "minion"
+    master: "{{ master }}"
+    remote_nodes:
+      - pve_id: 2
+        vm_id: 120
+      - pve_id: 2
+        vm_id: 121
+      - pve_id: 3
+        vm_id: 120
+      - pve_id: 3
+        vm_id: 122
+  pve3-k8s-node-122:
+    type: "minion"
+    master: "{{ master }}"
+    remote_nodes:
+      - pve_id: 2
+        vm_id: 120
+      - pve_id: 2
+        vm_id: 121
+      - pve_id: 3
+        vm_id: 120
+      - pve_id: 3
         vm_id: 121

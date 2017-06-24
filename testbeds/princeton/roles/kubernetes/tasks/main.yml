@@ -1,17 +1,18 @@
 ---
 
 - name: create overlay network
-  include: create_overlay.yml
+  include: roles/kubernetes/tasks/overlay/create.yml
   tags: create_overlay
 
+- name: destroy overlay network
+  include: roles/kubernetes/tasks/overlay/destroy.yml
+  tags: destroy_overlay
+
 - name: create k8s cluster
-  include: create_cluster.yml
+  include: roles/kubernetes/tasks/cluster/create.yml
   tags: create_cluster
 
 - name: destroy k8s cluster
-  include: destroy_cluster.yml
+  include: roles/kubernetes/tasks/cluster/destroy.yml
   tags: destroy_cluster
 
-- name: destroy overlay network
-  include: destroy_overlay.yml
-  tags: destroy_overlay
