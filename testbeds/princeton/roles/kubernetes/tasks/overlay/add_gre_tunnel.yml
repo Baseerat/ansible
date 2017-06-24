@@ -1,6 +1,6 @@
 ---
 
-- name: create a gre tunnel using br0
+- name: add a gre tunnel using br0
   openvswitch_port:
     bridge: br0
     port: gre_{{ remote_node.pve_id }}_{{ remote_node.vm_id }}

@@ -7,9 +7,12 @@ proxmox_api_password: PrincetonP4OVS
 
 proxmox_base_vm_vmid: 101
 proxmox_base_vm_hostname: "ubuntu-14-{{ proxmox_base_vm_vmid }}"
+proxmox_base_vm_address: 10.10.10.{{ proxmox_base_vm_vmid }}
 proxmox_base_vm_template_url_path: "http://pisces.cs.princeton.edu/files"
 proxmox_base_vm_template_path: /var/lib/vz/dump
 proxmox_base_vm_template: "vzdump-qemu-{{ proxmox_base_vm_hostname }}.vma.lzo"
+proxmox_base_vm_image_path: /var/lib/vz/images
+proxmox_base_vm_nbd_device: nbd0
 
 proxmox_vm_user: mshahbaz
 proxmox_vm_hostname_prefix: k8s-node-
@@ -21,4 +24,3 @@ proxmox_vm_network_gateway: "{{ proxmox_vm_network_address_prefix }}1"
 proxmox_vm_dns_nameservers: 128.112.136.10
 proxmox_vm_dns_search: cs.princeton.edu
 proxmox_vm_overlay_subnet_prefix: "10.10."
-

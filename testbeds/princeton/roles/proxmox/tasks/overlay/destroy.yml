@@ -12,5 +12,4 @@
   shell: ip route del {{ proxmox_vm_overlay_subnet_prefix }}0.0/16 dev vmbr0
 
 - name: remove common utilities
-  include: roles/proxmox/tasks/remove_common.yml
-
+  include: roles/proxmox/tasks/overlay/common/remove.yml

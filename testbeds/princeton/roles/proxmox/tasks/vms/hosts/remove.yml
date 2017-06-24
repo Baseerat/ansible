@@ -1,0 +1,11 @@
+---
+
+- name: remove hosts
+  include: roles/proxmox/tasks/vms/hosts/_remove.yml
+  vars:
+    proxmox_vm_id: "{{ _vm_id }}"
+    proxmox_pve_id: "{{ nodes[hostname]['pve_id'] }}"
+    proxmox_vm_network_address_prefix: "{{ nodes[hostname]['address_prefix'] }}"
+  with_items: "{{ nodes[hostname]['vm_ids'] }}"
+  loop_control:
+    loop_var: _vm_id

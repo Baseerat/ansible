@@ -1,18 +1,12 @@
 ---
 
-- name: remove VM from the {{ inventory_hostname }}-vms group in the inventory file
-  lineinfile:
-    path: "{{ inventory_file }}"
-    line: "{{ proxmox_name_prefix }}{{ proxmox_pve_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }} ansible_host={{ proxmox_vm_network_address_prefix }}{{ proxmox_vm_id }} ansible_user={{ proxmox_vm_user }} ansible_ssh_common_args='{{ proxmox_ssh_common_args }}' pve_id={{ proxmox_pve_id }} vm_id={{ proxmox_vm_id }}"
-    state: absent
-  delegate_to: localhost
-
-- name: remove {{ inventory_hostname }}-vms group from the inventory file
-  lineinfile:
-    path: "{{ inventory_file }}"
-    line: "[{{ inventory_hostname }}-vms]"
-    state: absent
-  delegate_to: localhost
+- name: remove hosts from the inventory file
+  include: roles/proxmox/tasks/vms/hosts/remove.yml
+  vars:
+    hostname: "{{ _hostname }}"
+  with_items: "{{ ansible_play_hosts }}"
+  loop_control:
+    loop_var: _hostname
 
 - name: stop VM
   proxmox_kvm:
@@ -35,6 +29,3 @@
     name: "{{ proxmox_name_prefix }}{{ proxmox_pve_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }}"
     vmid: "{{ proxmox_vm_id }}"
   delegate_to: localhost
-
-#- debug:
-#    msg: "{{ groups }}"

@@ -1,0 +1,15 @@
+---
+
+- name: remove VM from the {{ hostname }}-vms group in the inventory file
+  lineinfile:
+    path: "{{ inventory_file }}"
+    line: "{{ proxmox_name_prefix }}{{ proxmox_pve_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }} ansible_host={{ proxmox_vm_network_address_prefix }}{{ proxmox_vm_id }} ansible_user={{ proxmox_vm_user }} ansible_ssh_common_args='{{ proxmox_ssh_common_args }}' pve_id={{ proxmox_pve_id }} vm_id={{ proxmox_vm_id }}"
+    state: absent
+  delegate_to: localhost
+
+- name: remove {{ hostname }}-vms group from the inventory file
+  lineinfile:
+    path: "{{ inventory_file }}"
+    line: "[{{ hostname }}-vms]"
+    state: absent
+  delegate_to: localhost

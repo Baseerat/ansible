@@ -11,5 +11,4 @@ k8s_api_server_port: 8080
 k8s_api_server_service_cluster_ip_range: 10.254.0.0/16
 k8s_kubectl_url: "http://storage.googleapis.com/kubernetes-release/release/v{{ k8s_version }}/bin/linux/amd64/kubectl"
 
-docker_defautl_config: "/etc/default/docker"
-
+k8s_docker_defautl_config: "/etc/default/docker"
