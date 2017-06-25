@@ -1,0 +1,8 @@
+---
+
+- name: add a {{ proxmox_overlay_tunnel_type }} tunnel using br0
+  openvswitch_port:
+    bridge: br0
+    port: "{{ proxmox_overlay_tunnel_type }}_{{ remote_node.pve_id }}"
+    state: present
+    set: interface {{ proxmox_overlay_tunnel_type }}_{{ remote_node.pve_id }} type={{ proxmox_overlay_tunnel_type }} options:remote_ip={{ remote_node.address }}

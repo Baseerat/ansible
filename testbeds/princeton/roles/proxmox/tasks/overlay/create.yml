@@ -20,8 +20,8 @@
 - name: add br0 to vmbr0 bridge
   shell: brctl addif vmbr0 br0
 
-- name: create gre tunnels for each endpoint using br0
-  include: roles/proxmox/tasks/overlay/add_gre_tunnel.yml remote_node="{{ item }}"
+- name: create {{ proxmox_overlay_tunnel_type }} tunnels for each endpoint using br0
+  include: roles/proxmox/tasks/overlay/add_tunnel.yml remote_node="{{ item }}"
   with_items: "{{ nodes[inventory_hostname]['remote_nodes'] }}"
 
 - name: add static route for overlay traffic

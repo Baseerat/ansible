@@ -38,7 +38,7 @@
   become: true
 
 - name: create gre tunnels for each endpoint using br0
-  include: roles/kubernetes/tasks/overlay/add_gre_tunnel.yml remote_node="{{ item }}"
+  include: roles/kubernetes/tasks/overlay/add_tunnel.yml remote_node="{{ item }}"
   with_items: "{{ nodes[inventory_hostname]['remote_nodes'] }}"
   become: true
 

@@ -5,3 +5,4 @@
 #ansible-playbook common.yml --tags remove
 ansible-playbook proxmox.yml --tags destroy_vms
 ansible-playbook proxmox.yml --tags destroy_overlay
+#ansible-playbook proxmox.yml --tags remove_vm_template
