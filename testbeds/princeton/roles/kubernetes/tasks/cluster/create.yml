@@ -76,6 +76,7 @@
       - "--hostname-override={{ inventory_hostname }}"
       - "--api-servers=http://{{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['pve_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }}"
       - "--allow-privileged=true"
+      - "--enable-server"
       - "--v=2"
       - "--logtostderr=true"
   when: '"minion" in nodes[inventory_hostname]["type"]'
@@ -101,3 +102,6 @@
     dest: /usr/local/bin/kubectl
     mode: 0755
   when: '"master" in nodes[inventory_hostname]["type"]'
+
+#- debug:
+#    msg: "http://{{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['pve_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }}"

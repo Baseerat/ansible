@@ -1,12 +1,12 @@
 ---
 
 master:
-  pve_id: 2
+  pve_id: 3
   vm_id: 120
 
 nodes:
   pve2-k8s-node-120:
-    type: "master:minion"
+    type: "minion"
     master: "{{ master }}"
     remote_nodes:
       - pve_id: 2
@@ -30,7 +30,7 @@ nodes:
       - pve_id: 3
         vm_id: 122
   pve3-k8s-node-120:
-    type: "minion"
+    type: "master"
     master: "{{ master }}"
     remote_nodes:
       - pve_id: 2

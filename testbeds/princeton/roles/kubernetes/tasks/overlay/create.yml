@@ -6,14 +6,10 @@
     state: stopped
   become: true
 
-- name: update k8s_overlay_subnet_first_octect
-  shell: "var={{ k8s_overlay_subnet_first_octect_base }};var=$((var+{{ pve_id }}));echo $var"
-  register: k8s_overlay_subnet_first_octect
-
 - name: update docker subnet
   lineinfile:
     path: "{{ k8s_docker_defautl_config }}"
-    line: 'DOCKER_OPTS="--bip={{ k8s_overlay_subnet_first_octect.stdout }}.{{ vm_id }}.0.1/{{ k8s_overlay_subnet_mask }}"'
+    line: 'DOCKER_OPTS="--bip={{ k8s_overlay_subnet_address_prefix }}{{ pve_id }}.{{ vm_id }}.1/{{ k8s_overlay_subnet_mask }}"'
     state: present
   become: true
 
@@ -43,10 +39,8 @@
   become: true
 
 - name: add static route for overlay traffic
-  shell: ip route add {{ k8s_overlay_subnet_first_octect.stdout }}.0.0.0/8 dev docker0
+  shell: ip route add {{ k8s_overlay_subnet_address_prefix }}0.0.0/8 dev docker0
   become: true
 
-#- debug:
-#    msg: "{{ k8s_overlay_subnet_first_octect.stdout }}"
 
 
