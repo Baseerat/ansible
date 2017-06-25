@@ -11,6 +11,9 @@
 - name: enable stp on br0 # TODO: change this to flow rules
   command: ovs-vsctl set bridge br0 stp_enable=true
 
+- name: set mtu size to {{ proxmox_ovs_tunnel_interface_mtu_size }}
+  command: ovs-vsctl set interface br0 mtu_request={{ proxmox_ovs_tunnel_interface_mtu_size }}
+
 - name: bring up br0
   shell: ip link set dev br0 up
 

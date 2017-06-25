@@ -1,27 +1,27 @@
 ---
 
 nodes:
-  mshahbaz-poweredge-1-pve:
-    vm_ids: [120, 121, 122, ]
-    pve_id: 1
-    remote_nodes:
-      - pve_id: 2
-        address: 128.112.168.27
-      - pve_id: 3
-        address: 128.112.168.28
+#  mshahbaz-poweredge-1-pve:
+#    vm_ids: [120, 121, 122, ]
+#    pve_id: 1
+#    remote_nodes:
+#      - pve_id: 2
+#        address: 128.112.168.27
+#      - pve_id: 3
+#        address: 128.112.168.28
   mshahbaz-poweredge-2-pve:
     vm_ids: [120, 121, ]
     pve_id: 2
     remote_nodes:
-      - pve_id: 1
-        address: 128.112.168.26
+#      - pve_id: 1
+#        address: 128.112.168.26
       - pve_id: 3
         address: 128.112.168.28
   mshahbaz-poweredge-3-pve:
     vm_ids: [120, 121, 122, ]
     pve_id: 3
     remote_nodes:
-      - pve_id: 1
-        address: 128.112.168.26
+#      - pve_id: 1
+#        address: 128.112.168.26
       - pve_id: 2
         address: 128.112.168.27

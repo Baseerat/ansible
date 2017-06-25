@@ -14,8 +14,4 @@ iface {{ proxmox_vm_network_interface }} inet static
 	gateway {{ proxmox_vm_network_address_prefix }}{{ proxmox_pve_id }}.{{ proxmox_vm_network_gateway_postfix }}
 	dns-nameservers {{ proxmox_vm_dns_nameservers }}
 	dns-search {{ proxmox_vm_dns_search }}
-
-
-
-
-
+	mtu {{ proxmox_vm_network_interface_mtu_size }}

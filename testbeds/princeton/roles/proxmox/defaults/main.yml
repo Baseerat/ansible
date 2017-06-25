@@ -5,6 +5,8 @@ proxmox_name_prefix: pve
 proxmox_api_user: root@pam
 proxmox_api_password: PrincetonP4OVS
 
+proxmox_ovs_tunnel_interface_mtu_size: 1462
+
 proxmox_base_vm_vmid: 101
 proxmox_base_vm_hostname: "ubuntu-14-{{ proxmox_base_vm_vmid }}"
 proxmox_base_vm_address: 10.10.10.{{ proxmox_base_vm_vmid }}
@@ -17,6 +19,7 @@ proxmox_base_vm_nbd_device: nbd0
 proxmox_vm_user: mshahbaz
 proxmox_vm_hostname_prefix: k8s-node-
 proxmox_vm_network_interface: eth0
+proxmox_vm_network_interface_mtu_size: "{{ proxmox_ovs_tunnel_interface_mtu_size }}"
 proxmox_vm_network_address_prefix: 192.168.
 proxmox_vm_network_netmask: 255.255.255.0
 proxmox_vm_network_network_postfix: 0
@@ -24,3 +27,5 @@ proxmox_vm_network_broadcast_postfix: 255
 proxmox_vm_network_gateway_postfix: 1
 proxmox_vm_dns_nameservers: 128.112.136.10
 proxmox_vm_dns_search: cs.princeton.edu
+
+
