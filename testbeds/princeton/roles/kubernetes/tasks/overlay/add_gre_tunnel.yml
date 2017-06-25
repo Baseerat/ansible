@@ -1,9 +1,0 @@
----
-
-- name: add a gre tunnel using br0
-  openvswitch_port:
-    bridge: br0
-    port: gre_{{ remote_node.pve_id }}_{{ remote_node.vm_id }}
-    state: present
-    set: interface gre_{{ remote_node.pve_id }}_{{ remote_node.vm_id }} type=gre options:remote_ip={{ k8s_node_address_prefix }}{{ remote_node.pve_id }}.{{ remote_node.vm_id }}
-  become: true

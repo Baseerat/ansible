@@ -1,0 +1,9 @@
+---
+
+- name: add a {{ k8s_overlay_tunnel_type }} tunnel using br0
+  openvswitch_port:
+    bridge: br0
+    port: "{{ k8s_overlay_tunnel_type }}_{{ remote_node.pve_id }}_{{ remote_node.vm_id }}"
+    state: present
+    set: interface {{ k8s_overlay_tunnel_type }}_{{ remote_node.pve_id }}_{{ remote_node.vm_id }} type={{ k8s_overlay_tunnel_type }} options:remote_ip={{ k8s_node_address_prefix }}{{ remote_node.pve_id }}.{{ remote_node.vm_id }}
+  become: true

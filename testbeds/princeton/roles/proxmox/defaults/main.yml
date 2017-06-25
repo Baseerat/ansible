@@ -7,9 +7,9 @@ proxmox_api_password: PrincetonP4OVS
 
 
 proxmox_overlay_tunnel_type: vxlan
-proxmox_overlay_tunnel_header_size: 1450
+proxmox_overlay_tunnel_size: 1450
 
-proxmox_overlay_subnet_mtu_size: "{{ proxmox_overlay_tunnel_header_size }}"
+proxmox_overlay_subnet_mtu_size: "{{ proxmox_overlay_tunnel_size }}"
 
 proxmox_base_vm_vmid: 101
 proxmox_base_vm_hostname: "ubuntu-14-{{ proxmox_base_vm_vmid }}"
