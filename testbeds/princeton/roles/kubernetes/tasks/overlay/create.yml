@@ -25,8 +25,12 @@
     state: present
   become: true
 
-- name: enable stp on br0 # TODO: change this to flow rules
+- name: enable stp on br0 # TODO: change this to flow rules (CAUSING ISSUES WHEN RUN OVER VM OVERLAY NETWORK)
   command: ovs-vsctl set bridge br0 stp_enable=true
+  become: true
+
+- name: set mtu size to {{ k8s_overlay_subnet_mtu_size }}
+  command: ip link set mtu {{ k8s_overlay_subnet_mtu_size }} dev br0
   become: true
 
 - name: add br0 to docker0 bridge

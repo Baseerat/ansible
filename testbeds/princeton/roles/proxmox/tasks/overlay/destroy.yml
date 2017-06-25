@@ -1,7 +1,7 @@
 ---
 
-- name: reset mtu size to 1500 # TODO: correct this.
-  command: ovs-vsctl set interface br0 mtu_request=1500
+- name: reset mtu size to 1500
+  command: ip link set mtu 1500 dev br0
 
 - name: remove br0 from vmbr0 bridge
   shell: brctl delif vmbr0 br0

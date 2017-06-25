@@ -19,6 +19,10 @@
     state: started
   become: true
 
+- name: reset mtu size to 1500
+  command: ip link set mtu 1500 dev br0
+  become: true
+
 - name: remove br0 from docker0 bridge
   shell: brctl delif docker0 br0
   become: true
