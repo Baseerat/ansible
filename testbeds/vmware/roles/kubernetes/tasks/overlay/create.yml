@@ -25,7 +25,7 @@
     state: present
   become: true
 
-- name: enable stp on br0 # TODO: change this to flow rules (CAUSING ISSUES WHEN RUN OVER VM OVERLAY NETWORK)
+- name: enable stp on br0 # TODO: change this to flow rules
   command: ovs-vsctl set bridge br0 stp_enable=true
   become: true
 
