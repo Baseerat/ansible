@@ -1,0 +1,49 @@
+---
+
+- name: remove etcd container
+  docker_container:
+    name: etcd
+    state: absent
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: remove api server
+  docker_container:
+    name: apiserver
+    state: absent
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: remove controller manager
+  docker_container:
+    name: controller-manager
+    state: absent
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: remove scheduler
+  docker_container:
+    name: scheduler
+    state: absent
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: start kubelet
+  docker_container:
+    name: kubelet
+    state: absent
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: start proxy
+  docker_container:
+    name: proxy
+    state: absent
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: remove docker compose
+  file:
+    path: /usr/local/bin/kubectl
+    state: absent
+  when: '"master" in nodes[inventory_hostname]["type"]'

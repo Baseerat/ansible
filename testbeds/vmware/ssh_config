@@ -1,0 +1,53 @@
+Host prme-nsx-perf-001
+    Hostname 10.115.240.211
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/vmw_prme_rsa
+
+Host prme-nsx-perf-002
+    Hostname 10.115.240.213
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/vmw_prme_rsa
+
+Host prme-nsx-perf-003
+    Hostname 10.115.240.215
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/vmw_prme_rsa
+
+Host prme-nsx-perf-004
+    Hostname 10.115.240.217
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/vmw_prme_rsa
+
+Host prme-nsx-perf-005
+    Hostname 10.115.240.219
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/vmw_prme_rsa
+
+Host prme-nsx-perf-006
+    Hostname 10.115.240.221
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/vmw_prme_rsa
+
+Host prme-nsx-perf-007
+    Hostname 10.115.240.223
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/vmw_prme_rsa
+
+Host prme-nsx-perf-008
+    Hostname 10.115.240.225
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/vmw_prme_rsa
+
+Host prme-nsx-perf-009
+    Hostname 10.115.240.227
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/vmw_prme_rsa

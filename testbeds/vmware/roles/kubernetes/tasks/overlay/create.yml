@@ -1,0 +1,54 @@
+---
+
+- name: stop docker service
+  service:
+    name: docker
+    state: stopped
+  become: true
+
+- name: update docker subnet
+  lineinfile:
+    path: "{{ k8s_docker_defautl_config }}"
+    line: 'DOCKER_OPTS="--bip={{ k8s_overlay_subnet_address_prefix }}{{ prme_id }}.{{ vm_id }}.1/{{ k8s_overlay_subnet_mask }}"'
+    state: present
+  become: true
+
+- name: start docker service
+  service:
+    name: docker
+    state: started
+  become: true
+
+- name: create an ovs bridge br0
+  openvswitch_bridge:
+    bridge: br0
+    state: present
+  become: true
+
+- name: enable stp on br0 # TODO: change this to flow rules (CAUSING ISSUES WHEN RUN OVER VM OVERLAY NETWORK)
+  command: ovs-vsctl set bridge br0 stp_enable=true
+  become: true
+
+- name: set mtu size to {{ k8s_overlay_subnet_mtu_size }}
+  command: ip link set mtu {{ k8s_overlay_subnet_mtu_size }} dev br0
+  become: true
+
+- name: add br0 to docker0 bridge
+  shell: brctl addif docker0 br0
+  become: true
+
+- name: create {{ k8s_overlay_tunnel_type }} tunnels for each endpoint using br0
+  include: roles/kubernetes/tasks/overlay/add_tunnel.yml remote_node="{{ item }}"
+  with_items: "{{ nodes[inventory_hostname]['remote_nodes'] }}"
+  become: true
+
+- name: add static route for properly routing dns traffic
+  shell: ip route add {{ k8s_node_dns_nameservers }}/32 via {{ k8s_node_address_prefix }}{{ prme_id }}.1 dev eth0
+  become: true
+
+- name: add static route for overlay traffic
+  shell: ip route add {{ k8s_overlay_subnet_address_prefix }}0.0.0/8 dev docker0
+  become: true
+
+
+

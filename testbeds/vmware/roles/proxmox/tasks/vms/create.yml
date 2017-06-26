@@ -1,0 +1,100 @@
+---
+
+- name: load the nbd module
+  modprobe:
+    name: nbd
+    state: present
+    params: "max_part=8"
+
+- name: clone VM
+  proxmox_kvm:
+    state: present
+    node: "{{ inventory_hostname }}"
+    api_user: "{{ proxmox_api_user }}"
+    api_password: "{{ proxmox_api_password }}"
+    api_host: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+    clone: "{{ proxmox_base_vm_hostname }}"
+    vmid: "{{ proxmox_base_vm_vmid }}"
+    name: "{{ proxmox_name_prefix }}{{ proxmox_prme_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }}"
+    newid: "{{ proxmox_vm_id }}"
+  ignore_errors: yes
+  delegate_to: localhost
+
+#- pause:
+#    seconds: 3
+
+- name: connect VM image as nbd device
+  shell: qemu-nbd --connect=/dev/{{ proxmox_base_vm_nbd_device }} {{ proxmox_base_vm_image_path }}/{{ proxmox_vm_id }}/vm-{{ proxmox_vm_id }}-disk-1.qcow2
+
+- name: create VM image mount folder
+  file:
+    path: /mnt/vm{{ proxmox_vm_id }}
+    state: directory
+    mode: 0755
+
+- name: mount VM parition
+  shell: mount /dev/{{ proxmox_base_vm_nbd_device }}p1 /mnt/vm{{ proxmox_vm_id }}
+
+- name: change ip address in /etc/network/interfaces
+  template:
+    src: roles/proxmox/templates/interfaces_static.j2
+    dest: /mnt/vm{{ proxmox_vm_id }}/etc/network/interfaces
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+
+- name: update hostname in /etc/hostname
+  replace:
+    path: /mnt/vm{{ proxmox_vm_id }}/etc/hostname
+    regexp: "{{ proxmox_base_vm_hostname }}"
+    replace: "{{ proxmox_name_prefix }}{{ proxmox_prme_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }}"
+
+- name: update ip address in /etc/hosts
+  replace:
+    path: /mnt/vm{{ proxmox_vm_id }}/etc/hosts
+    regexp: "{{ proxmox_base_vm_address }}"
+    replace: "{{ proxmox_vm_network_address_prefix }}{{ proxmox_prme_id }}.{{ proxmox_vm_id }}"
+
+- name: update hostname in /etc/hosts
+  replace:
+    path: /mnt/vm{{ proxmox_vm_id }}/etc/hosts
+    regexp: "{{ proxmox_base_vm_hostname }}"
+    replace: "{{ proxmox_name_prefix }}{{ proxmox_prme_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }}"
+
+- name: unmount VM parition
+  shell: umount /mnt/vm{{ proxmox_vm_id }}
+
+- name: disconnect VM image as nbd device
+  shell: qemu-nbd --disconnect /dev/{{ proxmox_base_vm_nbd_device }}
+
+- name: delete VM image mount folder
+  file:
+    path: /mnt/vm{{ proxmox_vm_id }}
+    state: absent
+
+- name: start VM
+  proxmox_kvm:
+    state: started
+    node: "{{ inventory_hostname }}"
+    api_user: "{{ proxmox_api_user }}"
+    api_password: "{{ proxmox_api_password }}"
+    api_host: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+    name: "{{ proxmox_name_prefix }}{{ proxmox_prme_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }}"
+    vmid: "{{ proxmox_vm_id }}"
+  delegate_to: localhost
+
+- name: wait for ssh to come up
+  wait_for:
+    host: "{{ proxmox_vm_network_address_prefix }}{{ proxmox_prme_id }}.{{ proxmox_vm_id }}"
+    port: 22
+    delay: 1
+    state: started
+
+- name: add hosts to the inventory file
+  include: roles/proxmox/tasks/vms/hosts/add.yml
+  vars:
+    hostname: "{{ _hostname }}"
+  with_items: "{{ ansible_play_hosts }}"
+  loop_control:
+    loop_var: _hostname

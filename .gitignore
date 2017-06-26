@@ -104,3 +104,4 @@ ENV/
 .DS_Store
 .vagrant/
 *_rsa
+*_rsa.pwd

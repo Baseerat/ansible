@@ -1,0 +1,11 @@
+---
+
+- name: provision proxmox VMs
+  hosts: prme-nsx-perf-001, prme-nsx-perf-002 # Update this for other proxmox nodes
+  gather_facts: true
+
+  vars_files:
+    - "vars/proxmox.yml"
+
+  roles:
+    - proxmox

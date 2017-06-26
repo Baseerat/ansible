@@ -1,0 +1,15 @@
+---
+
+nodes:
+  prme-nsx-perf-001:
+    vm_ids: [120, 121, 122, ]
+    prme_id: 1
+    remote_nodes:
+      - prme_id: 2
+        address: 10.115.240.213
+  prme-nsx-perf-002:
+    vm_ids: [120, 121, ]
+    prme_id: 2
+    remote_nodes:
+      - prme_id: 1
+        address: 10.115.240.211

@@ -1,0 +1,42 @@
+---
+
+- name: stop docker service
+  service:
+    name: docker
+    state: stopped
+  become: true
+
+- name: clear docker subnet
+  lineinfile:
+    path: "{{ k8s_docker_defautl_config }}"
+    line: 'DOCKER_OPTS="--bip={{ k8s_overlay_subnet_address_prefix }}{{ prme_id }}.{{ vm_id }}.1/{{ k8s_overlay_subnet_mask }}"'
+    state: absent
+  become: true
+
+- name: start docker service
+  service:
+    name: docker
+    state: started
+  become: true
+
+- name: reset mtu size to 1500
+  command: ip link set mtu 1500 dev br0
+  become: true
+
+- name: remove br0 from docker0 bridge
+  shell: brctl delif docker0 br0
+  become: true
+
+- name: delete ovs bridge br0
+  openvswitch_bridge:
+    bridge: br0
+    state: absent
+  become: true
+
+- name: remove static route for overlay traffic
+  shell: ip route del {{ k8s_overlay_subnet_address_prefix }}0.0.0/8 dev docker0
+  become: true
+
+- name: remove static route for properly routing dns traffic
+  shell: ip route del {{ k8s_node_dns_nameservers }}/32 via {{ k8s_node_address_prefix }}{{ prme_id }}.1 dev eth0
+  become: true

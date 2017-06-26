@@ -23,7 +23,7 @@
     api_user: "{{ proxmox_api_user }}"
     api_password: "{{ proxmox_api_password }}"
     api_host: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
-    name: "{{ proxmox_name_prefix }}{{ proxmox_pve_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }}"
+    name: "{{ proxmox_name_prefix }}{{ proxmox_prme_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }}"
     vmid: "{{ proxmox_vm_id }}"
   delegate_to: localhost
 
@@ -34,6 +34,6 @@
     api_user: "{{ proxmox_api_user }}"
     api_password: "{{ proxmox_api_password }}"
     api_host: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
-    name: "{{ proxmox_name_prefix }}{{ proxmox_pve_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }}"
+    name: "{{ proxmox_name_prefix }}{{ proxmox_prme_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }}"
     vmid: "{{ proxmox_vm_id }}"
   delegate_to: localhost

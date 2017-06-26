@@ -1,0 +1,28 @@
+---
+
+- name: install common utilities
+  include: roles/proxmox/tasks/overlay/common/install.yml
+
+- name: create an ovs bridge br0
+  openvswitch_bridge:
+    bridge: br0
+    state: present
+
+- name: enable stp on br0 # TODO: change this to flow rules
+  command: ovs-vsctl set bridge br0 stp_enable=true
+
+- name: set mtu size to {{ proxmox_overlay_subnet_mtu_size }}
+  command: ip link set mtu {{ proxmox_overlay_subnet_mtu_size }} dev br0
+
+- name: bring up br0
+  shell: ip link set dev br0 up
+
+- name: add br0 to vmbr0 bridge
+  shell: brctl addif vmbr0 br0
+
+- name: create {{ proxmox_overlay_tunnel_type }} tunnels for each endpoint using br0
+  include: roles/proxmox/tasks/overlay/add_tunnel.yml remote_node="{{ item }}"
+  with_items: "{{ nodes[inventory_hostname]['remote_nodes'] }}"
+
+- name: add static route for overlay traffic
+  shell: ip route add {{ proxmox_vm_network_address_prefix }}0.0/16 dev vmbr0

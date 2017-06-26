@@ -1,0 +1,33 @@
+---
+
+- name: add VM template
+  include: roles/proxmox/tasks/vm_template/add.yml
+  tags: add_vm_template
+
+- name: remove VM template
+  include: roles/proxmox/tasks/vm_template/remove.yml
+  tags: remove_vm_template
+
+- name: create overlay network
+  include: roles/proxmox/tasks/overlay/create.yml
+  tags: create_overlay
+
+- name: destroy overlay network
+  include: roles/proxmox/tasks/overlay/destroy.yml
+  tags: destroy_overlay
+
+- name: create VMs
+  include: roles/proxmox/tasks/vms/create.yml
+  vars:
+    proxmox_vm_id: "{{ item }}"
+    proxmox_prme_id: "{{ nodes[inventory_hostname]['prme_id'] }}"
+  with_items: "{{ nodes[inventory_hostname]['vm_ids'] }}"
+  tags: create_vms
+
+- name: destroy VMs
+  include: roles/proxmox/tasks/vms/destroy.yml
+  vars:
+    proxmox_vm_id: "{{ item }}"
+    proxmox_prme_id: "{{ nodes[inventory_hostname]['prme_id'] }}"
+  with_items: "{{ nodes[inventory_hostname]['vm_ids'] }}"
+  tags: destroy_vms

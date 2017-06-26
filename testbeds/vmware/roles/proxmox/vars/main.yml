@@ -1,0 +1,3 @@
+---
+
+proxmox_ssh_common_args: ' -o ProxyCommand="ssh -F ./ssh_config {{ hostname }} -W %h:%p"'
