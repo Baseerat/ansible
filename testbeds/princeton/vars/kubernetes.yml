@@ -6,7 +6,7 @@ master:
 
 nodes:
   pve2-k8s-node-120:
-    type: "master:minion"
+    type: "master"
     master: "{{ master }}"
     remote_nodes:
       - pve_id: 2
