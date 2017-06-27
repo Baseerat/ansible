@@ -1,9 +1,0 @@
----
-
-- name: Test
-  hosts: mshahbaz*k8s-node-*
-  gather_facts: true
-
-  tasks:
-    - debug:
-        msg: "{{ vmid }} {{ pveid }}"

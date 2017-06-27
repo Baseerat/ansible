@@ -1,7 +1,7 @@
 ---
 
-etcd_version: 2.3.2
-k8s_version: 1.2.3
+etcd_version: 2.2.1
+k8s_version: 1.2.2
 
 k8s_overlay_tunnel_type: vxlan
 k8s_overlay_tunnel_size: 1400 # 1500 - 50 -50 (VXLAN header size), as the packet is further tunneled at the VM layer
@@ -16,7 +16,7 @@ k8s_etcd_port: 4001
 k8s_etcd_data_dir: /var/etcd/data
 
 k8s_api_server_port: 8080
-k8s_api_server_service_cluster_ip_range: 172.16.254.0/24
+k8s_api_server_service_cluster_ip_range: 172.16.254.1/24
 
 k8s_kubectl_url: "http://storage.googleapis.com/kubernetes-release/release/v{{ k8s_version }}/bin/linux/amd64/kubectl"
 

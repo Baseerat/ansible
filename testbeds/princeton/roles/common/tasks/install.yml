@@ -10,10 +10,10 @@
   apt:
     name: bridge-utils
 
-- name: install unzip
-  become: true
-  apt:
-    name: unzip
+#- name: install unzip
+#  become: true
+#  apt:
+#    name: unzip
 
 - name: install openvswitch-switch
   become: true

@@ -2,10 +2,13 @@
 
 - name: start etcd container
   docker_container:
+    privileged: true
     network_mode: host
+    pid_mode: host
     name: etcd
-    image: quay.io/coreos/etcd:v{{ etcd_version }}
+    image: gcr.io/google_containers/etcd:{{ etcd_version }}
     command:
+      - "/usr/local/bin/etcd"
       - "--listen-client-urls=http://0.0.0.0:{{ k8s_etcd_port }}"
       - "--advertise-client-urls=http://0.0.0.0:{{ k8s_etcd_port }}"
       - "--data-dir={{ k8s_etcd_data_dir }}"
@@ -14,7 +17,9 @@
 
 - name: start api server
   docker_container:
+    privileged: true
     network_mode: host
+    pid_mode: host
     name: apiserver
     image: gcr.io/google_containers/hyperkube-amd64:v{{ k8s_version }}
     command:
@@ -22,36 +27,36 @@
       - "--insecure-bind-address=0.0.0.0"
       - "--insecure-port={{ k8s_api_server_port }}"
       - "--service-cluster-ip-range={{ k8s_api_server_service_cluster_ip_range }}"
-      - "--etcd-servers=http://{{ k8s_node_address_prefix }}{{ prme_id }}.{{ vm_id }}:{{ k8s_etcd_port }}"
-      - "--allow-privileged=true"
+      - "--etcd-servers=http://localhost:{{ k8s_etcd_port }}"
       - "--v=2"
-      - "--logtostderr=true"
   when: '"master" in nodes[inventory_hostname]["type"]'
   become: true
 
 - name: start controller manager
   docker_container:
+    privileged: true
     network_mode: host
+    pid_mode: host
     name: controller-manager
     image: gcr.io/google_containers/hyperkube-amd64:v{{ k8s_version }}
     command:
       - "/hyperkube controller-manager"
-      - "--master=http://{{ k8s_node_address_prefix }}{{ prme_id }}.{{ vm_id }}:{{ k8s_api_server_port }}"
+      - "--master=http://localhost:{{ k8s_api_server_port }}"
       - "--v=2"
-      - "--logtostderr=true"
   when: '"master" in nodes[inventory_hostname]["type"]'
   become: true
 
 - name: start scheduler
   docker_container:
+    privileged: true
     network_mode: host
+    pid_mode: host
     name: scheduler
     image: gcr.io/google_containers/hyperkube-amd64:v{{ k8s_version }}
     command:
       - "/hyperkube scheduler"
-      - "--master=http://{{ k8s_node_address_prefix }}{{ prme_id }}.{{ vm_id }}:{{ k8s_api_server_port }}"
+      - "--master=http://localhost:{{ k8s_api_server_port }}"
       - "--v=2"
-      - "--logtostderr=true"
   when: '"master" in nodes[inventory_hostname]["type"]'
   become: true
 
@@ -71,15 +76,14 @@
     image: gcr.io/google_containers/hyperkube-amd64:v{{ k8s_version }}
     command:
       - "/hyperkube kubelet"
-      - "--containerized"
-      - "--address=0.0.0.0"
-      - "--hostname-override={{ inventory_hostname }}"
-      - "--api-servers=http://{{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }}"
       - "--allow-privileged=true"
+      - "--containerized"
       - "--enable-server"
+      - "--hostname-override={{ inventory_hostname }}"
+      - "--address=0.0.0.0"
+      - "--api-servers=http://{{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }}"
       - "--v=2"
-      - "--logtostderr=true"
-  when: '"minion" in nodes[inventory_hostname]["type"]'
+#  when: '"master" in nodes[inventory_hostname]["type"]'
   become: true
 
 - name: start proxy
@@ -90,10 +94,9 @@
     image: gcr.io/google_containers/hyperkube-amd64:v{{ k8s_version }}
     command:
       - "/hyperkube proxy"
-      - "master=http://{{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }}"
+      - "--master=http://{{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }}"
       - "--v=2"
-      - "--logtostderr=true"
-  when: '"minion" in nodes[inventory_hostname]["type"]'
+#  when: '"master" in nodes[inventory_hostname]["type"]'
   become: true
 
 - name: get kubectl
@@ -102,6 +105,3 @@
     dest: /usr/local/bin/kubectl
     mode: 0755
   when: '"master" in nodes[inventory_hostname]["type"]'
-
-#- debug:
-#    msg: "http://{{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }}"

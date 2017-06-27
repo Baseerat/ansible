@@ -7,12 +7,12 @@
     purge: yes
     state: absent
 
-- name: remove unzip
-  become: true
-  apt:
-    name: unzip
-    purge: yes
-    state: absent
+#- name: remove unzip
+#  become: true
+#  apt:
+#    name: unzip
+#    purge: yes
+#    state: absent
 
 - name: remove openvswitch-switch
   become: true

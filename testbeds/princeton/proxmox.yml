@@ -1,7 +1,8 @@
 ---
 
 - name: provision proxmox VMs
-  hosts: mshahbaz-poweredge-2-pve, mshahbaz-poweredge-3-pve # Update this for other proxmox nodes
+  hosts:  mshahbaz-poweredge-2-pve
+         ,mshahbaz-poweredge-3-pve # Update this for other proxmox nodes
   gather_facts: true
 
   vars_files:

@@ -32,14 +32,14 @@
   docker_container:
     name: kubelet
     state: absent
-  when: '"minion" in nodes[inventory_hostname]["type"]'
+#  when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true
 
 - name: start proxy
   docker_container:
     name: proxy
     state: absent
-  when: '"minion" in nodes[inventory_hostname]["type"]'
+#  when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true
 
 - name: remove docker compose
@@ -47,3 +47,8 @@
     path: /usr/local/bin/kubectl
     state: absent
   when: '"master" in nodes[inventory_hostname]["type"]'
+
+- name: flush iptable rules
+  command: iptables -t nat -F
+#  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
