@@ -81,22 +81,23 @@
       - "--enable-server"
       - "--hostname-override={{ inventory_hostname }}"
       - "--address=0.0.0.0"
-      - "--api-servers=http://{{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }}"
+      - "--api-servers=http://{{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['pve_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }}"
       - "--v=2"
-#  when: '"master" in nodes[inventory_hostname]["type"]'
+  when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true
 
 - name: start proxy
   docker_container:
     privileged: true
     network_mode: host
+    pid_mode: host
     name: proxy
     image: gcr.io/google_containers/hyperkube-amd64:v{{ k8s_version }}
     command:
       - "/hyperkube proxy"
-      - "--master=http://{{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }}"
+      - "--master=http://{{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['pve_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }}"
       - "--v=2"
-#  when: '"master" in nodes[inventory_hostname]["type"]'
+  when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true
 
 - name: get kubectl
