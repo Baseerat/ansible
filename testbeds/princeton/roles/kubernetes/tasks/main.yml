@@ -16,3 +16,13 @@
   include: roles/kubernetes/tasks/cluster/destroy.yml
   tags: destroy_cluster
 
+- name: create k8s apps
+  include: roles/kubernetes/tasks/apps/create.yml
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  tags: create_apps
+
+- name: destroy k8s apps
+  include: roles/kubernetes/tasks/apps/destroy.yml
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  tags: destroy_apps
+

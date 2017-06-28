@@ -1,0 +1,20 @@
+---
+
+- name: upload app configs
+  copy:
+    src: "{{ apps.base_dir }}/apps/{{ item }}.yml"
+    dest: /tmp/app.{{ item }}.yml
+  with_items: "{{ apps.collection }}"
+  become: true
+
+- name: create apps
+  shell: kubectl apply -f /tmp/app.{{ item }}.yml
+  with_items: "{{ apps.collection }}"
+  become: true
+
+- name: remove app configs
+  file:
+    path: /tmp/app.{{ item }}.yml
+    state: absent
+  with_items: "{{ apps.collection }}"
+  become: true

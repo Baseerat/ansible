@@ -62,6 +62,12 @@
     purge: yes
     state: absent
 
+- name: remove python-yaml
+  apt:
+    name: python-yaml
+    purge: yes
+    state: absent
+
 - name: update cache
   become: true
   apt:

@@ -9,59 +9,64 @@ nodes:
     type: "master"
     master: "{{ master }}"
     remote_nodes:
-      - pve_id: 2
-        vm_id: 121
+#      - pve_id: 2
+#        vm_id: 121
       - pve_id: 3
         vm_id: 120
-      - pve_id: 3
-        vm_id: 121
-      - pve_id: 3
-        vm_id: 122
-  pve2-k8s-node-121:
-    type: "minion"
-    master: "{{ master }}"
-    remote_nodes:
-      - pve_id: 2
-        vm_id: 120
-      - pve_id: 3
-        vm_id: 120
-      - pve_id: 3
-        vm_id: 121
-      - pve_id: 3
-        vm_id: 122
+#      - pve_id: 3
+#        vm_id: 121
+#      - pve_id: 3
+#        vm_id: 122
+#  pve2-k8s-node-121:
+#    type: "minion"
+#    master: "{{ master }}"
+#    remote_nodes:
+#      - pve_id: 2
+#        vm_id: 120
+#      - pve_id: 3
+#        vm_id: 120
+#      - pve_id: 3
+#        vm_id: 121
+#      - pve_id: 3
+#        vm_id: 122
   pve3-k8s-node-120:
     type: "minion"
     master: "{{ master }}"
     remote_nodes:
       - pve_id: 2
         vm_id: 120
-      - pve_id: 2
-        vm_id: 121
-      - pve_id: 3
-        vm_id: 121
-      - pve_id: 3
-        vm_id: 122
-  pve3-k8s-node-121:
-    type: "minion"
-    master: "{{ master }}"
-    remote_nodes:
-      - pve_id: 2
-        vm_id: 120
-      - pve_id: 2
-        vm_id: 121
-      - pve_id: 3
-        vm_id: 120
-      - pve_id: 3
-        vm_id: 122
-  pve3-k8s-node-122:
-    type: "minion"
-    master: "{{ master }}"
-    remote_nodes:
-      - pve_id: 2
-        vm_id: 120
-      - pve_id: 2
-        vm_id: 121
-      - pve_id: 3
-        vm_id: 120
-      - pve_id: 3
-        vm_id: 121
+#      - pve_id: 2
+#        vm_id: 121
+#      - pve_id: 3
+#        vm_id: 121
+#      - pve_id: 3
+#        vm_id: 122
+#  pve3-k8s-node-121:
+#    type: "minion"
+#    master: "{{ master }}"
+#    remote_nodes:
+#      - pve_id: 2
+#        vm_id: 120
+#      - pve_id: 2
+#        vm_id: 121
+#      - pve_id: 3
+#        vm_id: 120
+#      - pve_id: 3
+#        vm_id: 122
+#  pve3-k8s-node-122:
+#    type: "minion"
+#    master: "{{ master }}"
+#    remote_nodes:
+#      - pve_id: 2
+#        vm_id: 120
+#      - pve_id: 2
+#        vm_id: 121
+#      - pve_id: 3
+#        vm_id: 120
+#      - pve_id: 3
+#        vm_id: 121
+
+apps:
+  base_dir: files
+  collection:
+    - hello-world
