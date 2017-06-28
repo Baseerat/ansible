@@ -6,7 +6,7 @@
     network_mode: host
     pid_mode: host
     name: etcd
-    image: gcr.io/google_containers/etcd:{{ etcd_version }}
+    image: gcr.io/google_containers/etcd-amd64:{{ etcd_version }}
     command:
       - "/usr/local/bin/etcd"
       - "--listen-client-urls=http://0.0.0.0:{{ k8s_etcd_port }}"
