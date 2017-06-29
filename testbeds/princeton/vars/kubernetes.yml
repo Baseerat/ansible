@@ -67,6 +67,5 @@ nodes:
 #        vm_id: 121
 
 apps:
-  base_dir: files
-  collection:
+  names:
     - hello-world

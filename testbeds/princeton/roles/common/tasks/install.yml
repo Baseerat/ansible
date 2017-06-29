@@ -69,3 +69,7 @@
 - name: install python-yaml
   apt:
     name: python-yaml
+
+- name: install ipvsadm
+  apt:
+    name: ipvsadm

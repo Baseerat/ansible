@@ -4,16 +4,18 @@
   file:
     path: /tmp/app.{{ item }}.yml
     state: absent
-  with_items: "{{ apps.collection }}"
+  with_items: "{{ apps.names }}"
+  when: '"master" in nodes[inventory_hostname]["type"]'
   become: true
 
 - name: delete app services
   shell: kubectl delete service {{ item }}
-  with_items: "{{ apps.collection }}"
+  with_items: "{{ apps.names }}"
+  when: '"master" in nodes[inventory_hostname]["type"]'
   become: true
 
 - name: delete app deployments
   shell: kubectl delete deployment {{ item }}
-  with_items: "{{ apps.collection }}"
+  with_items: "{{ apps.names }}"
+  when: '"master" in nodes[inventory_hostname]["type"]'
   become: true
-

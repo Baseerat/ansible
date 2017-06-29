@@ -68,9 +68,13 @@
     purge: yes
     state: absent
 
+- name: install ipvsadm
+  apt:
+    name: ipvsadm
+    purge: yes
+    state: absent
+
 - name: update cache
   become: true
   apt:
     update_cache: yes
-
-
