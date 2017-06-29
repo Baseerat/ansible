@@ -68,9 +68,15 @@
     purge: yes
     state: absent
 
-- name: install ipvsadm
+- name: remove ipvsadm
   apt:
     name: ipvsadm
+    purge: yes
+    state: absent
+
+- name: remove fabric
+  apt:
+    name: fabric
     purge: yes
     state: absent
 

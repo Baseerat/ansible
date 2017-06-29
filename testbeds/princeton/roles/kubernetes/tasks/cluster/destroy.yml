@@ -46,7 +46,6 @@
   file:
     path: /usr/local/bin/kubectl
     state: absent
-  when: '"master" in nodes[inventory_hostname]["type"]'
 
 - name: flush iptable rules
   command: iptables -t nat -F

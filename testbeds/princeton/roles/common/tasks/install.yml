@@ -73,3 +73,7 @@
 - name: install ipvsadm
   apt:
     name: ipvsadm
+
+- name: install fabric
+  apt:
+    name: fabric
