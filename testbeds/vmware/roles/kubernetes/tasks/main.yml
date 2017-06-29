@@ -16,3 +16,11 @@
   include: roles/kubernetes/tasks/cluster/destroy.yml
   tags: destroy_cluster
 
+- name: create k8s apps
+  include: roles/kubernetes/tasks/apps/create.yml
+  tags: create_apps
+
+- name: destroy k8s apps
+  include: roles/kubernetes/tasks/apps/destroy.yml
+  tags: destroy_apps
+

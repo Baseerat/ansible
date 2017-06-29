@@ -86,23 +86,40 @@
   when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true
 
-- name: start proxy
-  docker_container:
-    privileged: true
-    network_mode: host
-    pid_mode: host
-    name: proxy
-    image: gcr.io/google_containers/hyperkube-amd64:v{{ k8s_version }}
-    command:
-      - "/hyperkube proxy"
-      - "--master=http://{{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }}"
-      - "--v=2"
-  when: '"minion" in nodes[inventory_hostname]["type"]'
-  become: true
+#- name: start proxy
+#  docker_container:
+#    privileged: true
+#    network_mode: host
+#    pid_mode: host
+#    name: proxy
+#    image: gcr.io/google_containers/hyperkube-amd64:v{{ k8s_version }}
+#    command:
+#      - "/hyperkube proxy"
+#      - "--master=http://{{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }}"
+#      - "--v=2"
+#  when: '"minion" in nodes[inventory_hostname]["type"]'
+#  become: true
 
 - name: get kubectl
   get_url:
     url: "{{ k8s_kubectl_url }}"
     dest: /usr/local/bin/kubectl
     mode: 0755
-  when: '"master" in nodes[inventory_hostname]["type"]'
+
+- name: create dummy interface ipvs0
+  command: ip link add ipvs0 type dummy
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: copy kube-ipvs-proxy.py script
+  copy:
+    src: roles/kubernetes/files/kube-ipvs-proxy.py
+    dest: /usr/local/bin/kube-ipvs-proxy.py
+    mode: 0755
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: sync default kuberentes service
+  command: kube-ipvs-proxy.py {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} sync kubernetes rr
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true

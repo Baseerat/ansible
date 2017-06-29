@@ -65,3 +65,15 @@
 - name: install docker-py
   pip:
     name: docker-py
+
+- name: install python-yaml
+  apt:
+    name: python-yaml
+
+- name: install ipvsadm
+  apt:
+    name: ipvsadm
+
+- name: install fabric
+  apt:
+    name: fabric

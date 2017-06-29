@@ -369,3 +369,7 @@ nodes:
         vm_id: 121
       - prme_id: 9
         vm_id: 120
+
+apps:
+  - name: hello-world
+    policy: rr

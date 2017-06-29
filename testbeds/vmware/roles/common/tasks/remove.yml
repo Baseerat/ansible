@@ -62,6 +62,24 @@
     purge: yes
     state: absent
 
+- name: remove python-yaml
+  apt:
+    name: python-yaml
+    purge: yes
+    state: absent
+
+- name: remove ipvsadm
+  apt:
+    name: ipvsadm
+    purge: yes
+    state: absent
+
+- name: remove fabric
+  apt:
+    name: fabric
+    purge: yes
+    state: absent
+
 - name: update cache
   become: true
   apt:
