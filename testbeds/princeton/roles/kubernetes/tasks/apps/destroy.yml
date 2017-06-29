@@ -1,21 +1,27 @@
 ---
 
-- name: remove app configs
+- name: clear apps' rules from ipvs table
+  command: kube-ipvs-proxy.py {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['pve_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} clear {{ item.name }} {{ item.policy }}
+  with_items: "{{ apps }}"
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: remove apps' configs
   file:
-    path: /tmp/app.{{ item }}.yml
+    path: /tmp/app.{{ item.name }}.yml
     state: absent
-  with_items: "{{ apps.names }}"
+  with_items: "{{ apps }}"
   when: '"master" in nodes[inventory_hostname]["type"]'
   become: true
 
-- name: delete app services
-  shell: kubectl delete service {{ item }}
-  with_items: "{{ apps.names }}"
+- name: delete apps' service
+  shell: kubectl delete service {{ item.name }}
+  with_items: "{{ apps }}"
   when: '"master" in nodes[inventory_hostname]["type"]'
   become: true
 
-- name: delete app deployments
-  shell: kubectl delete deployment {{ item }}
-  with_items: "{{ apps.names }}"
+- name: delete apps' deployment
+  shell: kubectl delete deployment {{ item.name }}
+  with_items: "{{ apps }}"
   when: '"master" in nodes[inventory_hostname]["type"]'
   become: true

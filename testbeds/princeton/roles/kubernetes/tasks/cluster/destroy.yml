@@ -35,14 +35,31 @@
   when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true
 
-- name: remove proxy
-  docker_container:
-    name: proxy
+#- name: remove proxy
+#  docker_container:
+#    name: proxy
+#    state: absent
+#  when: '"minion" in nodes[inventory_hostname]["type"]'
+#  become: true
+
+- name: clear ipvs table
+  command: ipvsadm -C
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: remove kube-ipvs-proxy.py script
+  file:
+    path: /usr/local/bin/kube-ipvs-proxy.py
     state: absent
   when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true
 
-- name: remove docker compose
+- name: remove dummy interface ipvs0
+  command: ip link del dev ipvs0
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: remove kubectl
   file:
     path: /usr/local/bin/kubectl
     state: absent

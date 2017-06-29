@@ -67,5 +67,5 @@ nodes:
 #        vm_id: 121
 
 apps:
-  names:
-    - hello-world
+  - name: hello-world
+    policy: rr

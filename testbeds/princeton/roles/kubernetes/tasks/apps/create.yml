@@ -2,22 +2,28 @@
 
 - name: upload apps' configs
   copy:
-    src: "{{ k8s_apps_base_dir }}/apps/{{ item }}.yml"
-    dest: /tmp/app.{{ item }}.yml
-  with_items: "{{ apps.names }}"
+    src: "{{ k8s_apps_base_dir }}/apps/{{ item.name }}.yml"
+    dest: /tmp/app.{{ item.name }}.yml
+  with_items: "{{ apps }}"
   when: '"master" in nodes[inventory_hostname]["type"]'
   become: true
 
 - name: create apps
-  shell: kubectl apply -f /tmp/app.{{ item }}.yml
-  with_items: "{{ apps.names }}"
+  shell: kubectl apply -f /tmp/app.{{ item.name }}.yml
+  with_items: "{{ apps }}"
   when: '"master" in nodes[inventory_hostname]["type"]'
   become: true
 
 #- name: remove apps' configs
 #  file:
-#    path: /tmp/app.{{ item }}.yml
+#    path: /tmp/app.{{ item.name }}.yml
 #    state: absent
-#  with_items: "{{ apps.names }}"
+#  with_items: "{{ apps }}"
 #  when: '"master" in nodes[inventory_hostname]["type"]'
 #  become: true
+
+- name: sync apps' service
+  command: kube-ipvs-proxy.py {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['pve_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} sync {{ item.name }} {{ item.policy }}
+  with_items: "{{ apps }}"
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
