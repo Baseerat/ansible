@@ -3,85 +3,85 @@
 nodes:
   prme-nsx-perf-001:
     prme_id: 1
-    vm_ids: [120, 121, 122, ]
+    vm_ids: [120, ]
     remote_nodes:
       - prme_id: 2
-        address: 10.115.240.213
-      - prme_id: 3
-        address: 10.115.240.215
-      - prme_id: 7
-        address: 10.115.240.223
-      - prme_id: 8
-        address: 10.115.240.225
-      - prme_id: 9
-        address: 10.115.240.227
+        address: 10.115.40.159
+#      - prme_id: 3
+#        address: 10.115.40.160
+#      - prme_id: 7
+#        address: 10.115.40.96
+#      - prme_id: 8
+#        address: 10.115.40.97
+#      - prme_id: 9
+#        address: 10.115.40.98
   prme-nsx-perf-002:
     prme_id: 2
-    vm_ids: [120, 121, ]
+    vm_ids: [120, ]
     remote_nodes:
       - prme_id: 1
-        address: 10.115.240.211
-      - prme_id: 3
-        address: 10.115.240.215
-      - prme_id: 7
-        address: 10.115.240.223
-      - prme_id: 8
-        address: 10.115.240.225
-      - prme_id: 9
-        address: 10.115.240.227
+        address: 10.115.40.158
+#      - prme_id: 3
+#        address: 10.115.40.160
+#      - prme_id: 7
+#        address: 10.115.40.96
+#      - prme_id: 8
+#        address: 10.115.40.97
+#      - prme_id: 9
+#        address: 10.115.40.98
   prme-nsx-perf-003:
     prme_id: 3
     vm_ids: [120, 121, ]
     remote_nodes:
       - prme_id: 1
-        address: 10.115.240.211
+        address: 10.115.40.158
       - prme_id: 2
-        address: 10.115.240.213
+        address: 10.115.40.159
       - prme_id: 7
-        address: 10.115.240.223
+        address: 10.115.40.96
       - prme_id: 8
-        address: 10.115.240.225
+        address: 10.115.40.97
       - prme_id: 9
-        address: 10.115.240.227
+        address: 10.115.40.98
   prme-nsx-perf-007:
     prme_id: 7
     vm_ids: [120, 121, ]
     remote_nodes:
       - prme_id: 1
-        address: 10.115.240.211
+        address: 10.115.40.158
       - prme_id: 2
-        address: 10.115.240.213
+        address: 10.115.40.159
       - prme_id: 3
-        address: 10.115.240.215
+        address: 10.115.40.160
       - prme_id: 8
-        address: 10.115.240.225
+        address: 10.115.40.97
       - prme_id: 9
-        address: 10.115.240.227
+        address: 10.115.40.98
   prme-nsx-perf-008:
     prme_id: 8
     vm_ids: [120, 121, ]
     remote_nodes:
       - prme_id: 1
-        address: 10.115.240.211
+        address: 10.115.40.158
       - prme_id: 2
-        address: 10.115.240.213
+        address: 10.115.40.159
       - prme_id: 3
-        address: 10.115.240.215
+        address: 10.115.40.160
       - prme_id: 7
-        address: 10.115.240.223
+        address: 10.115.40.96
       - prme_id: 9
-        address: 10.115.240.227
+        address: 10.115.40.98
   prme-nsx-perf-009:
     prme_id: 9
     vm_ids: [120, 121, ]
     remote_nodes:
       - prme_id: 1
-        address: 10.115.240.211
+        address: 10.115.40.158
       - prme_id: 2
-        address: 10.115.240.213
+        address: 10.115.40.159
       - prme_id: 3
-        address: 10.115.240.215
+        address: 10.115.40.160
       - prme_id: 7
-        address: 10.115.240.223
+        address: 10.115.40.96
       - prme_id: 8
-        address: 10.115.240.225
+        address: 10.115.40.97

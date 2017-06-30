@@ -1,53 +1,53 @@
 Host prme-nsx-perf-001
-    Hostname 10.115.240.211
+    Hostname 10.115.40.158
     User root
     ForwardAgent yes
     IdentityFile ./keys/vmw_prme_rsa
 
 Host prme-nsx-perf-002
-    Hostname 10.115.240.213
+    Hostname 10.115.40.159
     User root
     ForwardAgent yes
     IdentityFile ./keys/vmw_prme_rsa
 
 Host prme-nsx-perf-003
-    Hostname 10.115.240.215
+    Hostname 10.115.40.160
     User root
     ForwardAgent yes
     IdentityFile ./keys/vmw_prme_rsa
 
 Host prme-nsx-perf-004
-    Hostname 10.115.240.217
+    Hostname 10.115.40.93
     User root
     ForwardAgent yes
     IdentityFile ./keys/vmw_prme_rsa
 
 Host prme-nsx-perf-005
-    Hostname 10.115.240.219
+    Hostname 10.115.40.94
     User root
     ForwardAgent yes
     IdentityFile ./keys/vmw_prme_rsa
 
 Host prme-nsx-perf-006
-    Hostname 10.115.240.221
+    Hostname 10.115.40.95
     User root
     ForwardAgent yes
     IdentityFile ./keys/vmw_prme_rsa
 
 Host prme-nsx-perf-007
-    Hostname 10.115.240.223
+    Hostname 10.115.40.96
     User root
     ForwardAgent yes
     IdentityFile ./keys/vmw_prme_rsa
 
 Host prme-nsx-perf-008
-    Hostname 10.115.240.225
+    Hostname 10.115.40.97
     User root
     ForwardAgent yes
     IdentityFile ./keys/vmw_prme_rsa
 
 Host prme-nsx-perf-009
-    Hostname 10.115.240.227
+    Hostname 10.115.40.98
     User root
     ForwardAgent yes
     IdentityFile ./keys/vmw_prme_rsa
