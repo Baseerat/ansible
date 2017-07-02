@@ -20,6 +20,9 @@
   ignore_errors: yes
   delegate_to: localhost
 
+- name: set VM eth0 interface type to virtio
+  shell: pvesh set /nodes/{{ inventory_hostname }}/qemu/{{ proxmox_vm_id }}/config -net0 virtio,bridge=vmbr0
+
 #- pause:
 #    seconds: 3
 

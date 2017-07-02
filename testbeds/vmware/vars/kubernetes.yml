@@ -6,7 +6,7 @@ master:
 
 nodes:
   prme1-k8s-node-120:
-    type: "master"
+    type: "master:minion"
     master: "{{ master }}"
     remote_nodes:
 #      - prme_id: 1

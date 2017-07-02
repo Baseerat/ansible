@@ -23,7 +23,7 @@
 #  become: true
 
 - pause:
-    seconds: 2
+    minutes: 2
 
 - name: sync apps' service
   command: kube-ipvs-proxy.py {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} sync {{ item.name }} {{ item.policy }}
