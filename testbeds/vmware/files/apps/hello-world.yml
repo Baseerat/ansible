@@ -18,7 +18,7 @@ metadata:
   labels:
     app: hello-world
 spec:
-  replicas: 26
+  replicas: 13
   template:
     metadata:
       labels:

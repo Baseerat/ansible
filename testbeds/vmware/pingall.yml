@@ -1,0 +1,15 @@
+---
+
+- name: ping all nodes
+  hosts: prme*k8s-node-*
+  gather_facts: false
+  become: true
+
+  tasks:
+  - name: ping all 192.168.prme_id.vm_id
+    shell: "ping -c1 {{ hostvars[item]['ansible_host'] }}"
+    with_items: "{{ ansible_play_hosts }}"
+
+  - name: ping all 10.prme_id.vm_id.1
+    shell: "ping -c1 10.{{ hostvars[item]['prme_id'] }}.{{ hostvars[item]['vm_id'] }}.1"
+    with_items: "{{ ansible_play_hosts }}"
