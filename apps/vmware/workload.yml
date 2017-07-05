@@ -1,6 +1,6 @@
 ---
 
-- name: provision kubernetes cluster
+- name: provision workload
   hosts: prme*k8s-node-*
   gather_facts: false
   become: true
