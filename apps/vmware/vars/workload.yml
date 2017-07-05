@@ -15,3 +15,5 @@ workload:
       ramp: 10
       iters: 1
       timeout: 50
+    ipvsadm:
+      timeout: 1
