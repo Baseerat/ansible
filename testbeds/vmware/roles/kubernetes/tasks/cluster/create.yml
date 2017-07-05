@@ -120,6 +120,6 @@
   become: true
 
 - name: sync default kuberentes service
-  command: kube-ipvs-proxy.py {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} sync kubernetes rr
+  command: kube-ipvs-proxy.py default {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} sync kubernetes rr
   when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true
