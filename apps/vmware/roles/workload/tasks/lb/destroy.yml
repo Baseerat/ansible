@@ -26,6 +26,18 @@
   when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true
 
+- name: remove httperf-clients' configs
+  file:
+    path: /tmp/app.httperf-clients.yml
+    state: absent
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: delete httperf-clients' deployment
+  shell: kubectl --namespace={{ workload.lb.httperf_clients.namespace }} delete deployment httperf-clients
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
 - name: clear apache-servers' rules from ipvs table
   command: kube-ipvs-proxy.py {{ workload.lb.apache_servers.namespace }} {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} clear apache-servers {{ workload.lb.apache_servers.policy }}
   when: '"minion" in nodes[inventory_hostname]["type"]'
@@ -45,17 +57,5 @@
 
 - name: delete apache-servers' deployment
   shell: kubectl --namespace={{ workload.lb.apache_servers.namespace }} delete deployment apache-servers
-  when: '"master" in nodes[inventory_hostname]["type"]'
-  become: true
-
-- name: remove httperf-clients' configs
-  file:
-    path: /tmp/app.httperf-clients.yml
-    state: absent
-  when: '"master" in nodes[inventory_hostname]["type"]'
-  become: true
-
-- name: delete httperf-clients' deployment
-  shell: kubectl --namespace={{ workload.lb.httperf_clients.namespace }} delete deployment httperf-clients
   when: '"master" in nodes[inventory_hostname]["type"]'
   become: true

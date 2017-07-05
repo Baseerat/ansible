@@ -1,3 +1,6 @@
 ---
 
 workload_logs_dir: /var/logs
+
+workload_analyst_host: prme-nsx-perf-001
+workload_analyst_path: /root/mshahbaz/Baseerat/results
