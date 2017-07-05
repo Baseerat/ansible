@@ -105,3 +105,9 @@ ENV/
 .vagrant/
 *_rsa
 *_rsa.pwd
+
+apps/vmware/ssh_config
+apps/vmware/ansible.cfg
+apps/vmware/inventory.ini
+apps/vmware/vars/kubernetes.yml
+apps/vmware/vars/kubernetes.defaults.yml

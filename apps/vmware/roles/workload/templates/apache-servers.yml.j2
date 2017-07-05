@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apache-servers
+  labels:
+    app: apache-servers
+spec:
+  ports:
+    - port: 8080
+  selector:
+    app: apache-servers
+  type: NodePort
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: apache-servers
+  labels:
+    app: apache-servers
+spec:
+  replicas: {{ workload.lb.apache_servers.replicas }}
+  template:
+    metadata:
+      labels:
+        app: apache-servers
+    spec:
+      containers:
+      - image: mshahbaz/apache:baseerat
+        name: apache-servers
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: logs
+          mountPath: /var/logs
+      volumes:
+      - name: logs
+        hostPath:
+          path: /var/logs

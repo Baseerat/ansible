@@ -1,0 +1,9 @@
+---
+
+- name: create lb workload
+  include: roles/workload/tasks/lb/create.yml
+  tags: create_lb_workload
+
+- name: destroy lb workload
+  include: roles/workload/tasks/lb/destroy.yml
+  tags: destroy_lb_workload

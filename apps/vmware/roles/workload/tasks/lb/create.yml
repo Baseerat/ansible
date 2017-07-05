@@ -1,0 +1,42 @@
+---
+
+- name: upload apache-servers' configs
+  template:
+    src: roles/workload/templates/apache-servers.yml.j2
+    dest: /tmp/app.apache-servers.yml
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: create apache-servers' apps
+  shell: kubectl apply -f /tmp/app.apache-servers.yml
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- pause:
+    minutes: 2
+
+- name: sync apache-servers' service
+  shell: kube-ipvs-proxy.py {{ workload.lb.apache_servers.namespace }} {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} sync apache-servers {{ workload.lb.apache_servers.policy }}
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- pause:
+    minutes: 2
+
+- name: get apache-servers' service address
+  shell: kubectl --namespace={{ workload.lb.apache_servers.namespace }} get service apache-servers -o jsonpath={.spec.clusterIP}
+  register: service_address
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: upload httperf-clients' configs
+  template:
+    src: roles/workload/templates/httperf-clients.yml.j2
+    dest: /tmp/app.httperf-clients.yml
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: create httperf-clients' apps
+  shell: kubectl apply -f /tmp/app.httperf-clients.yml
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true

@@ -1,0 +1,17 @@
+---
+
+workload:
+  lb:
+    apache_servers:
+      replicas: 13
+      namespace: default
+      policy: rr
+    httperf_clients:
+      replicas: 13
+      namespace: default
+      num_conns: 100
+      num_calls: 1
+      rate: 10
+      ramp: 10
+      iters: 1
+      timeout: 50
