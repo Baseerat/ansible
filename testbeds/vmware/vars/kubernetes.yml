@@ -371,6 +371,12 @@ nodes:
 #        vm_id: 120
 
 apps:
-  - name: kubernetes-dashboard
-    namespace: kube-system
+#  - name: kubernetes-dashboard
+#    namespace: kube-system
+#    policy: rr
+#  - name: hello-world
+#    namespace: default
+#    policy: rr
+  - name: httperf-clients
+    namespace: default
     policy: rr

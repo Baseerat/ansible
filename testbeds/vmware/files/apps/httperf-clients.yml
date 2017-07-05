@@ -1,0 +1,38 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: httperf-clients
+  labels:
+    app: httperf-clients
+spec:
+  replicas: 13
+  template:
+    metadata:
+      labels:
+        app: httperf-clients
+    spec:
+      containers:
+      - image: mshahbaz/httperf:baseerat
+        name: httperf-clients
+        command: [ "/bin/bash", "-c", "--" ]
+        args: [ "mkdir /var/logs/$(hostname);
+                 python /root/httperf-plot/httperf-plot.py
+                        --server 172.16.254.223
+                        --port 8080
+                        --hog
+                        --verbose
+                        --num-conns 100
+                        --num-calls 1
+                        --rate 10
+                        --ramp-up 10,1
+                        --timeout 50
+                        --csv /var/logs/$(hostname)/httperf-plot.log;
+                 while true; do sleep 30; done;" ]
+        volumeMounts:
+        - name: logs
+          mountPath: /var/logs
+      volumes:
+      - name: logs
+        hostPath:
+          path: /var/logs
