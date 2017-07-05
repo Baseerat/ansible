@@ -18,7 +18,7 @@ spec:
         command: [ "/bin/bash", "-c", "--" ]
         args: [ "mkdir /var/logs/$(hostname);
                  python /root/httperf-plot/httperf-plot.py
-                        --server 172.16.254.223
+                        --server 172.16.254.67
                         --port 8080
                         --hog
                         --verbose
