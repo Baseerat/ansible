@@ -4,7 +4,8 @@
   command: kube-ipvs-proxy.py {{ item.namespace }} {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} clear {{ item.name }} {{ item.policy }}
   with_items: "{{ apps }}"
   when: '"minion" in nodes[inventory_hostname]["type"]'
-  ignore_errors: yes
+#  ignore_errors: yes
+  failed_when: false
   become: true
 
 - name: remove apps' configs
@@ -19,7 +20,8 @@
   shell: kubectl --namespace={{ item.namespace }} delete service {{ item.name }}
   with_items: "{{ apps }}"
   when: '"master" in nodes[inventory_hostname]["type"]'
-  ignore_errors: yes
+#  ignore_errors: yes
+  failed_when: false
   become: true
 
 - name: delete apps' deployment

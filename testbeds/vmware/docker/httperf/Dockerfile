@@ -11,8 +11,8 @@ RUN apt-get update && apt-get install -y \
 		git
 
 WORKDIR /root
-RUN git clone https://github.com/mshahbaz/httperf.git \
-&&  git clone https://github.com/mshahbaz/httperf-plot.git
+RUN git clone https://github.com/Baseerat/httperf.git \
+&&  git clone https://github.com/Baseerat/httperf-plot.git
 
 WORKDIR /root/httperf
 RUN autoreconf -i \

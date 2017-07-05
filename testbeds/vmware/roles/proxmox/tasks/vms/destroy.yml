@@ -10,11 +10,13 @@
 
 - name: unmount VM parition
   shell: umount /mnt/vm{{ proxmox_vm_id }}
-  ignore_errors: yes
+#  ignore_errors: yes
+  failed_when: false
 
 - name: disconnect VM image as nbd device
   shell: qemu-nbd --disconnect /dev/{{ proxmox_base_vm_nbd_device }}
-  ignore_errors: yes
+#  ignore_errors: yes
+  failed_when: false
 
 - name: stop VM
   proxmox_kvm:
