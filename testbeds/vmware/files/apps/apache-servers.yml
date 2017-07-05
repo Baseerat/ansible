@@ -28,6 +28,8 @@ spec:
       containers:
       - image: mshahbaz/apache:baseerat
         name: apache-servers
+        ports:
+        - containerPort: 8080
         volumeMounts:
         - name: logs
           mountPath: /var/logs
