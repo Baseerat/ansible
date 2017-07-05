@@ -34,6 +34,8 @@ spec:
             port: 9090
           initialDelaySeconds: 30
           timeoutSeconds: 30
+      nodeSelector:
+        kubernetes.io/hostname: prme1-k8s-node-120
 ---
 kind: Service
 apiVersion: v1
