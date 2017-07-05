@@ -26,7 +26,7 @@
     minutes: 2
 
 - name: sync apps' service
-  command: kube-ipvs-proxy.py {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} sync {{ item.name }} {{ item.policy }}
+  command: kube-ipvs-proxy.py {{ item.namespace }} {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} sync {{ item.name }} {{ item.policy }}
   with_items: "{{ apps }}"
   when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true

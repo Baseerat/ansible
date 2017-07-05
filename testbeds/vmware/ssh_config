@@ -51,3 +51,12 @@ Host prme-nsx-perf-009
     User root
     ForwardAgent yes
     IdentityFile ./keys/vmw_prme_rsa
+
+
+# For accessing kubernetes dashboard
+Host prme-nsx-perf-001-k8s
+    Hostname prme-nsx-perf-001
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/vmw_prme_rsa
+    LocalForward 8080 192.168.1.120:8080

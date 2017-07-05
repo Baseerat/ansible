@@ -7,4 +7,4 @@ ansible-playbook common.yml --tags install
 ansible-playbook kubernetes.yml --tags create_overlay
 ansible-playbook kubernetes.yml --tags create_cluster
 sleep 2
-ansible-playbook kubernetes.yml --tags create_apps
+#ansible-playbook kubernetes.yml --tags create_apps

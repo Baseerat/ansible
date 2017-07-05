@@ -6,15 +6,16 @@ from fabric.state import output
 
 output['everything'] = False
 capture = True
-api_host = sys.argv[1]
-command = sys.argv[2]
-service_name = sys.argv[3]
-scheduler = sys.argv[4]
+namespace = sys.argv[1]
+api_host = sys.argv[2]
+command = sys.argv[3]
+service_name = sys.argv[4]
+scheduler = sys.argv[5]
 
-service_ip = local("kubectl get service %s -s %s -o jsonpath={.spec.clusterIP}" % (service_name, api_host,), capture=capture)
-service_port = local("kubectl get service %s -s %s -o jsonpath={.spec.ports[].port}" % (service_name, api_host,), capture=capture)
-endpoint_ips = local("kubectl get endpoints %s -s %s -o jsonpath={.subsets[].addresses[*].ip}" % (service_name, api_host,), capture=capture).split(" ")
-endpoint_port = local("kubectl get endpoints %s -s %s -o jsonpath={.subsets[].ports[].port}" % (service_name, api_host,), capture=capture)
+service_ip = local("kubectl --namespace=%s get service %s -s %s -o jsonpath={.spec.clusterIP}" % (namespace, service_name, api_host,), capture=capture)
+service_port = local("kubectl --namespace=%s get service %s -s %s -o jsonpath={.spec.ports[].port}" % (namespace, service_name, api_host,), capture=capture)
+endpoint_ips = local("kubectl --namespace=%s get endpoints %s -s %s -o jsonpath={.subsets[].addresses[*].ip}" % (namespace, service_name, api_host,), capture=capture).split(" ")
+endpoint_port = local("kubectl --namespace=%s get endpoints %s -s %s -o jsonpath={.subsets[].ports[].port}" % (namespace, service_name, api_host,), capture=capture)
 
 if command == "sync":
     local("ip addr add %s/32 dev ipvs0" % (service_ip,))
