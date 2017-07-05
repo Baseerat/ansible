@@ -377,9 +377,9 @@ apps:
 #  - name: hello-world
 #    namespace: default
 #    policy: rr
-  - name: httperf-clients
-    namespace: default
-    policy: rr
+#  - name: httperf-clients
+#    namespace: default
+#    policy: rr
   - name: apache-servers
     namespace: default
     policy: wrr
