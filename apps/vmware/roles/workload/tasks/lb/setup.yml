@@ -1,5 +1,23 @@
 ---
 
+- name: get memcached address
+  shell: kubectl get pods --selector=app=memcached -o jsonpath={.items[*].status.podIP}
+  register: memcached_address
+  when: '"master" in nodes[inventory_hostname]["type"] and workload.lb.apache_servers.feedback.type == "memcached"'
+  become: true
+
+- name: create memcached script
+  set_fact:
+    feedback_command: "python /root/request-lb-weight.py `hostname -i` {{ memcached_address.stdout }}:11211 {{ workload.lb.apache_servers.feedback.timeout }} False {{ workload.lb.apache_servers.feedback.metric }} {{ workload.lb.apache_servers.feedback.param }};"
+  when: '"master" in nodes[inventory_hostname]["type"] and workload.lb.apache_servers.feedback.type == "memcached"'
+  become: true
+
+- name: define feedback_command if undefined
+  set_fact:
+    feedback_command: ""
+  when: feedback_command is not defined
+  become: true
+
 - name: upload apache-servers' configs
   template:
     src: roles/workload/templates/apache-servers.yml.j2

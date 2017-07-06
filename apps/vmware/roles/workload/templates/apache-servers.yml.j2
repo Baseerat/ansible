@@ -28,6 +28,12 @@ spec:
       containers:
       - image: mshahbaz/apache:baseerat
         name: apache-servers
+        command: [ "/bin/bash", "-c", "--" ]
+        args: [ "rm -f /var/www/html/index.html;
+                 echo \"<!doctype html><html><body><h1>(Backend:$(hostname))</h1></body></html>\" | sudo tee -a /var/www/html/index.html;
+                 service apache2 start;
+                 {{ feedback_command }}
+                 while true; do sleep 30; done;" ]
         ports:
         - containerPort: 8080
         volumeMounts:

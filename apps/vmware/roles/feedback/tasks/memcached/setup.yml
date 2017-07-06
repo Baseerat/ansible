@@ -12,11 +12,3 @@
   when: '"master" in nodes[inventory_hostname]["type"]'
   become: true
 
-- pause:
-    minutes: 2
-
-#- name: get memcached pod address
-#  shell: kubectl get pods --selector=app=memcached -o jsonpath={.items[*].status.podIP}
-#  register: memcached_address
-#  when: '"master" in nodes[inventory_hostname]["type"]'
-#  become: true
