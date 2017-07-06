@@ -8,7 +8,6 @@
   include: roles/workload/tasks/lb/stop.yml
   tags: stop_lb_workload
 
-
 - name: collect lb workload
   include: roles/workload/tasks/lb/collect.yml
   tags: collect_lb_workload
