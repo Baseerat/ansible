@@ -22,6 +22,7 @@ spec:
                         --port 8080
                         --hog
                         --verbose
+                        --uri {{ workload.lb.httperf_clients.uri }}
                         --num-conns {{ workload.lb.httperf_clients.num_conns }}
                         --num-calls {{ workload.lb.httperf_clients.num_calls }}
                         --rate {{ workload.lb.httperf_clients.rate }}
