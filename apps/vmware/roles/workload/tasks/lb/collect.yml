@@ -1,0 +1,26 @@
+
+
+- name: get current date and time
+  shell: 'date "+%Y%m%d%H%M%S.%6N"'
+  register: current_date_time
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  delegate_to: "{{ workload_analyst_host }}"
+
+- name: create directory with date and time
+  file:
+    path: "{{ workload_analyst_path }}/{{ current_date_time.stdout }}"
+    state: directory
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  delegate_to: "{{ workload_analyst_host }}"
+
+- name: fetch results to {{ workload_analyst_host }}
+  shell: scp -r {{ ansible_user }}@{{ ansible_host }}:{{ workload_logs_dir }}/* {{ workload_analyst_path }}/{{ hostvars[master_node].current_date_time.stdout }}
+  vars:
+    master_node: "prme{{ nodes[inventory_hostname].master.prme_id }}-k8s-node-{{ nodes[inventory_hostname].master.vm_id }}"
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  delegate_to: "{{ workload_analyst_host }}"
+
+- name: cleanup {{ workload_logs_dir }} folder
+  shell: cd {{ workload_logs_dir }}; rm -rf *; cd ~/
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
