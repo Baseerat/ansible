@@ -4,10 +4,11 @@
   include: roles/workload/tasks/lb/run.yml
   tags: run_lb_workload
 
+- name: stop lb workload
+  include: roles/workload/tasks/lb/stop.yml
+  tags: stop_lb_workload
+
+
 - name: collect lb workload
   include: roles/workload/tasks/lb/collect.yml
   tags: collect_lb_workload
-
-- name: cleanup lb workload
-  include: roles/workload/tasks/lb/cleanup.yml
-  tags: cleanup_lb_workload
