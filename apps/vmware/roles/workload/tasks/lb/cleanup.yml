@@ -1,5 +1,18 @@
 ---
 
+- name: stop set-lb-weight.py script
+  shell: pkill -u root -f set-lb-weight.py
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.apache_servers.feedback.type == "memcached"'
+  failed_when: false
+  become: true
+
+- name: remove dump-ipvsadm-L-n.py script
+  file:
+    path: /usr/local/bin/set-lb-weight.py
+    state: absent
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.apache_servers.feedback.type == "memcached"'
+  become: true
+
 - name: stop dump-ipvsadm-L-n.py script
   shell: pkill -u root -f dump-ipvsadm-L-n.py
   when: '"minion" in nodes[inventory_hostname]["type"]'

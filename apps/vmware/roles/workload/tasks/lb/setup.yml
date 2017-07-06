@@ -1,22 +1,22 @@
 ---
 
 - name: get memcached address
-  shell: kubectl get pods --selector=app=memcached -o jsonpath={.items[*].status.podIP}
+  shell: kubectl --namespace={{ workload.lb.apache_servers.feedback.namespace }} get pods -s {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} --selector=app=memcached -o jsonpath={.items[*].status.podIP}
   register: memcached_address
-  when: '"master" in nodes[inventory_hostname]["type"] and workload.lb.apache_servers.feedback.type == "memcached"'
+  when: 'workload.lb.apache_servers.feedback.type == "memcached"'
   failed_when: 'memcached_address.stdout == ""'
   become: true
 
 - name: create memcached script
   set_fact:
     feedback_command: "python /root/request-lb-weight.py `hostname -i` {{ memcached_address.stdout }}:11211 {{ workload.lb.apache_servers.feedback.timeout }} False {{ workload.lb.apache_servers.feedback.metric }} {{ workload.lb.apache_servers.feedback.param }};"
-  when: '"master" in nodes[inventory_hostname]["type"] and workload.lb.apache_servers.feedback.type == "memcached" and memcached_address.stdout != ""'
+  when: '"master" in nodes[inventory_hostname]["type"] and workload.lb.apache_servers.feedback.type == "memcached"'
   become: true
 
 - name: define feedback_command if undefined
   set_fact:
     feedback_command: ""
-  when: feedback_command is not defined
+  when: '"master" in nodes[inventory_hostname]["type"] and feedback_command is not defined'
   become: true
 
 - name: upload apache-servers' configs
@@ -39,6 +39,43 @@
   when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true
 
+- name: get set-lb-weight.py script
+  get_url:
+    url: "https://raw.githubusercontent.com/Baseerat/ipvs-dynamic-weight/master/set-lb-weight.py"
+    dest: /usr/local/bin/set-lb-weight.py
+    mode: 0755
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.apache_servers.feedback.type == "memcached"'
+  become: true
+
+- name: get service address
+  shell: kubectl --namespace={{ workload.lb.apache_servers.namespace }} get service apache-servers -s {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} -o jsonpath={.spec.clusterIP}
+  register: service_address
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.apache_servers.feedback.type == "memcached"'
+  become: true
+
+- name: get service port
+  shell: kubectl --namespace={{ workload.lb.apache_servers.namespace }} get service apache-servers -s {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} -o jsonpath={.spec.ports[].port}
+  register: service_port
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.apache_servers.feedback.type == "memcached"'
+  become: true
+
+- name: get endpoint addresses
+  shell: kubectl --namespace={{ workload.lb.apache_servers.namespace }} get endpoints apache-servers -s {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} -o jsonpath={range.subsets[].addresses[*]}{.ip},{end}
+  register: endpoint_addresses
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.apache_servers.feedback.type == "memcached"'
+  become: true
+
+- name: get endpoint port
+  shell: kubectl --namespace={{ workload.lb.apache_servers.namespace }} get endpoints apache-servers -s {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} -o jsonpath={.subsets[].ports[].port}
+  register: endpoint_port
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.apache_servers.feedback.type == "memcached"'
+  become: true
+
+- name: run set-lb-weight.py script
+  shell: nohup set-lb-weight.py {{ endpoint_addresses.stdout }} {{ endpoint_port.stdout }} {{ memcached_address.stdout }}:11211 {{ workload.lb.ipvsadm.feedback.timeout }} {{ service_address.stdout }} {{ service_port.stdout }} > /dev/null 2> /dev/null < /dev/null &
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.apache_servers.feedback.type == "memcached"'
+  become: true
+
 - name: fetch dump-ipvsadm-L-n.py script
   get_url:
     url: https://raw.githubusercontent.com/Baseerat/ipvs-utils/master/dump-ipvsadm-L-n.py
@@ -48,7 +85,7 @@
   become: true
 
 - name: run dump-ipvsadm-L-n.py script
-  shell: nohup dump-ipvsadm-L-n.py {{ workload.lb.ipvsadm.timeout }} {{ workload_logs_dir }}/ipvsadm_L_n.{{ inventory_hostname }}.csv > /dev/null 2> /dev/null < /dev/null &
+  shell: nohup dump-ipvsadm-L-n.py {{ workload.lb.ipvsadm.stats.timeout }} {{ workload_logs_dir }}/ipvsadm_L_n.{{ inventory_hostname }}.csv > /dev/null 2> /dev/null < /dev/null &
   when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true
 
@@ -61,6 +98,6 @@
   become: true
 
 - name: run dump-ipvsadm-L-n--stats.py script
-  shell: nohup dump-ipvsadm-L-n--stats.py {{ workload.lb.ipvsadm.timeout }} {{ workload_logs_dir }}/ipvsadm_L_n__stats.{{ inventory_hostname }}.csv > /dev/null 2> /dev/null < /dev/null &
+  shell: nohup dump-ipvsadm-L-n--stats.py {{ workload.lb.ipvsadm.stats.timeout }} {{ workload_logs_dir }}/ipvsadm_L_n__stats.{{ inventory_hostname }}.csv > /dev/null 2> /dev/null < /dev/null &
   when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true
