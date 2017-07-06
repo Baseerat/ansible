@@ -77,3 +77,11 @@
 - name: install fabric
   apt:
     name: fabric
+
+- name: install python-memcache
+  apt:
+    name: python-memcache
+
+- name: install python-psutil
+  apt:
+    name: python-psutil

@@ -1,0 +1,10 @@
+---
+
+- name: setup memcached
+  include: roles/feedback/tasks/memcached/setup.yml
+  tags: setup_memcached
+
+- name: cleanup memcached
+  include: roles/feedback/tasks/memcached/cleanup.yml
+  tags: cleanup_memcached
+

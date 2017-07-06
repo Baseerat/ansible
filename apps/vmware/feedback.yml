@@ -1,0 +1,13 @@
+---
+
+- name: provision feedback scheme
+  hosts: prme*k8s-node-*
+  gather_facts: false
+
+  vars_files:
+    - "vars/kubernetes.yml"
+    - "vars/kubernetes.defaults.yml"
+    - "vars/feedback.yml"
+
+  roles:
+    - feedback

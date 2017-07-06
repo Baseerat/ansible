@@ -5,7 +5,7 @@ workload:
     apache_servers:
       replicas: 13
       namespace: default
-      policy: rr
+      policy: wrr
     httperf_clients:
       replicas: 13
       namespace: default

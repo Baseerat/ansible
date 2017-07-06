@@ -80,6 +80,18 @@
     purge: yes
     state: absent
 
+- name: remove python-memcache
+  apt:
+    name: python-memcache
+    purge: yes
+    state: absent
+
+- name: remove python-psutil
+  apt:
+    name: python-psutil
+    purge: yes
+    state: absent
+
 - name: update cache
   become: true
   apt:

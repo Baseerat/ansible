@@ -1,0 +1,5 @@
+---
+
+feedback:
+  memcached:
+    namespace: default

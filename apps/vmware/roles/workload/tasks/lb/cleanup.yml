@@ -31,11 +31,13 @@
     path: /tmp/app.httperf-clients.yml
     state: absent
   when: '"master" in nodes[inventory_hostname]["type"]'
+  failed_when: false
   become: true
 
 - name: delete httperf-clients' deployment
   shell: kubectl --namespace={{ workload.lb.httperf_clients.namespace }} delete deployment httperf-clients
   when: '"master" in nodes[inventory_hostname]["type"]'
+  failed_when: false
   become: true
 
 - name: clear apache-servers' rules from ipvs table

@@ -1,0 +1,13 @@
+---
+
+- name: remove memcached configs
+  file:
+    path: /tmp/app.memcached.yml
+    state: absent
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: delete memcached deployment
+  shell: kubectl --namespace={{ feedback.memcached.namespace }} delete deployment memcached
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true

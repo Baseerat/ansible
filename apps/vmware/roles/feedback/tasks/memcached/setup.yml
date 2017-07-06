@@ -1,0 +1,22 @@
+---
+
+- name: upload memcached configs
+  template:
+    src: roles/feedback/templates/memcached.yml.j2
+    dest: /tmp/app.memcached.yml
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: create memcached apps
+  shell: kubectl apply -f /tmp/app.memcached.yml
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- pause:
+    minutes: 2
+
+#- name: get memcached pod address
+#  shell: kubectl get pods --selector=app=memcached -o jsonpath={.items[*].status.podIP}
+#  register: memcached_address
+#  when: '"master" in nodes[inventory_hostname]["type"]'
+#  become: true
