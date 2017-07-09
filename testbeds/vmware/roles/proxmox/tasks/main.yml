@@ -34,8 +34,8 @@
 
 - name: setup br0 as gateway bridge
   include: roles/proxmox/tasks/hacks/br0_as_gateway_bridge/setup.yml
-  tags: setup_br0_as_primary_bridge
+  tags: hacks_setup_br0_as_primary_bridge
 
 - name: cleanup br0 as gateway bridge
   include: roles/proxmox/tasks/hacks/br0_as_gateway_bridge/cleanup.yml
-  tags: cleanup_br0_as_primary_bridge
+  tags: hacks_cleanup_br0_as_primary_bridge
