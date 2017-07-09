@@ -31,3 +31,11 @@
     proxmox_prme_id: "{{ nodes[inventory_hostname]['prme_id'] }}"
   with_items: "{{ nodes[inventory_hostname]['vm_ids'] }}"
   tags: destroy_vms
+
+- name: setup br0 as gateway bridge
+  include: roles/proxmox/tasks/hacks/br0_as_gateway_bridge/setup.yml
+  tags: setup_br0_as_primary_bridge
+
+- name: cleanup br0 as gateway bridge
+  include: roles/proxmox/tasks/hacks/br0_as_gateway_bridge/cleanup.yml
+  tags: cleanup_br0_as_primary_bridge
