@@ -1,0 +1,9 @@
+---
+
+- name: setup baseerat
+  include: roles/baseerat/tasks/setup.yml
+  tags: setup_baseerat
+
+- name: cleanup baseerat
+  include: roles/baseerat/tasks/cleanup.yml
+  tags: cleanup_baseerat

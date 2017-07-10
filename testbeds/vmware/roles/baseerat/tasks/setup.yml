@@ -1,0 +1,7 @@
+---
+
+- name: create and bring up dummy interface group0
+  shell: ip link add name group0 type dummy; ip link set dev group0 up
+
+- name: add {{ baseerat_address }}/32 to group0
+  shell: ip addr add {{ baseerat_address }}/32 dev group0
