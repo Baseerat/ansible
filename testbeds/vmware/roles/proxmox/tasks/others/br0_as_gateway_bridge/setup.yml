@@ -19,6 +19,3 @@
 - name: add tap interfaces to br0
   shell: ovs-vsctl add-port br0 tap{{ item }}i0
   with_items: "{{ nodes[inventory_hostname]['vm_ids'] }}"
-
-- name: bring down vmbr0
-  shell: ip link set dev vmbr0 down
