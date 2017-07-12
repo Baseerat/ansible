@@ -1,9 +1,0 @@
----
-
-- name: install common
-  include: install.yml
-  tags: install
-
-- name: remove common
-  include: remove.yml
-  tags: remove
