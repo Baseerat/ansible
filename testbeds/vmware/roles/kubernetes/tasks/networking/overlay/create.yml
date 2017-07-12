@@ -38,7 +38,7 @@
   become: true
 
 - name: create {{ k8s_overlay_tunnel_type }} tunnels for each endpoint using br0
-  include: roles/kubernetes/tasks/overlay/add_tunnel.yml remote_node="{{ item }}"
+  include: roles/kubernetes/tasks/networking/overlay/add_tunnel.yml remote_node="{{ item }}"
   with_items: "{{ networking[inventory_hostname]['remote_nodes'] }}"
   become: true
 
