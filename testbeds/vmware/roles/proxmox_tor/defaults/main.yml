@@ -1,4 +1,1 @@
 ---
-
-proxmox_overlay_tunnel_size: 1450 # 1500 - 50 (VXLAN header size)
-proxmox_overlay_subnet_mtu_size: "{{ proxmox_overlay_tunnel_size }}"

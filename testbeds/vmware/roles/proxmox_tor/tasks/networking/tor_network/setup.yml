@@ -11,41 +11,9 @@
 - name: enable stp on br0 # TODO: change this to flow rules
   command: ovs-vsctl set bridge br0 stp_enable=true
 
-#- name: set mtu size to {{ proxmox_overlay_subnet_mtu_size }} # TODO: look into this ...
-#  command: ip link set mtu {{ proxmox_overlay_subnet_mtu_size }} dev br0
-
 - name: bring up br0
   shell: ip link set dev br0 up
 
-- name: bring up prme-nsx-perf-001 facing interface (eth2) on prme-nsx-perf-004 node
-  shell: ip link set dev eth2 up
-  when: 'inventory_hostname == "prme-nsx-perf-004"'
-
-- name: bring up prme-nsx-perf-002 facing interface (eth6) on prme-nsx-perf-004 node
-  shell: ip link set dev eth6 up
-  when: 'inventory_hostname == "prme-nsx-perf-004"'
-
-- name: bring up prme-nsx-perf-003 facing interface (rename10) on prme-nsx-perf-004 node
-  shell: ip link set dev rename10 up
-  when: 'inventory_hostname == "prme-nsx-perf-004"'
-
-- name: add prme-nsx-perf-001 facing interface to br0 on prme-nsx-perf-004 node
-  openvswitch_port:
-    bridge: br0
-    port: eth2
-    state: present
-  when: 'inventory_hostname == "prme-nsx-perf-004"'
-
-- name: add prme-nsx-perf-002 facing interface to br0 on prme-nsx-perf-004 node
-  openvswitch_port:
-    bridge: br0
-    port: eth6
-    state: present
-  when: 'inventory_hostname == "prme-nsx-perf-004"'
-
-- name: add prme-nsx-perf-003 facing interface to br0 on prme-nsx-perf-004 node
-  openvswitch_port:
-    bridge: br0
-    port: rename10
-    state: present
+- name: setup {{ inventory_hostname }} as tor
+  include: roles/proxmox_tor/tasks/networking/tor_network/nodes/{{ inventory_hostname }}/setup.yml
   when: 'inventory_hostname == "prme-nsx-perf-004"'

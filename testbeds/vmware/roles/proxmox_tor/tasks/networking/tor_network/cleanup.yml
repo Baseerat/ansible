@@ -1,36 +1,7 @@
 ---
 
-- name: remove prme-nsx-perf-001 facing interface from br0 on prme-nsx-perf-004 node
-  openvswitch_port:
-    bridge: br0
-    port: eth2
-    state: absent
-  when: 'inventory_hostname == "prme-nsx-perf-004"'
-
-- name: remove prme-nsx-perf-002 facing interface from br0 on prme-nsx-perf-004 node
-  openvswitch_port:
-    bridge: br0
-    port: eth6
-    state: absent
-  when: 'inventory_hostname == "prme-nsx-perf-004"'
-
-- name: remove prme-nsx-perf-003 facing interface from br0 on prme-nsx-perf-004 node
-  openvswitch_port:
-    bridge: br0
-    port: rename10
-    state: absent
-  when: 'inventory_hostname == "prme-nsx-perf-004"'
-
-- name: bring down prme-nsx-perf-001 facing interface (eth2) on prme-nsx-perf-004 node
-  shell: ip link set dev eth2 down
-  when: 'inventory_hostname == "prme-nsx-perf-004"'
-
-- name: bring down prme-nsx-perf-002 facing interface (eth6) on prme-nsx-perf-004 node
-  shell: ip link set dev eth6 down
-  when: 'inventory_hostname == "prme-nsx-perf-004"'
-
-- name: bring down prme-nsx-perf-003 facing interface (rename10) on prme-nsx-perf-004 node
-  shell: ip link set dev rename10 down
+- name: cleanup {{ inventory_hostname }} as tor
+  include: roles/proxmox_tor/tasks/networking/tor_network/nodes/{{ inventory_hostname }}/cleanup.yml
   when: 'inventory_hostname == "prme-nsx-perf-004"'
 
 - name: bring down br0
