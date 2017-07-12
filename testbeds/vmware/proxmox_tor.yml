@@ -1,0 +1,8 @@
+---
+
+- name: provision tor network
+  hosts:  prme-nsx-perf-004
+  gather_facts: true
+
+  roles:
+    - proxmox_tor

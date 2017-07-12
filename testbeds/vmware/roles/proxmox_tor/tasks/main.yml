@@ -1,0 +1,9 @@
+---
+
+- name: setup tor network
+  include: roles/proxmox_tor/tasks/networking/tor_network/setup.yml
+  tags: setup_tor_network
+
+- name: cleanup tor network
+  include: roles/proxmox_tor/tasks/networking/tor_network/cleanup.yml
+  tags: cleanup_tor_network

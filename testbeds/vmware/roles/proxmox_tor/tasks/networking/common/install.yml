@@ -1,0 +1,11 @@
+---
+
+# Note: use debian stretch in /etc/apt/sources.list for installing ovs v2.6.2 on proxmox machines
+
+- name: install openvswitch-switch
+  apt:
+    name: openvswitch-switch
+
+- name: install openvswitch-common
+  apt:
+    name: openvswitch-common

@@ -1,0 +1,48 @@
+---
+
+- name: remove prme-nsx-perf-001 facing interface from br0 on prme-nsx-perf-004 node
+  openvswitch_port:
+    bridge: br0
+    port: eth2
+    state: absent
+  when: 'inventory_hostname == "prme-nsx-perf-004"'
+
+- name: remove prme-nsx-perf-002 facing interface from br0 on prme-nsx-perf-004 node
+  openvswitch_port:
+    bridge: br0
+    port: eth6
+    state: absent
+  when: 'inventory_hostname == "prme-nsx-perf-004"'
+
+- name: remove prme-nsx-perf-003 facing interface from br0 on prme-nsx-perf-004 node
+  openvswitch_port:
+    bridge: br0
+    port: rename10
+    state: absent
+  when: 'inventory_hostname == "prme-nsx-perf-004"'
+
+- name: bring down prme-nsx-perf-001 facing interface (eth2) on prme-nsx-perf-004 node
+  shell: ip link set dev eth2 down
+  when: 'inventory_hostname == "prme-nsx-perf-004"'
+
+- name: bring down prme-nsx-perf-002 facing interface (eth6) on prme-nsx-perf-004 node
+  shell: ip link set dev eth6 down
+  when: 'inventory_hostname == "prme-nsx-perf-004"'
+
+- name: bring down prme-nsx-perf-003 facing interface (rename10) on prme-nsx-perf-004 node
+  shell: ip link set dev rename10 down
+  when: 'inventory_hostname == "prme-nsx-perf-004"'
+
+- name: bring down br0
+  shell: ip link set dev br0 down
+
+- name: disable stp on br0 # TODO: change this to flow rules
+  command: ovs-vsctl set bridge br0 stp_enable=false
+
+- name: delete ovs bridge br0
+  openvswitch_bridge:
+    bridge: br0
+    state: absent
+
+- name: remove common utilities
+  include: roles/proxmox_tor/tasks/networking/common/remove.yml
