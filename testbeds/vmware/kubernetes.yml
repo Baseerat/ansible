@@ -6,7 +6,9 @@
   become: true
 
   vars_files:
-    - "vars/kubernetes.yml"
+    - "vars/kubernetes/main.yml"
+    - "vars/kubernetes/networking.yml"
+    - "vars/kubernetes/apps.yml"
 
   roles:
     - kubernetes

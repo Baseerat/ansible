@@ -10,7 +10,7 @@
   gather_facts: true
 
   vars_files:
-    - "vars/baseerat.yml"
+    - "vars/baseerat/main.yml"
 
   roles:
     - baseerat

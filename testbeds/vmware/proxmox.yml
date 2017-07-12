@@ -10,7 +10,11 @@
   gather_facts: true
 
   vars_files:
-    - "vars/proxmox.yml"
+    - "vars/proxmox/main.yml"
+    # Uncomment the desired networking mode: vmware_switch, public_interface, or tor_network
+#    - "vars/proxmox/networking/public_interface.yml"
+    - "vars/proxmox/networking/vmware_switch.yml"
+#    - "vars/proxmox/networking/tor_network.yml"
 
   roles:
     - proxmox

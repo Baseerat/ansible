@@ -1,0 +1,75 @@
+---
+
+networking:
+  prme-nsx-perf-001:
+    remote_nodes:
+      - prme_id: 2
+        address: 10.115.40.159
+      - prme_id: 3
+        address: 10.115.40.160
+      - prme_id: 7
+        address: 10.115.40.96
+      - prme_id: 8
+        address: 10.115.40.97
+      - prme_id: 9
+        address: 10.115.40.98
+  prme-nsx-perf-002:
+    remote_nodes:
+      - prme_id: 1
+        address: 10.115.40.158
+      - prme_id: 3
+        address: 10.115.40.160
+      - prme_id: 7
+        address: 10.115.40.96
+      - prme_id: 8
+        address: 10.115.40.97
+      - prme_id: 9
+        address: 10.115.40.98
+  prme-nsx-perf-003:
+    remote_nodes:
+      - prme_id: 1
+        address: 10.115.40.158
+      - prme_id: 2
+        address: 10.115.40.159
+      - prme_id: 7
+        address: 10.115.40.96
+      - prme_id: 8
+        address: 10.115.40.97
+      - prme_id: 9
+        address: 10.115.40.98
+  prme-nsx-perf-007:
+    remote_nodes:
+      - prme_id: 1
+        address: 10.115.40.158
+      - prme_id: 2
+        address: 10.115.40.159
+      - prme_id: 3
+        address: 10.115.40.160
+      - prme_id: 8
+        address: 10.115.40.97
+      - prme_id: 9
+        address: 10.115.40.98
+  prme-nsx-perf-008:
+    remote_nodes:
+      - prme_id: 1
+        address: 10.115.40.158
+      - prme_id: 2
+        address: 10.115.40.159
+      - prme_id: 3
+        address: 10.115.40.160
+      - prme_id: 7
+        address: 10.115.40.96
+      - prme_id: 9
+        address: 10.115.40.98
+  prme-nsx-perf-009:
+    remote_nodes:
+      - prme_id: 1
+        address: 10.115.40.158
+      - prme_id: 2
+        address: 10.115.40.159
+      - prme_id: 3
+        address: 10.115.40.160
+      - prme_id: 7
+        address: 10.115.40.96
+      - prme_id: 8
+        address: 10.115.40.97

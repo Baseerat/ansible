@@ -1,12 +1,12 @@
 ---
 
 - name: add VM template
-  include: roles/proxmox/tasks/vm_template/add.yml
-  tags: add_vm_template
+  include: roles/proxmox/tasks/vms/template/add.yml
+  tags: add_vms_template
 
 - name: remove VM template
-  include: roles/proxmox/tasks/vm_template/remove.yml
-  tags: remove_vm_template
+  include: roles/proxmox/tasks/vms/template/remove.yml
+  tags: remove_vms_template
 
 - name: create overlay network
   include: roles/proxmox/tasks/overlay/create.yml

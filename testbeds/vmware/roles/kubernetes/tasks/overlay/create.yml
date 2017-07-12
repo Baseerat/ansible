@@ -39,7 +39,7 @@
 
 - name: create {{ k8s_overlay_tunnel_type }} tunnels for each endpoint using br0
   include: roles/kubernetes/tasks/overlay/add_tunnel.yml remote_node="{{ item }}"
-  with_items: "{{ nodes[inventory_hostname]['remote_nodes'] }}"
+  with_items: "{{ networking[inventory_hostname]['remote_nodes'] }}"
   become: true
 
 - name: add static route for properly routing dns traffic

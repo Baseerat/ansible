@@ -1,9 +1,7 @@
 ---
 
-nodes:
+networking:
   prme-nsx-perf-001:
-    prme_id: 1
-    vm_ids: [120, 121, 122 ]
     remote_nodes:
       - prme_id: 2
         address: 172.16.40.159
@@ -16,8 +14,6 @@ nodes:
       - prme_id: 9
         address: 172.16.40.98
   prme-nsx-perf-002:
-    prme_id: 2
-    vm_ids: [120, 121, ]
     remote_nodes:
       - prme_id: 1
         address: 172.16.40.158
@@ -30,8 +26,6 @@ nodes:
       - prme_id: 9
         address: 172.16.40.98
   prme-nsx-perf-003:
-    prme_id: 3
-    vm_ids: [120, 121, ]
     remote_nodes:
       - prme_id: 1
         address: 172.16.40.158
@@ -44,8 +38,6 @@ nodes:
       - prme_id: 9
         address: 172.16.40.98
   prme-nsx-perf-007:
-    prme_id: 7
-    vm_ids: [120, 121, ]
     remote_nodes:
       - prme_id: 1
         address: 172.16.40.158
@@ -58,8 +50,6 @@ nodes:
       - prme_id: 9
         address: 172.16.40.98
   prme-nsx-perf-008:
-    prme_id: 8
-    vm_ids: [120, 121, ]
     remote_nodes:
       - prme_id: 1
         address: 172.16.40.158
@@ -72,8 +62,6 @@ nodes:
       - prme_id: 9
         address: 172.16.40.98
   prme-nsx-perf-009:
-    prme_id: 9
-    vm_ids: [120, 121, ]
     remote_nodes:
       - prme_id: 1
         address: 172.16.40.158
