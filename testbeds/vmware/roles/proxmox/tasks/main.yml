@@ -9,11 +9,11 @@
   tags: remove_vms_template
 
 - name: create overlay network
-  include: roles/proxmox/tasks/overlay/create.yml
+  include: roles/proxmox/tasks/networking/overlay/create.yml
   tags: create_overlay
 
 - name: destroy overlay network
-  include: roles/proxmox/tasks/overlay/destroy.yml
+  include: roles/proxmox/tasks/networking/overlay/destroy.yml
   tags: destroy_overlay
 
 - name: create VMs
@@ -33,9 +33,9 @@
   tags: destroy_vms
 
 - name: setup br0 as gateway bridge
-  include: roles/proxmox/tasks/others/br0_as_gateway_bridge/setup.yml
+  include: roles/proxmox/tasks/networking/others/br0_as_gateway_bridge/setup.yml
   tags: setup_br0_as_primary_bridge
 
 - name: cleanup br0 as gateway bridge
-  include: roles/proxmox/tasks/others/br0_as_gateway_bridge/cleanup.yml
+  include: roles/proxmox/tasks/networking/others/br0_as_gateway_bridge/cleanup.yml
   tags: cleanup_br0_as_primary_bridge

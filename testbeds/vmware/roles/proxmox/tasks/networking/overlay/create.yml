@@ -1,7 +1,7 @@
 ---
 
 - name: install common utilities
-  include: roles/proxmox/tasks/overlay/common/install.yml
+  include: roles/proxmox/tasks/networking/common/install.yml
 
 - name: create an ovs bridge br0
   openvswitch_bridge:
@@ -21,7 +21,7 @@
   shell: brctl addif vmbr0 br0
 
 - name: create {{ proxmox_overlay_tunnel_type }} tunnels for each endpoint using br0
-  include: roles/proxmox/tasks/overlay/add_tunnel.yml remote_node="{{ item }}"
+  include: roles/proxmox/tasks/networking/overlay/add_tunnel.yml remote_node="{{ item }}"
   with_items: "{{ networking[inventory_hostname]['remote_nodes'] }}"
 
 - name: add static route for overlay traffic
