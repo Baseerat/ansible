@@ -1,1 +1,15 @@
 ---
+
+nodes:
+  prme-nsx-perf-004:
+    interfaces:
+      - eth2 # prme-nsx-perf-001
+      - eth6 # prme-nsx-perf-002
+      - rename10 # prme-nsx-perf-003
+#  prme-nsx-perf-005:
+#    intrfaces: {}
+  prme-nsx-perf-006:
+    interfaces:
+      - eth8 # prme-nsx-perf-007
+      - eth1 # prme-nsx-perf-008
+      - eth4 # prme-nsx-perf-009

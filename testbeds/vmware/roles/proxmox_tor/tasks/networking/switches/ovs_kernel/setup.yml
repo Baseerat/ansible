@@ -14,6 +14,13 @@
 - name: bring up br0
   shell: ip link set dev br0 up
 
-- name: setup {{ inventory_hostname }} as tor
-  include: roles/proxmox_tor/tasks/networking/tor_network/nodes/{{ inventory_hostname }}/setup.yml
-  when: 'inventory_hostname == "prme-nsx-perf-004"'
+- name: bring up interfaces
+  shell: ip link set dev {{ item }} up
+  with_items: "{{ nodes[inventory_hostname]['interfaces'] }}"
+
+- name: add interfaces to br0
+  openvswitch_port:
+    bridge: br0
+    port: "{{ item }}"
+    state: present
+  with_items: "{{ nodes[inventory_hostname]['interfaces'] }}"

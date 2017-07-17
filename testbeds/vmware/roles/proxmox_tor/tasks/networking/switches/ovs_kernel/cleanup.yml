@@ -1,8 +1,15 @@
 ---
 
-- name: cleanup {{ inventory_hostname }} as tor
-  include: roles/proxmox_tor/tasks/networking/tor_network/nodes/{{ inventory_hostname }}/cleanup.yml
-  when: 'inventory_hostname == "prme-nsx-perf-004"'
+- name: remove interfaces from br0
+  openvswitch_port:
+    bridge: br0
+    port: "{{ item }}"
+    state: absent
+  with_items: "{{ nodes[inventory_hostname]['interfaces'] }}"
+
+- name: bring down interfaces
+  shell: ip link set dev {{ item }} down
+  with_items: "{{ nodes[inventory_hostname]['interfaces'] }}"
 
 - name: bring down br0
   shell: ip link set dev br0 down

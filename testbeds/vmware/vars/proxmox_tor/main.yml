@@ -1,0 +1,3 @@
+---
+
+tor_switch_type: "linux_bridge" # Options: linux_bridge, ovs_kernel, ovs_dpdk, pisces
