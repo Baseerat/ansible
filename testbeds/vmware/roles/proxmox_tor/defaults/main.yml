@@ -12,20 +12,20 @@ nodes:
       eth8: "0000:44:00.0"
 #  prme-nsx-perf-005:
 #    intrfaces: {}
-  prme-nsx-perf-006:
-    interfaces:
-      - eth6 # prme-nsx-perf-007
-      - eth1 # prme-nsx-perf-008
-      - eth4 # prme-nsx-perf-009
-    bus_ids:
-      eth6: "0000:42:00.0"
-      eth1: "0000:04:00.0"
-      eth4: "0000:04:00.1"
+#  prme-nsx-perf-006:
+#    interfaces:
+#      - eth6 # prme-nsx-perf-007
+#      - eth1 # prme-nsx-perf-008
+#      - eth4 # prme-nsx-perf-009
+#    bus_ids:
+#      eth6: "0000:42:00.0"
+#      eth1: "0000:04:00.0"
+#      eth4: "0000:04:00.1"
 
 switches:
   pisces:
-    debug: -g # Options: -g or ''
-    cpu_mask: 0x1
+    debug: '' # Options: -g or ''
+    cpu_mask: '0xFFFE'
     memory_channels: 4
     p4_programs:
       base_dir: files
