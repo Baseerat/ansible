@@ -1,5 +1,13 @@
 ---
 
+- name: install pisces
+  include: roles/proxmox_tor/tasks/networking/switches/pisces/build/setup.yml
+  tags: install_pisces
+
+- name: clean pisces
+  include: roles/proxmox_tor/tasks/networking/switches/pisces/build/cleanup.yml
+  tags: clean_pisces
+
 - name: setup tor network
   include: roles/proxmox_tor/tasks/networking/setup.yml
   tags: setup_tor_network
