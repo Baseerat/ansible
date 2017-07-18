@@ -1,5 +1,9 @@
 ---
 
+- name: delete {{ proxmox_overlay_tunnel_type }} tunnels for each endpoint using br0
+  include: roles/proxmox/tasks/networking/overlay/del_tunnel.yml remote_node="{{ item }}"
+  with_items: "{{ networking[inventory_hostname]['remote_nodes'] }}"
+
 - name: reset mtu size to 1500
   command: ip link set mtu 1500 dev br0
 

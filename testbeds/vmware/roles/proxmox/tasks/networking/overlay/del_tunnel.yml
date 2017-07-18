@@ -1,0 +1,7 @@
+---
+
+- name: delete a {{ proxmox_overlay_tunnel_type }} tunnel using br0
+  openvswitch_port:
+    bridge: br0
+    port: "{{ proxmox_overlay_tunnel_type }}_{{ remote_node.prme_id }}"
+    state: absent
