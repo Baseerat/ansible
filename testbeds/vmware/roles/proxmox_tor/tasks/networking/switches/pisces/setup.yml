@@ -14,4 +14,3 @@
          ./ovs-vsctl add-port br0 dpdk{{ item }} -- set Interface dpdk{{ item }} type=dpdk;
          cd /root
   with_sequence: start=0 end={{ nodes[inventory_hostname]['interfaces'] | length - 1 }} format=%d
-

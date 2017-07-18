@@ -4,4 +4,3 @@ tor_switch:
   type: "pisces" # Options: linux_bridge, ovs_kernel, ovs_dpdk, pisces
   pisces:
     p4_program: "simple_router.p4"
-    huge_pages: false # should be kept false (only set to true once at system bootup)
