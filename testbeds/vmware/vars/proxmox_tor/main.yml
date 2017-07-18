@@ -1,3 +1,6 @@
 ---
 
-tor_switch_type: "linux_bridge" # Options: linux_bridge, ovs_kernel, ovs_dpdk, pisces
+tor_switch:
+  type: "pisces" # Options: linux_bridge, ovs_kernel, ovs_dpdk, pisces
+  pisces:
+    p4_program: "l2_switch.p4"

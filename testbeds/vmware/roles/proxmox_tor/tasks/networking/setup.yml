@@ -1,9 +1,13 @@
 ---
 
+- name: setup pisces
+  include: roles/proxmox_tor/tasks/networking/switches/pisces/setup.yml
+  when: 'tor_switch.type == "pisces"'
+
 - name: setup ovs (kernel)
   include: roles/proxmox_tor/tasks/networking/switches/ovs_kernel/setup.yml
-  when: 'tor_switch_type == "ovs_kernel"'
+  when: 'tor_switch.type == "ovs_kernel"'
 
 - name: setup linux bridge
   include: roles/proxmox_tor/tasks/networking/switches/linux_bridge/setup.yml
-  when: 'tor_switch_type == "linux_bridge"'
+  when: 'tor_switch.type == "linux_bridge"'

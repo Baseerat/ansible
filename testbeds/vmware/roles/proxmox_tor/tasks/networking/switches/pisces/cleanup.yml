@@ -1,0 +1,79 @@
+---
+
+- name: set directory variables
+  set_fact:
+    OVS_LOCAL_ETC_DIR: /usr/local/etc/openvswitch
+    OVS_VAR_RUN_DIR: /usr/local/var/run/openvswitch
+
+- name: delete ovsdb configuration file
+  file:
+    path: {{ OVS_LOCAL_ETC_DIR }}/conf.db
+    state: absent
+
+- name: ensure {{ OVS_LOCAL_ETC_DIR }} directory is absent
+  file:
+    path: "{{ OVS_LOCAL_ETC_DIR }}"
+    state: absent
+
+- name: ensure {{ OVS_VAR_RUN_DIR }} directory is absent
+  file:
+    path: "{{ OVS_VAR_RUN_DIR }}"
+    state: absent
+
+- name: set dpdk rte variables
+  set_fact:
+    RTE_SDK: /root/ovs/deps/dpdk
+    RTE_TARGET: x86_64-native-linuxapp-gcc
+
+- name: remove interfaces from dpdk
+  shell: "{{ RTE_SDK }}/tools/dpdk_nic_bind.py -b ixgbe {{ nodes[inventory_hostname].bus_ids[item] }};
+         ip link set dev {{ item }} down"
+  with_items: "{{ nodes[inventory_hostname]['interfaces'] }}"
+
+- name: modprobe rte_kni
+  modprobe:
+    name: rte_kni
+    state: absent
+
+- name: modprobe igb_uio
+  modprobe:
+    name: igb_uio
+    state: absent
+
+- name: modprobe uio
+  modprobe:
+    name: uio
+    state: absent
+
+- name: reset huge page tables
+  script: roles/proxmox_tor/files/hugetlbfs.sh 0
+
+- name: delete p4 program
+  file:
+    path: /root/ovs/include/p4/examples/{{ tor_switch.pisces.p4_program }}
+    state: absent
+
+- name: delete ovs repository
+  file:
+    path: /root/ovs
+    state: absent
+
+- name: uninstall p4c-behavioral module
+  pip:
+    name: p4c-behavioral
+    state: absent
+
+- name: delete p4c-behavioral source code
+  file:
+    path: /tmp/p4c-behavioral-Baseerat
+    state: absent
+
+- name: uninstall p4-hlir module
+  pip:
+    name: p4-hlir
+    state: absent
+
+- name: delete p4-hlir source code
+  file:
+    path: /tmp/p4-hlir-master
+    state: absent
