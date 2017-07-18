@@ -1,7 +1,8 @@
 ---
 
 - name: provision proxmox VMs
-  hosts:  prme-nsx-perf-001
+  hosts:
+          prme-nsx-perf-001
          ,prme-nsx-perf-002
          ,prme-nsx-perf-003
          ,prme-nsx-perf-007
@@ -13,8 +14,8 @@
     - "vars/proxmox/main.yml"
     # Uncomment the desired networking mode: vmware_switch, public_interface, or tor_network
 #    - "vars/proxmox/networking/public_interface.yml"
-    - "vars/proxmox/networking/vmware_switch.yml"
-#    - "vars/proxmox/networking/tor_network.yml"
+#    - "vars/proxmox/networking/vmware_switch.yml"
+    - "vars/proxmox/networking/tor_network.yml"
 
   roles:
     - proxmox

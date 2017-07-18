@@ -11,6 +11,7 @@
     update_cache: yes
   ignore_errors: yes
 
-- name: install essential utilities
-  shell: apt-get -y install python-pip unzip python-setuptools fuse libfuse-dev
-                            dh-autoreconf openssl libssl-dev cmake libpcap-dev python-yaml
+#- name: install essential utilities
+#  shell: apt-get -y install unzip python-pip python-yaml python-setuptools build-essential pve-headers-`uname -r`
+
+# fuse libfuse-dev openssl libssl-dev libpcap-dev

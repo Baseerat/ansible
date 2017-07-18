@@ -7,7 +7,7 @@
 
 - name: delete ovsdb configuration file
   file:
-    path: {{ OVS_LOCAL_ETC_DIR }}/conf.db
+    path: "{{ OVS_LOCAL_ETC_DIR }}/conf.db"
     state: absent
 
 - name: ensure {{ OVS_LOCAL_ETC_DIR }} directory is absent

@@ -5,7 +5,12 @@ nodes:
     interfaces:
       - eth2 # prme-nsx-perf-001
       - eth6 # prme-nsx-perf-002
-      - rename10 # prme-nsx-perf-003
+      - eth7 # prme-nsx-perf-003
+    bus_ids:
+      eth2: "0000:41:00.0"
+      eth5: "0000:41:00.1"
+      eth7: "0000:44:00.0"
+
 #  prme-nsx-perf-005:
 #    intrfaces: {}
   prme-nsx-perf-006:
@@ -13,3 +18,13 @@ nodes:
       - eth8 # prme-nsx-perf-007
       - eth1 # prme-nsx-perf-008
       - eth4 # prme-nsx-perf-009
+    bus_ids:
+      eth8: "0000:42:00.0"
+      eth1: "0000:04:00.0"
+      eth4: "0000:04:00.1"
+
+switches:
+  pisces:
+    debug: -g # Options: -g or ''
+    p4_programs:
+      base_dir: files
