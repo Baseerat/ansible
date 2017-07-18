@@ -8,3 +8,4 @@ ansible-playbook proxmox.yml --tags destroy_vms
 ansible-playbook proxmox.yml --tags destroy_overlay
 #ansible-playbook proxmox.yml --tags remove_template
 #ansible-playbook proxmox_tor.yml --tags cleanup_tor_network
+#ansible-playbook proxmox_tor.yml --tags clean_pisces
