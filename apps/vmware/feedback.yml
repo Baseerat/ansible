@@ -5,8 +5,9 @@
   gather_facts: false
 
   vars_files:
-    - "vars/kubernetes.yml"
-    - "vars/kubernetes.defaults.yml"
+    - "vars/kubernetes/main.yml"
+    - "vars/kubernetes/networking.yml"
+    - "vars/kubernetes/defaults.yml"
     - "vars/feedback.yml"
 
   roles:
