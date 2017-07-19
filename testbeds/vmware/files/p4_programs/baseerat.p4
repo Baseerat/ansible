@@ -101,6 +101,30 @@ parser parse_ipv4 {
 
 header udp_t udp_;
 
+field_list udp_checksum_list {
+        ipv4_.srcAddr;
+        ipv4_.dstAddr;
+        8'0;
+        ipv4_.protocol;
+        udp_.length_;
+        udp_.srcPort;
+        udp_.dstPort;
+        udp_.length_;
+        payload;
+}
+
+field_list_calculation udp_checksum {
+    input {
+        udp_checksum_list;
+    }
+    algorithm : csum16;
+    output_width : 16;
+}
+
+calculated_field udp_.checksum {
+    update udp_checksum;
+}
+
 parser parse_udp {
     extract(udp_);
     return select(latest.dstPort) {
@@ -165,10 +189,36 @@ parser parse_inner_ipv4 {
 
 header udp_t inner_udp_;
 
+field_list inner_udp_checksum_list {
+        inner_ipv4_.srcAddr;
+        inner_ipv4_.dstAddr;
+        8'0;
+        inner_ipv4_.protocol;
+        inner_udp_.length_;
+        inner_udp_.srcPort;
+        inner_udp_.dstPort;
+        inner_udp_.length_;
+        payload;
+}
+
+field_list_calculation inner_udp_checksum {
+    input {
+        inner_udp_checksum_list;
+    }
+    algorithm : csum16;
+    output_width : 16;
+}
+
+calculated_field inner_udp_.checksum {
+    update inner_udp_checksum;
+}
+
 parser parse_inner_udp {
     extract(inner_udp_);
     return ingress;
 }
+
+// @Shahbaz: update this part with match action code
 
 action action0() {
 }
