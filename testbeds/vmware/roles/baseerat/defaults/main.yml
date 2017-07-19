@@ -3,3 +3,8 @@
 baseerat_address: 192.168.254.254
 baseerat_port: 12345
 
+baseerat_interfaces:
+  prme-nsx-perf-001: 1
+  prme-nsx-perf-002: 1
+  prme-nsx-perf-003: 1
+

@@ -3,9 +3,9 @@
 tor_switch:
   type: "pisces" # Options: linux_bridge, ovs_kernel, ovs_dpdk, pisces
   pisces:
-    p4_program: "simple_router.p4"
+    p4_program: "baseerat.p4"
     flow_rules:
       prme-nsx-perf-004:
-        - "ipv4__dstAddr=0xAC108C9E actions=1" # to prme-nsx-perf-001
-        - "ipv4__dstAddr=0xAC108C9F actions=2" # to prme-nsx-perf-002
-        - "ipv4__dstAddr=0xAC108CA0 actions=3" # to prme-nsx-perf-003
+        - "table=0,priority=10,ipv4__dstAddr=0xAC108C9E actions=1" # to prme-nsx-perf-001
+        - "table=0,priority=10,ipv4__dstAddr=0xAC108C9F actions=2" # to prme-nsx-perf-002
+        - "table=0,priority=10,ipv4__dstAddr=0xAC108CA0 actions=3" # to prme-nsx-perf-003

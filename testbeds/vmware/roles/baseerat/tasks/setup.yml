@@ -5,3 +5,6 @@
 
 - name: add {{ baseerat_address }}/32 to group0
   shell: ip addr add {{ baseerat_address }}/32 dev group0
+
+- name: add flow rule for intercepting baseerat packets at br0
+  shell: ovs-ofctl add-flow br0 "udp,nw_dst={{ baseerat_address }},tp_dst={{ baseerat_port }} actions=output:{{ baseerat_interfaces[inventory_hostname] }}"
