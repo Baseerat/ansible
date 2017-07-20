@@ -9,3 +9,7 @@ tor_switch:
         - "table=0,priority=10,ipv4__dstAddr=0xAC108C9E actions=1" # to prme-nsx-perf-001
         - "table=0,priority=10,ipv4__dstAddr=0xAC108C9F actions=2" # to prme-nsx-perf-002
         - "table=0,priority=10,ipv4__dstAddr=0xAC108CA0 actions=3" # to prme-nsx-perf-003
+      prme-nsx-perf-006:
+        - "table=0,priority=10,ipv4__dstAddr=0xAC108C60 actions=3" # to prme-nsx-perf-007. Also, see defaults/main.yml for eths' if_indexes.
+        - "table=0,priority=10,ipv4__dstAddr=0xAC108C61 actions=1" # to prme-nsx-perf-008
+        - "table=0,priority=10,ipv4__dstAddr=0xAC108C62 actions=2" # to prme-nsx-perf-009

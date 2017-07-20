@@ -5,17 +5,14 @@
           prme-nsx-perf-001
          ,prme-nsx-perf-002
          ,prme-nsx-perf-003
-#         ,prme-nsx-perf-007
-#         ,prme-nsx-perf-008
-#         ,prme-nsx-perf-009
+         ,prme-nsx-perf-007
+         ,prme-nsx-perf-008
+         ,prme-nsx-perf-009
   gather_facts: true
 
   vars_files:
     - "vars/proxmox/main.yml"
-    # Uncomment the desired networking mode: vmware_switch, public_interface, or tor_network
-#    - "vars/proxmox/networking/public_interface.yml"
-#    - "vars/proxmox/networking/vmware_switch.yml"
-    - "vars/proxmox/networking/tor_network.yml"
+    - "vars/proxmox/network/{{ network }}.yml"
 
   roles:
     - proxmox

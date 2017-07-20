@@ -6,21 +6,34 @@ nodes:
       - eth2 # prme-nsx-perf-001
       - eth5 # prme-nsx-perf-002
       - eth8 # prme-nsx-perf-003
-    bus_ids:
-      eth2: "0000:41:00.0"
-      eth5: "0000:41:00.1"
-      eth8: "0000:44:00.0"
+    options:
+      eth2:
+        pci_id: "0000:41:00.0"
+        if_index: 1 # NOTE: for some reason this is assigned in the order of eth ids (e.g., eth2=1, eth5=2, and eth8=3).
+      eth5:
+        pci_id: "0000:41:00.1"
+        if_index: 2
+      eth8:
+        pci_id: "0000:44:00.0"
+        if_index: 3
+
 #  prme-nsx-perf-005:
 #    intrfaces: {}
-#  prme-nsx-perf-006:
-#    interfaces:
-#      - eth6 # prme-nsx-perf-007
-#      - eth1 # prme-nsx-perf-008
-#      - eth4 # prme-nsx-perf-009
-#    bus_ids:
-#      eth6: "0000:42:00.0"
-#      eth1: "0000:04:00.0"
-#      eth4: "0000:04:00.1"
+  prme-nsx-perf-006:
+    interfaces:
+      - eth8 # prme-nsx-perf-007
+      - eth1 # prme-nsx-perf-008
+      - eth4 # prme-nsx-perf-009
+    options:
+      eth8:
+        pci_id: "0000:42:00.0"
+        if_index: 3 # NOTE: for some reason this is assigned in the order of eth ids (e.g., eth8=3, eth1=1, and eth4=2).
+      eth1:
+        pci_id: "0000:04:00.0"
+        if_index: 1
+      eth4:
+        pci_id: "0000:04:00.1"
+        if_index: 2
 
 switches:
   pisces:
