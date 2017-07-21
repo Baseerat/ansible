@@ -1,0 +1,18 @@
+ ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=0,priority=100,ethernet__etherType=0x0800,ipv4__protocol=17,udp__dstPort=4789,vxlan__vni=0,inner_ethernet__etherType=0x0800,inner_ipv4__dstAddr=0xC0A8FEFE actions=resubmit(,1)"
+
+
+ ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=100 actions= \
+ set_field:0x00259096604a->ethernet__dstAddr,set_field:0xAC108C9F->ipv4__dstAddr, \
+ set_field:0x2ec645ca9f54->inner_ethernet__dstAddr,set_field:0xC0A80278->inner_ipv4__dstAddr, \
+ calc_fields_update(inner_udp__checksum,csum16,fields:inner_ipv4__srcAddr,inner_ipv4__dstAddr,0x8'0,inner_ipv4__protocol,inner_udp__length_,inner_udp__srcPort,inner_udp__dstPort,inner_udp__length_,payload), \
+ calc_fields_update(inner_ipv4__hdrChecksum,csum16,fields:inner_ipv4__version_ihl,inner_ipv4__diffserv,inner_ipv4__totalLen,inner_ipv4__identification,inner_ipv4__flags_fragOffset,inner_ipv4__ttl, \
+ inner_ipv4__protocol,inner_ipv4__srcAddr,inner_ipv4__dstAddr), \
+ calc_fields_update(ipv4__hdrChecksum,csum16,fields:ipv4__version_ihl,ipv4__diffserv,ipv4__totalLen,ipv4__identification,ipv4__flags_fragOffset,ipv4__ttl,ipv4__protocol,ipv4__srcAddr,ipv4__dstAddr), \
+ deparse,output:2, \
+ set_field:0x0025909664c2->ethernet__dstAddr,set_field:0xAC108CA0->ipv4__dstAddr, \
+ set_field:0x4255b7560e5c->inner_ethernet__dstAddr,set_field:0xC0A80378->inner_ipv4__dstAddr, \
+ calc_fields_update(inner_udp__checksum,csum16,fields:inner_ipv4__srcAddr,inner_ipv4__dstAddr,0x8'0,inner_ipv4__protocol,inner_udp__length_,inner_udp__srcPort,inner_udp__dstPort,inner_udp__length_,payload), \
+ calc_fields_update(inner_ipv4__hdrChecksum,csum16,fields:inner_ipv4__version_ihl,inner_ipv4__diffserv,inner_ipv4__totalLen,inner_ipv4__identification,inner_ipv4__flags_fragOffset,inner_ipv4__ttl, \
+ inner_ipv4__protocol,inner_ipv4__srcAddr,inner_ipv4__dstAddr), \
+ calc_fields_update(ipv4__hdrChecksum,csum16,fields:ipv4__version_ihl,ipv4__diffserv,ipv4__totalLen,ipv4__identification,ipv4__flags_fragOffset,ipv4__ttl,ipv4__protocol,ipv4__srcAddr,ipv4__dstAddr), \
+ deparse,output:3"
