@@ -1,0 +1,9 @@
+---
+
+- name: setup ovs (dpdk)
+  include: roles/proxmox_dc/tasks/networking/switches/ovs_dpdk/setup.yml
+  when: 'dc_switch.type == "ovs_dpdk"'
+
+- name: setup linux bridge
+  include: roles/proxmox_dc/tasks/networking/switches/linux_bridge/setup.yml
+  when: 'dc_switch.type == "linux_bridge"'

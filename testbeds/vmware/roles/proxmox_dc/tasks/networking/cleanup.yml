@@ -1,0 +1,9 @@
+---
+
+- name: cleanup ovs (dpdk)
+  include: roles/proxmox_dc/tasks/networking/switches/ovs_dpdk/cleanup.yml
+  when: 'dc_switch.type == "ovs_dpdk"'
+
+- name: cleanup linux bridge
+  include: roles/proxmox_dc/tasks/networking/switches/linux_bridge/cleanup.yml
+  when: 'dc_switch.type == "linux_bridge"'

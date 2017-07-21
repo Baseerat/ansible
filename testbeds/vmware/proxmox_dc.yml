@@ -1,0 +1,12 @@
+---
+
+- name: provision tor network
+  hosts:
+         prme-nsx-perf-005
+  gather_facts: true
+
+  vars_files:
+    - "vars/proxmox_dc/main.yml"
+
+  roles:
+    - proxmox_dc

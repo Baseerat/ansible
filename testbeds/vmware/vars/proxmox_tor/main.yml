@@ -4,12 +4,19 @@ tor_switch:
   type: "pisces" # Options: linux_bridge, ovs_kernel, ovs_dpdk, pisces
   pisces:
     p4_program: "baseerat.p4"
-    flow_rules:
+    flow_rules: # Also, see defaults/main.yml for eths' if_indexes.
       prme-nsx-perf-004:
         - "table=0,priority=10,ipv4__dstAddr=0xAC108C9E actions=1" # to prme-nsx-perf-001
         - "table=0,priority=10,ipv4__dstAddr=0xAC108C9F actions=2" # to prme-nsx-perf-002
         - "table=0,priority=10,ipv4__dstAddr=0xAC108CA0 actions=3" # to prme-nsx-perf-003
+        - "table=0,priority=10,ipv4__dstAddr=0xAC108C60 actions=4" # to prme-nsx-perf-007 via prme-nsx-perf-005
+        - "table=0,priority=10,ipv4__dstAddr=0xAC108C61 actions=4" # to prme-nsx-perf-008 via prme-nsx-perf-005
+        - "table=0,priority=10,ipv4__dstAddr=0xAC108C62 actions=4" # to prme-nsx-perf-009 via prme-nsx-perf-005
       prme-nsx-perf-006:
-        - "table=0,priority=10,ipv4__dstAddr=0xAC108C60 actions=3" # to prme-nsx-perf-007. Also, see defaults/main.yml for eths' if_indexes.
+        - "table=0,priority=10,ipv4__dstAddr=0xAC108C60 actions=4" # to prme-nsx-perf-007
         - "table=0,priority=10,ipv4__dstAddr=0xAC108C61 actions=1" # to prme-nsx-perf-008
         - "table=0,priority=10,ipv4__dstAddr=0xAC108C62 actions=2" # to prme-nsx-perf-009
+        - "table=0,priority=10,ipv4__dstAddr=0xAC108C9E actions=3" # to prme-nsx-perf-001 via prme-nsx-perf-005
+        - "table=0,priority=10,ipv4__dstAddr=0xAC108C9F actions=3" # to prme-nsx-perf-002 via prme-nsx-perf-005
+        - "table=0,priority=10,ipv4__dstAddr=0xAC108CA0 actions=3" # to prme-nsx-perf-003 via prme-nsx-perf-005
+

@@ -13,3 +13,7 @@ ansible-playbook proxmox.yml --tags destroy_overlay
 
 ansible-playbook proxmox_tor.yml --tags cleanup_tor_network
 ansible-playbook proxmox_tor.yml --tags clean_pisces
+
+ansible-playbook proxmox_dc.yml --tags cleanup_dc_network
+ansible-playbook proxmox_dc.yml --tags clean_ovs_dpdk
+

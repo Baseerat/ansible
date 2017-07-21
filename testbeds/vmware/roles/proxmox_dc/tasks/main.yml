@@ -1,0 +1,17 @@
+---
+
+- name: install ovs (dpdk)
+  include: roles/proxmox_dc/tasks/networking/switches/ovs_dpdk/build/setup.yml
+  tags: install_ovs_dpdk
+
+- name: clean ovs (dpdk)
+  include: roles/proxmox_dc/tasks/networking/switches/ovs_dpdk/build/cleanup.yml
+  tags: clean_ovs_dpdk
+
+- name: setup dc network
+  include: roles/proxmox_dc/tasks/networking/setup.yml
+  tags: setup_dc_network
+
+- name: cleanup dc network
+  include: roles/proxmox_dc/tasks/networking/cleanup.yml
+  tags: cleanup_dc_network

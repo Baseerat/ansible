@@ -1,0 +1,20 @@
+---
+
+nodes:
+  prme-nsx-perf-005:
+    interfaces:
+      - eth6 # prme-nsx-perf-004:eth9
+      - eth7 # prme-nsx-perf-006:eth6
+    options:
+      eth6:
+        pci_id: "0000:44:00.0"
+        if_index: 1 # NOTE: for some reason this is assigned in the order of eth ids (e.g., eth2=1, and eth7=2).
+      eth7:
+        pci_id: "0000:44:00.1"
+        if_index: 2
+
+switches:
+  ovs_dpdk:
+    debug: '' # Options: -g or ''
+    cpu_mask: '0xFFFE'
+    memory_channels: 4
