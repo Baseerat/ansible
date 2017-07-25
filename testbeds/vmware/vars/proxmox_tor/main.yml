@@ -1,7 +1,7 @@
 ---
 
 tor_switch:
-  type: "linux_bridge" # Options: linux_bridge, ovs_kernel, ovs_dpdk, pisces
+  type: "pisces" # Options: linux_bridge, ovs_kernel, ovs_dpdk, pisces
   pisces:
     p4_program: "baseerat.p4"
     flow_rules: # Also, see defaults/main.yml for eths' if_indexes.
