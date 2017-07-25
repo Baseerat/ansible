@@ -8,6 +8,14 @@
   include: roles/proxmox_tor/tasks/networking/switches/pisces/build/cleanup.yml
   tags: clean_pisces
 
+- name: install ovs_dpdk
+  include: roles/proxmox_tor/tasks/networking/switches/ovs_dpdk/build/setup.yml
+  tags: install_ovs_dpdk
+
+- name: clean ovs_dpdk
+  include: roles/proxmox_tor/tasks/networking/switches/ovs_dpdk/build/cleanup.yml
+  tags: clean_ovs_dpdk
+
 - name: setup tor network
   include: roles/proxmox_tor/tasks/networking/setup.yml
   tags: setup_tor_network

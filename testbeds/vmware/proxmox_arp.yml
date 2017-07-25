@@ -1,0 +1,26 @@
+---
+
+- name: provision proxmox VMs
+  hosts:
+          prme-nsx-perf-001
+         ,prme-nsx-perf-002
+         ,prme-nsx-perf-003
+         ,prme-nsx-perf-007
+         ,prme-nsx-perf-008
+         ,prme-nsx-perf-009
+  gather_facts: true
+
+  vars_files:
+    - "vars/proxmox/main.yml"
+    - "vars/proxmox/network/{{ network }}.yml"
+
+  tasks:
+    - name: add static arp entries
+      shell: arp -s {{ item.address }} {{ hardware_addresses[item.address] }}
+      with_items: "{{ networking[inventory_hostname]['remote_nodes'] }}"
+      tags: add_arp_entries
+    - name: remove static arp entries
+      shell: arp -d {{ item.address }}
+      with_items: "{{ networking[inventory_hostname]['remote_nodes'] }}"
+      tags: remove_arp_entries
+

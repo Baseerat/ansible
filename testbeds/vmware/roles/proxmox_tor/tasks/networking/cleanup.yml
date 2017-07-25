@@ -8,6 +8,10 @@
   include: roles/proxmox_tor/tasks/networking/switches/ovs_kernel/cleanup.yml
   when: 'tor_switch.type == "ovs_kernel"'
 
+- name: cleanup ovs (dpdk)
+  include: roles/proxmox_tor/tasks/networking/switches/ovs_dpdk/cleanup.yml
+  when: 'tor_switch.type == "ovs_dpdk"'
+
 - name: cleanup linux bridge
   include: roles/proxmox_tor/tasks/networking/switches/linux_bridge/cleanup.yml
   when: 'tor_switch.type == "linux_bridge"'

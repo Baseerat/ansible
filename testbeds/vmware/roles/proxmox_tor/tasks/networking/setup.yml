@@ -8,6 +8,11 @@
   include: roles/proxmox_tor/tasks/networking/switches/ovs_kernel/setup.yml
   when: 'tor_switch.type == "ovs_kernel"'
 
+- name: setup ovs (dpdk)
+  include: roles/proxmox_tor/tasks/networking/switches/ovs_dpdk/setup.yml
+  when: 'tor_switch.type == "ovs_dpdk"'
+
+
 - name: setup linux bridge
   include: roles/proxmox_tor/tasks/networking/switches/linux_bridge/setup.yml
   when: 'tor_switch.type == "linux_bridge"'

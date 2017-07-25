@@ -1,0 +1,20 @@
+---
+
+- name: delete flow rules
+  shell: cd /root/ovs/utilities;
+         ./ovs-ofctl del-flows br0;
+         cd /root
+
+- name: remove interfaces from br0
+  shell: cd /root/ovs/utilities;
+         ./ovs-vsctl del-port br0 dpdk{{ item }};
+         cd /root
+  with_sequence: start=0 end={{ nodes[inventory_hostname]['interfaces']|length - 1 }} format=%d
+
+- name: bring down br0
+  shell: ip link set dev br0 down
+
+- name: delete ovs bridge br0
+  shell: cd /root/ovs/utilities;
+         ./ovs-vsctl del-br br0;
+         cd /root
