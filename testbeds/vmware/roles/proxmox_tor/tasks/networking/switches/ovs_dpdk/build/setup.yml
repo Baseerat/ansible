@@ -1,0 +1,105 @@
+---
+
+#- name: install essentials #***DO NOT UNCOMMENT***
+#  include: roles/proxmox_tor/tasks/networking/switches/ovs_dpdk/build/essentials.yml
+
+- name: configure huge page tables
+  script: roles/proxmox_tor/files/hugetlbfs.sh setup 512
+
+- name: get dpdk source code
+  unarchive:
+    src: http://fast.dpdk.org/rel/dpdk-2.2.0.tar.xz
+    dest: /root
+    remote_src: True
+
+- name: patch config/common_linuxapp
+  lineinfile:
+    path: /root/dpdk-2.2.0/config/common_linuxapp
+    regexp: '^CONFIG_RTE_BUILD_COMBINE_LIBS='
+    line: 'CONFIG_RTE_BUILD_COMBINE_LIBS=y'
+
+- name: patch and build dpdk
+  shell: cd /root/dpdk-2.2.0;
+         make -j 8 install T=x86_64-native-linuxapp-gcc DESTDIR=install;
+         cd /root
+
+- name: set dpdk rte variables
+  set_fact:
+    RTE_SDK: /root/dpdk-2.2.0
+    RTE_TARGET: x86_64-native-linuxapp-gcc
+
+- name: clone ovs source code
+  git:
+    repo: https://github.com/Baseerat/ovs.git
+    dest: /root/ovs
+    version: master
+
+- name: build ovs
+  shell: cd /root/ovs;
+         export RTE_SDK={{ RTE_SDK }};
+         export RTE_TARGET={{ RTE_TARGET }};
+         export DPDK_DIR=$RTE_SDK;
+         export DPDK_BUILD=$RTE_SDK/$RTE_TARGET;
+         ./boot.sh;
+         ./configure --with-dpdk=$DPDK_BUILD CFLAGS="{{ switches.ovs_dpdk.cflags }}";
+         make clean;
+         make -j 8;
+         cd /root
+
+- name: modprobe uio
+  modprobe:
+    name: uio
+    state: present
+
+- name: install igb_uio module
+  shell: insmod {{ RTE_SDK }}/{{ RTE_TARGET }}/kmod/igb_uio.ko
+
+- name: install rte_kni module
+  shell: insmod {{ RTE_SDK }}/{{ RTE_TARGET }}/kmod/rte_kni.ko "lo_mode=lo_mode_ring"
+
+- name: add interfaces to dpdk
+  shell: ip link set dev {{ item }} down;
+         {{ RTE_SDK }}/tools/dpdk_nic_bind.py -b igb_uio {{ item }}
+  with_items: "{{ nodes[inventory_hostname]['interfaces'] }}"
+
+- name: set directory variables
+  set_fact:
+    OVS_LOCAL_ETC_DIR: /usr/local/etc/openvswitch
+    OVS_VAR_RUN_DIR: /usr/local/var/run/openvswitch
+
+- name: ensure {{ OVS_LOCAL_ETC_DIR }} directory is present
+  file:
+    path: "{{ OVS_LOCAL_ETC_DIR }}"
+    state: directory
+
+- name: ensure {{ OVS_VAR_RUN_DIR }} directory is present
+  file:
+    path: "{{ OVS_VAR_RUN_DIR }}"
+    state: directory
+
+- name: initialize ovsdb
+  shell: cd /root/ovs/ovsdb;
+         ./ovsdb-tool create {{ OVS_LOCAL_ETC_DIR }}/conf.db ../vswitchd/vswitch.ovsschema;
+         cd /root
+
+- name: launch ovsdb-server
+  shell: cd /root/ovs/ovsdb;
+         nohup ./ovsdb-server --remote=punix:{{ OVS_VAR_RUN_DIR }}/db.sock \
+                              --remote=db:Open_vSwitch,Open_vSwitch,manager_options --pidfile &
+         cd /root
+
+- name: launch ovs-vswitchd
+  shell: cd /root/ovs/vswitchd;
+         nohup ./ovs-vswitchd --dpdk -c 0x1 -n {{ switches.ovs_dpdk.memory_channels }}
+                              -- unix:{{ OVS_VAR_RUN_DIR }}/db.sock --pidfile &
+         cd /root
+
+- name: set pmd cpu mask
+  shell: cd /root/ovs/utilities;
+         ./ovs-vsctl set Open_vSwitch . other_config:pmd-cpu-mask={{ switches.ovs_dpdk.cpu_mask }};
+         cd /root
+
+- name: initialize ovs-vsctl
+  shell: cd /root/ovs/utilities;
+         ./ovs-vsctl --no-wait init;
+         cd /root
