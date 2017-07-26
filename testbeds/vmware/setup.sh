@@ -7,8 +7,6 @@ ansible-playbook proxmox_tor.yml --tags install_pisces
 #ansible-playbook proxmox_tor.yml --tags install_ovs_dpdk
 ansible-playbook proxmox_tor.yml --tags setup_tor_network
 
-#ansible-playbook proxmox_arp.yml --tags add_arp_entries
-
 #ansible-playbook proxmox.yml --tags add_template
 ansible-playbook proxmox.yml --tags create_overlay
 ansible-playbook proxmox.yml --tags create_vms

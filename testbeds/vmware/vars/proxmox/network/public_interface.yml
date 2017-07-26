@@ -1,9 +1,5 @@
 ---
 
-# DON"T USE THIS!
-
-hardware_addresses: []
-
 networking:
   prme-nsx-perf-001:
     remote_nodes:
