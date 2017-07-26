@@ -58,12 +58,12 @@ nodes:
 
 switches:
   pisces:
-    cflags: '-O2 -Wno-cast-align'
+    cflags: '-Ofast -march=native -Wno-cast-align'
     cpu_mask: '0xFFF0'
     memory_channels: 4
     p4_programs:
       base_dir: files
   ovs_dpdk:
-    cflags: '-O2 -Wno-cast-align' # Options: -g or ''
+    cflags: '-Ofast -march=native -Wno-cast-align' # Options: -g or ''
     cpu_mask: '0xFFF0'
     memory_channels: 4
