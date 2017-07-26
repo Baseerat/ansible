@@ -31,6 +31,6 @@ nodes:
 
 switches:
   ovs_dpdk:
-    debug: '' # Options: -g or ''
+    cflags: '-O2 -Wno-cast-align' # Options: -g or ''
     cpu_mask: '0xFFF0'
     memory_channels: 4

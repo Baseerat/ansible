@@ -1,7 +1,7 @@
 ---
 
 dc_switch:
-  type: "ovs_dpdk" # Options: linux_bridge, ovs_dpdk
+  type: "linux_bridge" # Options: linux_bridge, ovs_dpdk
   ovs_dpdk:
     flow_rules: # Also, see defaults/main.yml for eths' if_indexes.
       prme-nsx-perf-005:
