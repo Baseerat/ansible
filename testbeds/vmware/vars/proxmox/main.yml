@@ -4,7 +4,7 @@ nodes:
   prme-nsx-perf-001:
     prme_id: 1
 #    vm_ids: [120, 121, 122 ]
-    vm_ids: [120, 121, ]
+    vm_ids: [120, ]
   prme-nsx-perf-002:
     prme_id: 2
 #    vm_ids: [120, 121, ]
@@ -26,4 +26,4 @@ nodes:
 #    vm_ids: [120, 121, ]
     vm_ids: [120, ]
 
-network: tor_network # Options: tor_network, vmware_switch
+network: vmware_switch # Options: tor_network, vmware_switch
