@@ -111,3 +111,9 @@ apps/vmware/ansible.cfg
 apps/vmware/inventory.ini
 apps/vmware/vars/kubernetes/
 apps/vmware/keys
+
+benchmarks/vmware/pubsub/ssh_config
+benchmarks/vmware/pubsub/ansible.cfg
+benchmarks/vmware/pubsub/inventory.ini
+benchmarks/vmware/pubsub/vars/kubernetes/
+benchmarks/vmware/pubsub/keys

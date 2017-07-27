@@ -1,0 +1,6 @@
+---
+
+pubsub_topic: "mqtt"
+pubsub_message: "Hello MQTT"
+
+pub_cmds: ""

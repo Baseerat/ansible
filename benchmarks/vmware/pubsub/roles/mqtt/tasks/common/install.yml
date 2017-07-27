@@ -1,0 +1,31 @@
+---
+
+- name: add mosquitto repository
+  shell: apt-add-repository ppa:mosquitto-dev/mosquitto-ppa
+  become: true
+
+- name: update cache
+  become: true
+  apt:
+    update_cache: yes
+
+- name: install mosquitto
+  become: true
+  apt:
+    name: mosquitto
+  when: '"broker" in pubsub_nodes[inventory_hostname]["type"]'
+
+- name: install mosquitto-clients
+  become: true
+  apt:
+    name: mosquitto-clients
+
+- name: install python-pip
+  become: true
+  apt:
+    name: python-pip
+
+- name: install paho-mqtt
+  become: true
+  pip:
+    name: paho-mqtt

@@ -1,0 +1,12 @@
+---
+
+- name: provision pubsub
+  hosts: prme*k8s-node-*
+  gather_facts: false
+
+  vars_files:
+    - "vars/kubernetes/defaults.yml"
+    - "vars/mqtt.yml"
+
+  roles:
+    - mqtt
