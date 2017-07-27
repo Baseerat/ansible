@@ -22,4 +22,8 @@ arp -s 172.16.140.98  00:25:90:96:63:bf
 
 ------------------------------------------------------------------------------------------------------------------------
 
+qm list # gives kwm pid
+
+taskset -a -pc 9 kvm_pid # assigns kvm_pid and all child threads to core 9
+
 
