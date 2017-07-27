@@ -1,7 +1,7 @@
 #!/bin/sh
 
-#ansible-playbook mqtt.yml --tags remove_common
-#ansible-playbook mqtt.yml --tags cleanup_mqtt
+#ansible-playbook mqtt_vms.yml --tags remove_common
+#ansible-playbook mqtt_vms.yml --tags cleanup_mqtt
 
 rm -f ansible.cfg
 rm -f inventory.ini

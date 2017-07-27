@@ -6,7 +6,7 @@
 
   vars_files:
     - "vars/kubernetes/defaults.yml"
-    - "vars/mqtt.yml"
+    - "vars/mqtt_vms.yml"
 
   roles:
-    - mqtt
+    - mqtt_vms

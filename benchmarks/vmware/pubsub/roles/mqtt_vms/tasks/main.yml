@@ -1,0 +1,17 @@
+---
+
+- name: install common utilities
+  include: roles/mqtt_vms/tasks/common/install.yml
+  tags: install_common
+
+- name: remove common utilities
+  include: roles/mqtt_vms/tasks/common/remove.yml
+  tags: remove_common
+
+- name: setup mqtt
+  include: roles/mqtt_vms/tasks/setup.yml
+  tags: setup_mqtt
+
+- name: cleanup mqtt
+  include: roles/mqtt_vms/tasks/cleanup.yml
+  tags: cleanup_mqtt

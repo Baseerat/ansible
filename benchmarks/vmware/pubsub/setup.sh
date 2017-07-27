@@ -7,5 +7,5 @@ cp -rf ../../../testbeds/vmware/keys ./keys
 mkdir ./vars/kubernetes
 cp -f ../../../testbeds/vmware/roles/kubernetes/defaults/main.yml ./vars/kubernetes/defaults.yml
 
-#ansible-playbook mqtt.yml --tags install_common
-#ansible-playbook mqtt.yml --tags setup_mqtt
+#ansible-playbook mqtt_vms.yml --tags install_common
+#ansible-playbook mqtt_vms.yml --tags setup_mqtt
