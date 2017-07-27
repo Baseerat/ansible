@@ -2,12 +2,12 @@
 
 - name: destroy subscribers
   shell: pkill -u root -f mosquitto_sub
-  when: '"subscriber" in pubsub_nodes[inventory_hostname]["type"]'
+  when: '"subscriber" in pubsub_nodes[inventory_hostname]["type"] and pubsub_nodes[inventory_hostname].enable'
   failed_when: false
   become: true
 
 - name: destroy publishers
   shell: pkill -u root -f mosquitto_pub
-  when: '"publisher" in pubsub_nodes[inventory_hostname]["type"]'
+  when: '"publisher" in pubsub_nodes[inventory_hostname]["type"] and pubsub_nodes[inventory_hostname].enable'
   failed_when: false
   become: true

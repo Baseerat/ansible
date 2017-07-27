@@ -3,7 +3,7 @@
 - name: launch subscribers
   shell: mosquitto_sub -h {{ k8s_node_address_prefix }}{{ pubsub_nodes[inventory_hostname].broker.prme_id }}.{{ pubsub_nodes[inventory_hostname].broker.vm_id }} -t "{{ pubsub_topic }}" -v > /dev/null &
   with_sequence: start=0 end={{ pubsub_nodes[inventory_hostname].count - 1 }} format=%d
-  when: '"subscriber" in pubsub_nodes[inventory_hostname]["type"]'
+  when: '"subscriber" in pubsub_nodes[inventory_hostname]["type"] and pubsub_nodes[inventory_hostname].enable'
   become: true
 
 - name: launch publishers
@@ -12,5 +12,5 @@
          {{ pub_cmds }}
          done &
   with_sequence: start=0 end={{ pubsub_nodes[inventory_hostname].count - 1 }} format=%d
-  when: '"publisher" in pubsub_nodes[inventory_hostname]["type"]'
+  when: '"publisher" in pubsub_nodes[inventory_hostname]["type"] and pubsub_nodes[inventory_hostname].enable'
   become: true

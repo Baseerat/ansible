@@ -1,17 +1,17 @@
 ---
 
-- name: remove paho-mqtt
-  become: true
-  pip:
-    name: paho-mqtt
-    state: absent
-
-- name: remove python-pip
-  become: true
-  apt:
-    name: python-pip
-    purge: yes
-    state: absent
+#- name: remove paho-mqtt
+#  become: true
+#  pip:
+#    name: paho-mqtt
+#    state: absent
+#
+#- name: remove python-pip
+#  become: true
+#  apt:
+#    name: python-pip
+#    purge: yes
+#    state: absent
 
 - name: remove mosquitto-clients
   become: true
@@ -26,7 +26,7 @@
     name: mosquitto
     purge: yes
     state: absent
-  when: '"broker" in pubsub_nodes[inventory_hostname]["type"]'
+  when: '"broker" in pubsub_nodes[inventory_hostname]["type"] and pubsub_nodes[inventory_hostname].enable'
 
 - name: remove mosquitto repository
   shell: apt-add-repository --remove ppa:mosquitto-dev/mosquitto-ppa

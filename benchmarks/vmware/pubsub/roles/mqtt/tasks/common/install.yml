@@ -13,19 +13,19 @@
   become: true
   apt:
     name: mosquitto
-  when: '"broker" in pubsub_nodes[inventory_hostname]["type"]'
+  when: '"broker" in pubsub_nodes[inventory_hostname]["type"] and pubsub_nodes[inventory_hostname].enable'
 
 - name: install mosquitto-clients
   become: true
   apt:
     name: mosquitto-clients
 
-- name: install python-pip
-  become: true
-  apt:
-    name: python-pip
-
-- name: install paho-mqtt
-  become: true
-  pip:
-    name: paho-mqtt
+#- name: install python-pip
+#  become: true
+#  apt:
+#    name: python-pip
+#
+#- name: install paho-mqtt
+#  become: true
+#  pip:
+#    name: paho-mqtt
