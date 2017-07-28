@@ -4,46 +4,51 @@ pubsub_broker:
   prme_id: 2
   vm_id: 120
 
+pub_cmds: "" # e.g., sleep 1;
+pub_count_per_node: 4
+
+sub_count_per_node: 4
+
 pubsub_nodes:
   prme1-k8s-node-120:
     type: "publisher"
     enable: true
-    count: 1
+    count: "{{ pub_count_per_node}}"
     broker: "{{ pubsub_broker }}"
   prme1-k8s-node-121:
     type: "publisher"
     enable: true
-    count: 1
+    count: "{{ pub_count_per_node}}"
     broker: "{{ pubsub_broker }}"
   prme1-k8s-node-122:
     type: "publisher"
     enable: true
-    count: 1
+    count: "{{ pub_count_per_node}}"
     broker: "{{ pubsub_broker }}"
   prme1-k8s-node-123:
     type: "publisher"
     enable: true
-    count: 1
+    count: "{{ pub_count_per_node}}"
     broker: "{{ pubsub_broker }}"
   prme1-k8s-node-124:
     type: "publisher"
     enable: true
-    count: 1
+    count: "{{ pub_count_per_node}}"
     broker: "{{ pubsub_broker }}"
   prme1-k8s-node-125:
     type: "publisher"
     enable: true
-    count: 1
+    count: "{{ pub_count_per_node}}"
     broker: "{{ pubsub_broker }}"
   prme1-k8s-node-126:
     type: "publisher"
     enable: true
-    count: 1
+    count: "{{ pub_count_per_node}}"
     broker: "{{ pubsub_broker }}"
   prme1-k8s-node-127:
     type: "publisher"
     enable: true
-    count: 1
+    count: "{{ pub_count_per_node}}"
     broker: "{{ pubsub_broker }}"
 
   prme2-k8s-node-120:
@@ -54,40 +59,40 @@ pubsub_nodes:
   prme3-k8s-node-120:
     type: "subscriber"
     enable: true
-    count: 2
+    count: "{{ sub_count_per_node}}"
     broker: "{{ pubsub_broker }}"
   prme3-k8s-node-121:
     type: "subscriber"
     enable: true
-    count: 2
+    count: "{{ sub_count_per_node}}"
     broker: "{{ pubsub_broker }}"
   prme3-k8s-node-122:
     type: "subscriber"
     enable: true
-    count: 2
+    count: "{{ sub_count_per_node}}"
     broker: "{{ pubsub_broker }}"
   prme3-k8s-node-123:
     type: "subscriber"
     enable: true
-    count: 2
+    count: "{{ sub_count_per_node}}"
     broker: "{{ pubsub_broker }}"
   prme3-k8s-node-124:
     type: "subscriber"
     enable: true
-    count: 2
+    count: "{{ sub_count_per_node}}"
     broker: "{{ pubsub_broker }}"
   prme3-k8s-node-125:
     type: "subscriber"
     enable: true
-    count: 2
+    count: "{{ sub_count_per_node}}"
     broker: "{{ pubsub_broker }}"
   prme3-k8s-node-126:
     type: "subscriber"
     enable: true
-    count: 2
+    count: "{{ sub_count_per_node}}"
     broker: "{{ pubsub_broker }}"
   prme3-k8s-node-127:
     type: "subscriber"
     enable: true
-    count: 2
+    count: "{{ sub_count_per_node}}"
     broker: "{{ pubsub_broker }}"

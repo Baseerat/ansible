@@ -1,0 +1,341 @@
+---
+
+networking:
+  prme1-k8s-node-120:
+    remote_nodes:
+      - prme_id: 1
+        vm_id: 121
+      - prme_id: 1
+        vm_id: 122
+      - prme_id: 2
+        vm_id: 120
+      - prme_id: 2
+        vm_id: 121
+      - prme_id: 3
+        vm_id: 120
+      - prme_id: 3
+        vm_id: 121
+#      - prme_id: 7
+#        vm_id: 120
+#      - prme_id: 7
+#        vm_id: 121
+#      - prme_id: 8
+#        vm_id: 120
+#      - prme_id: 8
+#        vm_id: 121
+#      - prme_id: 9
+#        vm_id: 120
+#      - prme_id: 9
+#        vm_id: 121
+  prme1-k8s-node-121:
+    remote_nodes:
+      - prme_id: 1
+        vm_id: 120
+      - prme_id: 1
+        vm_id: 122
+      - prme_id: 2
+        vm_id: 120
+      - prme_id: 2
+        vm_id: 121
+      - prme_id: 3
+        vm_id: 120
+      - prme_id: 3
+        vm_id: 121
+#      - prme_id: 7
+#        vm_id: 120
+#      - prme_id: 7
+#        vm_id: 121
+#      - prme_id: 8
+#        vm_id: 120
+#      - prme_id: 8
+#        vm_id: 121
+#      - prme_id: 9
+#        vm_id: 120
+#      - prme_id: 9
+#        vm_id: 121
+  prme1-k8s-node-122:
+    remote_nodes:
+      - prme_id: 1
+        vm_id: 120
+      - prme_id: 1
+        vm_id: 121
+      - prme_id: 2
+        vm_id: 120
+      - prme_id: 2
+        vm_id: 121
+      - prme_id: 3
+        vm_id: 120
+      - prme_id: 3
+        vm_id: 121
+#      - prme_id: 7
+#        vm_id: 120
+#      - prme_id: 7
+#        vm_id: 121
+#      - prme_id: 8
+#        vm_id: 120
+#      - prme_id: 8
+#        vm_id: 121
+#      - prme_id: 9
+#        vm_id: 120
+#      - prme_id: 9
+#        vm_id: 121
+  prme2-k8s-node-120:
+    remote_nodes:
+      - prme_id: 1
+        vm_id: 120
+      - prme_id: 1
+        vm_id: 121
+      - prme_id: 1
+        vm_id: 122
+      - prme_id: 2
+        vm_id: 121
+      - prme_id: 3
+        vm_id: 120
+      - prme_id: 3
+        vm_id: 121
+#      - prme_id: 7
+#        vm_id: 120
+#      - prme_id: 7
+#        vm_id: 121
+#      - prme_id: 8
+#        vm_id: 120
+#      - prme_id: 8
+#        vm_id: 121
+#      - prme_id: 9
+#        vm_id: 120
+#      - prme_id: 9
+#        vm_id: 121
+  prme2-k8s-node-121:
+    remote_nodes:
+      - prme_id: 1
+        vm_id: 120
+      - prme_id: 1
+        vm_id: 121
+      - prme_id: 1
+        vm_id: 122
+      - prme_id: 2
+        vm_id: 120
+      - prme_id: 3
+        vm_id: 120
+      - prme_id: 3
+        vm_id: 121
+#      - prme_id: 7
+#        vm_id: 120
+#      - prme_id: 7
+#        vm_id: 121
+#      - prme_id: 8
+#        vm_id: 120
+#      - prme_id: 8
+#        vm_id: 121
+#      - prme_id: 9
+#        vm_id: 120
+#      - prme_id: 9
+#        vm_id: 121
+  prme3-k8s-node-120:
+    remote_nodes:
+      - prme_id: 1
+        vm_id: 120
+      - prme_id: 1
+        vm_id: 121
+      - prme_id: 1
+        vm_id: 122
+      - prme_id: 2
+        vm_id: 120
+      - prme_id: 2
+        vm_id: 121
+      - prme_id: 3
+        vm_id: 121
+#      - prme_id: 7
+#        vm_id: 120
+#      - prme_id: 7
+#        vm_id: 121
+#      - prme_id: 8
+#        vm_id: 120
+#      - prme_id: 8
+#        vm_id: 121
+#      - prme_id: 9
+#        vm_id: 120
+#      - prme_id: 9
+#        vm_id: 121
+  prme3-k8s-node-121:
+    remote_nodes:
+      - prme_id: 1
+        vm_id: 120
+      - prme_id: 1
+        vm_id: 121
+      - prme_id: 1
+        vm_id: 122
+      - prme_id: 2
+        vm_id: 120
+      - prme_id: 2
+        vm_id: 121
+      - prme_id: 3
+        vm_id: 120
+#      - prme_id: 7
+#        vm_id: 120
+#      - prme_id: 7
+#        vm_id: 121
+#      - prme_id: 8
+#        vm_id: 120
+#      - prme_id: 8
+#        vm_id: 121
+#      - prme_id: 9
+#        vm_id: 120
+#      - prme_id: 9
+#        vm_id: 121
+#  prme7-k8s-node-120:
+#    remote_nodes:
+#      - prme_id: 1
+#        vm_id: 120
+#      - prme_id: 1
+#        vm_id: 121
+#      - prme_id: 1
+#        vm_id: 122
+#      - prme_id: 2
+#        vm_id: 120
+#      - prme_id: 2
+#        vm_id: 121
+#      - prme_id: 3
+#        vm_id: 120
+#      - prme_id: 3
+#        vm_id: 121
+#      - prme_id: 7
+#        vm_id: 121
+#      - prme_id: 8
+#        vm_id: 120
+#      - prme_id: 8
+#        vm_id: 121
+#      - prme_id: 9
+#        vm_id: 120
+#      - prme_id: 9
+#        vm_id: 121
+#  prme7-k8s-node-121:
+#    remote_nodes:
+#      - prme_id: 1
+#        vm_id: 120
+#      - prme_id: 1
+#        vm_id: 121
+#      - prme_id: 1
+#        vm_id: 122
+#      - prme_id: 2
+#        vm_id: 120
+#      - prme_id: 2
+#        vm_id: 121
+#      - prme_id: 3
+#        vm_id: 120
+#      - prme_id: 3
+#        vm_id: 121
+#      - prme_id: 7
+#        vm_id: 120
+#      - prme_id: 8
+#        vm_id: 120
+#      - prme_id: 8
+#        vm_id: 121
+#      - prme_id: 9
+#        vm_id: 120
+#      - prme_id: 9
+#        vm_id: 121
+#  prme8-k8s-node-120:
+#    remote_nodes:
+#      - prme_id: 1
+#        vm_id: 120
+#      - prme_id: 1
+#        vm_id: 121
+#      - prme_id: 1
+#        vm_id: 122
+#      - prme_id: 2
+#        vm_id: 120
+#      - prme_id: 2
+#        vm_id: 121
+#      - prme_id: 3
+#        vm_id: 120
+#      - prme_id: 3
+#        vm_id: 121
+#      - prme_id: 7
+#        vm_id: 120
+#      - prme_id: 7
+#        vm_id: 121
+#      - prme_id: 8
+#        vm_id: 121
+#      - prme_id: 9
+#        vm_id: 120
+#      - prme_id: 9
+#        vm_id: 121
+#  prme8-k8s-node-121:
+#    remote_nodes:
+#      - prme_id: 1
+#        vm_id: 120
+#      - prme_id: 1
+#        vm_id: 121
+#      - prme_id: 1
+#        vm_id: 122
+#      - prme_id: 2
+#        vm_id: 120
+#      - prme_id: 2
+#        vm_id: 121
+#      - prme_id: 3
+#        vm_id: 120
+#      - prme_id: 3
+#        vm_id: 121
+#      - prme_id: 7
+#        vm_id: 120
+#      - prme_id: 7
+#        vm_id: 121
+#      - prme_id: 8
+#        vm_id: 120
+#      - prme_id: 9
+#        vm_id: 120
+#      - prme_id: 9
+#        vm_id: 121
+#  prme9-k8s-node-120:
+#    remote_nodes:
+#      - prme_id: 1
+#        vm_id: 120
+#      - prme_id: 1
+#        vm_id: 121
+#      - prme_id: 1
+#        vm_id: 122
+#      - prme_id: 2
+#        vm_id: 120
+#      - prme_id: 2
+#        vm_id: 121
+#      - prme_id: 3
+#        vm_id: 120
+#      - prme_id: 3
+#        vm_id: 121
+#      - prme_id: 7
+#        vm_id: 120
+#      - prme_id: 7
+#        vm_id: 121
+#      - prme_id: 8
+#        vm_id: 120
+#      - prme_id: 8
+#        vm_id: 121
+#      - prme_id: 9
+#        vm_id: 121
+#  prme9-k8s-node-121:
+#    remote_nodes:
+#      - prme_id: 1
+#        vm_id: 120
+#      - prme_id: 1
+#        vm_id: 121
+#      - prme_id: 1
+#        vm_id: 122
+#      - prme_id: 2
+#        vm_id: 120
+#      - prme_id: 2
+#        vm_id: 121
+#      - prme_id: 3
+#        vm_id: 120
+#      - prme_id: 3
+#        vm_id: 121
+#      - prme_id: 7
+#        vm_id: 120
+#      - prme_id: 7
+#        vm_id: 121
+#      - prme_id: 8
+#        vm_id: 120
+#      - prme_id: 8
+#        vm_id: 121
+#      - prme_id: 9
+#        vm_id: 120
