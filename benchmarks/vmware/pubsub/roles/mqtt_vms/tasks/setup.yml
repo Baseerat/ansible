@@ -1,14 +1,14 @@
 ---
 
 - name: launch subscribers
-  shell: mosquitto_sub -h {{ k8s_node_address_prefix }}{{ pubsub_nodes[inventory_hostname].broker.prme_id }}.{{ pubsub_nodes[inventory_hostname].broker.vm_id }} -t "{{ pubsub_topic }}" -v > /dev/null &
+  shell: mosquitto_sub -h {{ proxmox_vm_network_address_prefix }}{{ pubsub_nodes[inventory_hostname].broker.prme_id }}.{{ pubsub_nodes[inventory_hostname].broker.vm_id }} -t "{{ pubsub_topic }}" -v > /dev/null &
   with_sequence: start=0 end={{ pubsub_nodes[inventory_hostname].count - 1 }} format=%d
   when: '"subscriber" in pubsub_nodes[inventory_hostname]["type"] and pubsub_nodes[inventory_hostname].enable'
   become: true
 
 - name: launch publishers
   shell: while :; do
-         mosquitto_pub -h {{ k8s_node_address_prefix }}{{ pubsub_nodes[inventory_hostname].broker.prme_id }}.{{ pubsub_nodes[inventory_hostname].broker.vm_id }} -t "{{ pubsub_topic }}" -m "{{ pubsub_message }}";
+         mosquitto_pub -h {{ proxmox_vm_network_address_prefix }}{{ pubsub_nodes[inventory_hostname].broker.prme_id }}.{{ pubsub_nodes[inventory_hostname].broker.vm_id }} -t "{{ pubsub_topic }}" -m "{{ pubsub_message }}";
          {{ pub_cmds }}
          done &
   with_sequence: start=0 end={{ pubsub_nodes[inventory_hostname].count - 1 }} format=%d

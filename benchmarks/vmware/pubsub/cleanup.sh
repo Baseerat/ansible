@@ -7,4 +7,4 @@ rm -f ansible.cfg
 rm -f inventory.ini
 rm -f ssh_config
 rm -rf ./keys
-rm -rf ./vars/kubernetes
+rm -rf ./vars/proxmox
