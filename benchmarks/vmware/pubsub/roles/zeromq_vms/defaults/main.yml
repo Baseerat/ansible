@@ -1,0 +1,5 @@
+---
+
+pubsub_topic: "zeromq"
+pubsub_message: "0xABCD"
+

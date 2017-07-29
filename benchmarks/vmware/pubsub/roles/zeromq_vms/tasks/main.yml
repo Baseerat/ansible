@@ -1,0 +1,9 @@
+---
+
+- name: install common utilities
+  include: roles/zeromq_vms/tasks/common/install.yml
+  tags: install_common
+
+- name: remove common utilities
+  include: roles/zeromq_vms/tasks/common/remove.yml
+  tags: remove_common
