@@ -32,6 +32,13 @@
   shell: apt-add-repository --remove ppa:mosquitto-dev/mosquitto-ppa
   become: true
 
+- name: remove htop
+  become: true
+  apt:
+    name: htop
+    purge: yes
+    state: absent
+
 - name: update cache
   become: true
   apt:

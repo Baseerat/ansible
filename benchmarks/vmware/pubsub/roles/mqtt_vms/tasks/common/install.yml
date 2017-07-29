@@ -9,6 +9,11 @@
   apt:
     update_cache: yes
 
+- name: install htop
+  become: true
+  apt:
+    name: htop
+
 - name: install mosquitto
   become: true
   apt:

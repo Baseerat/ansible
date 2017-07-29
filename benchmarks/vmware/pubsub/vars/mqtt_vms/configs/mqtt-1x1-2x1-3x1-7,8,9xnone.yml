@@ -1,0 +1,28 @@
+---
+
+pubsub_broker:
+  prme_id: 2
+  vm_id: 120
+
+pub_cmds: "" # e.g., sleep 1;
+pub_count_per_node: 4
+
+sub_count_per_node: 4
+
+pubsub_nodes:
+  prme1-k8s-node-120:
+    type: "publisher"
+    enable: true
+    count: "{{ pub_count_per_node}}"
+    broker: "{{ pubsub_broker }}"
+
+  prme2-k8s-node-120:
+    type: "broker"
+    enable: true
+    broker: "{{ pubsub_broker }}"
+
+  prme3-k8s-node-120:
+    type: "subscriber"
+    enable: true
+    count: "{{ sub_count_per_node}}"
+    broker: "{{ pubsub_broker }}"
