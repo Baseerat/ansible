@@ -1,0 +1,21 @@
+---
+
+nodes:
+  prme-nsx-perf-001:
+    prme_id: 1
+    vm_ids: [120, 121, 122, 123, 124, 125, 126, 127, ]
+  prme-nsx-perf-002:
+    prme_id: 2
+    vm_ids: [120, ]
+  prme-nsx-perf-003:
+    prme_id: 3
+    vm_ids: [120, 121, 122, 123, 124, 125, 126, 127, ]
+  prme-nsx-perf-007:
+    prme_id: 7
+    vm_ids: [ ]
+  prme-nsx-perf-008:
+    prme_id: 8
+    vm_ids: [ ]
+  prme-nsx-perf-009:
+    prme_id: 9
+    vm_ids: [ ]
