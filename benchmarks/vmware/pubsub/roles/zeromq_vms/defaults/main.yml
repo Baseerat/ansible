@@ -3,3 +3,4 @@
 pubsub_topic: "zeromq"
 pubsub_message: "0xABCD"
 
+pubsub_sub_port_base: 5550

@@ -1,0 +1,61 @@
+---
+
+- name: upload dish.cpp to subscribers
+  template:
+    src: roles/zeromq_vms/templates/dish.cpp.j2
+    dest: /home/mshahbaz/libzmq/tests/dish_{{ port }}.cpp
+  vars:
+    port: "{{ pubsub_sub_port_base|int + item|int }}"
+  with_sequence: start=0 end={{ pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
+  when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: build dish_*.cpp
+  shell: cd /home/mshahbaz/libzmq/tests;
+         gcc dish_{{ port }}.cpp -o dish_{{ port }} -lzmq -O2;
+         cd ~/
+  vars:
+    port: "{{ pubsub_sub_port_base|int + item|int }}"
+  with_sequence: start=0 end={{ pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
+  when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: upload radio.cpp to publishers
+  template:
+    src: roles/zeromq_vms/templates/radio.cpp.j2
+    dest: /home/mshahbaz/libzmq/tests/radio.cpp
+  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: add connections to radio.cpp
+  include: roles/zeromq_vms/tasks/add_connection.yml sub="{{ _sub }}"
+  with_items: "{{ pubsub_nodes[inventory_hostname].subs }}"
+  loop_control:
+    loop_var: _sub
+  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: build radio.cpp
+  shell: cd /home/mshahbaz/libzmq/tests;
+         gcc radio.cpp -o radio -lzmq -O2;
+         cd ~/
+  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: launch dish_*
+  shell: cd /home/mshahbaz/libzmq/tests;
+         ./dish_{{ port }} &
+         cd ~/
+  vars:
+    port: "{{ pubsub_sub_port_base|int + item|int }}"
+  with_sequence: start=0 end={{ pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
+  when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: launch radio
+  shell: cd /home/mshahbaz/libzmq/tests;
+         ./radio &
+         cd ~/
+  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  become: true
+

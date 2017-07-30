@@ -13,6 +13,13 @@
     path: /home/mshahbaz/libzmq
     state: absent
 
+- name: remove htop
+  become: true
+  apt:
+    name: htop
+    purge: yes
+    state: absent
+
 - name: remove git
   become: true
   apt:

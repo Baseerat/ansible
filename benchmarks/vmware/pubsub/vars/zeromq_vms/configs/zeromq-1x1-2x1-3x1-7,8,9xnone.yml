@@ -1,0 +1,30 @@
+---
+
+pub:
+  prme_id: 1
+  vm_id: 120
+
+pub_cmds: 'msleep (1);' # e.g. msleep (1);
+
+sub_count_per_node: 32
+
+pubsub_nodes:
+  prme1-k8s-node-120:
+    type: "publisher"
+    subs:
+      - prme_id: 2
+        vm_id: 120
+        count: "{{ sub_count_per_node }}"
+      - prme_id: 3
+        vm_id: 120
+        count: "{{ sub_count_per_node }}"
+
+  prme2-k8s-node-120:
+    type: "subscriber"
+    pub: "{{ pub }}"
+    count: "{{ sub_count_per_node }}"
+
+  prme3-k8s-node-120:
+    type: "subscriber"
+    pub: "{{ pub }}"
+    count: "{{ sub_count_per_node }}"

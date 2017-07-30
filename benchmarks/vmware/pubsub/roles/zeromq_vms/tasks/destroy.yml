@@ -1,0 +1,27 @@
+---
+
+- name: destory radio
+  shell: pkill -u root -f radio
+  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  failed_when: false
+  become: true
+
+- name: remove radio files and executables
+  shell: cd /home/mshahbaz/libzmq/tests;
+         rm -f radio*;
+         cd ~/
+  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: destory dish_*
+  shell: pkill -u root -f dish_
+  when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
+  failed_when: false
+  become: true
+
+- name: remove dish_* files and executables
+  shell: cd /home/mshahbaz/libzmq/tests;
+         rm -f dish_*;
+         cd ~/
+  when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
+  become: true
