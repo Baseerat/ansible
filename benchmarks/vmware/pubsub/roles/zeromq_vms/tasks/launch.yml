@@ -62,6 +62,9 @@
   when: '"publisher" in pubsub_nodes[inventory_hostname].type'
   become: true
 
+- pause:
+    seconds: 5
+
 - name: log radio stats
   shell: sh /tmp/log_radio_stats.sh &
   when: '"publisher" in pubsub_nodes[inventory_hostname].type'
