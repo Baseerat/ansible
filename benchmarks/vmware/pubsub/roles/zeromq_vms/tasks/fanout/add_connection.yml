@@ -7,6 +7,6 @@
     insertafter: '__insert_here__'
     state: present
   vars:
-    ip: "{{ proxmox_vm_network_address_prefix }}{{ sub.prme_id }}.{{ sub.vm_id }}"
+    ip: "{{ proxmox_vm_network_address_prefix }}{{ __sub.prme_id }}.{{ __sub.vm_id }}"
     port: "{{ pubsub_sub_port_base|int + item|int }}"
-  with_sequence: start=0 end={{ sub.count|int - 1 }} format=%d
+  with_sequence: start=0 end={{ __sub.count|int - 1 }} format=%d
