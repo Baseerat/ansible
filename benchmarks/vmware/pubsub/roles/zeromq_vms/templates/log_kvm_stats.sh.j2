@@ -2,11 +2,11 @@
 
 cd /tmp
 
-#rm -f "kvm_stats_with__subs_2x{{ sub_count_per_node }}__cmd_{{ pub_cmds }}.log"
+#rm -f "kvm_stats_with__subs_2x{{ count_per_node }}__cmd_{{ pub_cmds }}.log"
 
 kvm_pid=$(qm list | grep {{ inventory_hostname }} | awk '{print $6}')
 
 while true
 do
-    top -b -n2 -p $kvm_pid | grep kvm | tail -n1 | awk '{print $9, $10}' >> "kvm_stats_with__subs_2x{{ sub_count_per_node }}__cmd_{{ pub_cmds }}.log";
+    top -b -n2 -p $kvm_pid | grep kvm | tail -n1 | awk '{print $9, $10}' >> "kvm_stats_with__subs_2x{{ count_per_node }}__cmd_{{ pub_cmds }}.log";
 done

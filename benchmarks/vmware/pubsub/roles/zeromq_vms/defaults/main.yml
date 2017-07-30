@@ -8,4 +8,4 @@ pubsub_sub_port_base: 5550
 pubsub_pub_stats_interval: 2
 
 pubsub_analyst_host: root@128.112.168.28 # hostname requires ssh_config file on the host, will use IP instead
-pubsub_analyst_path: /root/mshahbaz/notebooks/vmware/results/pub/vms
+pubsub_analyst_path: /root/mshahbaz/notebooks/vmware/results

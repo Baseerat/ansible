@@ -7,7 +7,7 @@
   delegate_to: "{{ pubsub_nodes[inventory_hostname].host }}"
 
 - name: create directory with date and time
-  shell: ssh {{ pubsub_analyst_host }} mkdir {{ pubsub_analyst_path }}/{{ current_date_time.stdout }}
+  shell: ssh {{ pubsub_analyst_host }} mkdir {{ pubsub_analyst_path }}/pub/vms/{{ current_date_time.stdout }}
   when: '"publisher" in pubsub_nodes[inventory_hostname].type'
   delegate_to: "{{ pubsub_nodes[inventory_hostname].host }}"
 
@@ -17,7 +17,7 @@
   delegate_to: "{{ pubsub_nodes[inventory_hostname].host }}"
 
 - name: fetch radio and kvm stats to analyst host
-  shell: scp -r /tmp/radio_stats_with__* /tmp/kvm_stats_with__* {{ pubsub_analyst_host }}:{{ pubsub_analyst_path }}/{{ current_date_time.stdout }}
+  shell: scp -r /tmp/radio_stats_with__* /tmp/kvm_stats_with__* {{ pubsub_analyst_host }}:{{ pubsub_analyst_path }}/pub/vms/{{ current_date_time.stdout }}
   when: '"publisher" in pubsub_nodes[inventory_hostname].type'
   delegate_to: "{{ pubsub_nodes[inventory_hostname].host }}"
 
