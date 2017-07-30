@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
-cd /home/mshahbaz
+cd /tmp
 
-rm -f "radio_stats_with__{{ pub_cmds }}.log"
+rm -f "radio_stats_with__subs_2x{{ sub_count_per_node }}__cmd_{{ pub_cmds }}.log"
+
+radio_pid=$(pidof radio)
 
 while true
 do
-    ps -o pcpu,rsz -p $(pidof radio) | tail -n1 >> "radio_stats_with__{{ pub_cmds }}.log";
-    sleep {{ pubsub_pub_stats_interval }};
+    top -b -n2 -p $radio_pid | grep radio | tail -n1 | awk '{print $9, $10}' >> "radio_stats_with__subs_2x{{ sub_count_per_node }}__cmd_{{ pub_cmds }}.log";
 done

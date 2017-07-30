@@ -1,5 +1,18 @@
 ---
 
+- name: destory kvm stats script
+  shell: pkill -u root -f log_kvm_stats
+  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  failed_when: false
+  delegate_to: "{{ pubsub_nodes[inventory_hostname].host }}"
+
+- name: remove log_kvm_stats.sh script
+  file:
+    path: /tmp/log_kvm_stats.sh
+    state: absent
+  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  delegate_to: "{{ pubsub_nodes[inventory_hostname].host }}"
+
 - name: destory radio stats script
   shell: pkill -u root -f log_radio_stats
   when: '"publisher" in pubsub_nodes[inventory_hostname].type'
