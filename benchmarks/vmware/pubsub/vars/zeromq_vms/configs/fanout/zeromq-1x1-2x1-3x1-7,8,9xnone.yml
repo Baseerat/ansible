@@ -1,31 +1,31 @@
 ---
 
-pub:
+fanout_pub:
   prme_id: 1
   vm_id: 120
 
-pub_cmds: 'msleep (1);' # e.g. msleep(1);
+fanout_pub_cmds: 'msleep (1);' # e.g. msleep(1);
 
-sub_count_per_node: 1
+fanout_sub_count_per_node: 1
 
-pubsub_nodes:
+fanout_pubsub_nodes:
   prme1-k8s-node-120:
     type: "publisher"
     subs:
       - prme_id: 2
         vm_id: 120
-        count: "{{ sub_count_per_node }}"
+        count: "{{ fanout_sub_count_per_node }}"
       - prme_id: 3
         vm_id: 120
-        count: "{{ sub_count_per_node }}"
+        count: "{{ fanout_sub_count_per_node }}"
     host: "prme-nsx-perf-001"
 
   prme2-k8s-node-120:
     type: "subscriber"
-    pub: "{{ pub }}"
-    count: "{{ sub_count_per_node }}"
+    pub: "{{ fanout_pub }}"
+    count: "{{ fanout_sub_count_per_node }}"
 
   prme3-k8s-node-120:
     type: "subscriber"
-    pub: "{{ pub }}"
-    count: "{{ sub_count_per_node }}"
+    pub: "{{ fanout_pub }}"
+    count: "{{ fanout_sub_count_per_node }}"

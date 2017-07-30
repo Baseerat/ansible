@@ -2,8 +2,8 @@
 
 - name: set kvm vcpu affinity
   shell: taskset -a -p 0x0100 $(qm list | grep {{ inventory_hostname }} | awk '{print $6}')
-  when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
-  delegate_to: "{{ pubsub_nodes[inventory_hostname].host }}"
+  when: '"subscriber" in fanin_pubsub_nodes[inventory_hostname].type'
+  delegate_to: "{{ fanin_pubsub_nodes[inventory_hostname].host }}"
 
 - pause:
     seconds: 2
@@ -14,21 +14,23 @@
     dest: /home/mshahbaz/libzmq/tests/dish.cpp
   vars:
     port: "{{ pubsub_sub_port_base }}"
-  when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
+  when: '"subscriber" in fanin_pubsub_nodes[inventory_hostname].type'
   become: true
 
 - name: build dish.cpp
   shell: cd /home/mshahbaz/libzmq/tests;
          gcc dish.cpp -o dish -lzmq -O2
-  when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
+  when: '"subscriber" in fanin_pubsub_nodes[inventory_hostname].type'
   become: true
 
 - name: upload radio.cpp to publishers
   template:
     src: roles/zeromq_vms/templates/radio.cpp.j2
     dest: /home/mshahbaz/libzmq/tests/radio_{{ item }}.cpp
-  with_sequence: start=0 end={{ pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
-  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  vars:
+    pub_cmds: "{{ fanin_pub_cmds }}"
+  with_sequence: start=0 end={{ fanin_pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
+  when: '"publisher" in fanin_pubsub_nodes[inventory_hostname].type'
   become: true
 
 - name: add connection to radio_*.cpp
@@ -38,24 +40,27 @@
     insertafter: '__insert_here__'
     state: present
   vars:
-    ip: "{{ proxmox_vm_network_address_prefix }}{{ pubsub_nodes[inventory_hostname].subs[0].prme_id }}.{{ pubsub_nodes[inventory_hostname].subs[0].vm_id }}"
+    ip: "{{ proxmox_vm_network_address_prefix }}{{ fanin_pubsub_nodes[inventory_hostname].sub.prme_id }}.{{ fanin_pubsub_nodes[inventory_hostname].sub.vm_id }}"
     port: "{{ pubsub_sub_port_base }}"
-  with_sequence: start=0 end={{ pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
-  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  with_sequence: start=0 end={{ fanin_pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
+  when: '"publisher" in fanin_pubsub_nodes[inventory_hostname].type'
   become: true
 
 - name: build radio_*.cpp
   shell: cd /home/mshahbaz/libzmq/tests;
          gcc radio_{{ item }}.cpp -o radio_{{ item }} -lzmq -O2
-  with_sequence: start=0 end={{ pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
-  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  with_sequence: start=0 end={{ fanin_pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
+  when: '"publisher" in fanin_pubsub_nodes[inventory_hostname].type'
   become: true
 
 - name: upload log_dish_stats.sh script to subscribers
   template:
     src: roles/zeromq_vms/templates/log_dish_stats.sh.j2
     dest: /tmp/log_dish_stats.sh
-  when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
+  vars:
+    pub_count_per_node: "{{ fanin_pub_count_per_node }}"
+    pub_cmds: "{{ fanin_pub_cmds }}"
+  when: '"subscriber" in fanin_pubsub_nodes[inventory_hostname].type'
   become: true
 
 - name: upload log_kvm_stats.sh script to subscribers' host
@@ -63,23 +68,24 @@
     src: roles/zeromq_vms/templates/log_kvm_stats.sh.j2
     dest: /tmp/log_kvm_stats.sh
   vars:
-    count_per_node: "{{ pub_count_per_node }}"
-  when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
-  delegate_to: "{{ pubsub_nodes[inventory_hostname].host }}"
+    count_per_node: "{{ fanin_pub_count_per_node }}"
+    pub_cmds: "{{ fanin_pub_cmds }}"
+  when: '"subscriber" in fanin_pubsub_nodes[inventory_hostname].type'
+  delegate_to: "{{ fanin_pubsub_nodes[inventory_hostname].host }}"
 
 - name: launch dish
   shell: cd /home/mshahbaz/libzmq/tests;
          ./dish &
          sleep 2;
          taskset -a -p 0x4 $(pidof dish)
-  when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
+  when: '"subscriber" in fanin_pubsub_nodes[inventory_hostname].type'
   become: true
 
 - name: launch radio_*
   shell: cd /home/mshahbaz/libzmq/tests;
          ./radio_{{ item }} &
-  with_sequence: start=0 end={{ pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
-  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  with_sequence: start=0 end={{ fanin_pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
+  when: '"publisher" in fanin_pubsub_nodes[inventory_hostname].type'
   become: true
 
 - pause:
@@ -87,11 +93,10 @@
 
 - name: log dish stats
   shell: sh /tmp/log_dish_stats.sh &
-  when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
+  when: '"subscriber" in fanin_pubsub_nodes[inventory_hostname].type'
   become: true
 
 - name: log kvm stats
   shell: sh /tmp/log_kvm_stats.sh &
-  when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
-  delegate_to: "{{ pubsub_nodes[inventory_hostname].host }}"
-
+  when: '"subscriber" in fanin_pubsub_nodes[inventory_hostname].type'
+  delegate_to: "{{ fanin_pubsub_nodes[inventory_hostname].host }}"

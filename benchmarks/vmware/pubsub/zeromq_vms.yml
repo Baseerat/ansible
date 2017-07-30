@@ -7,7 +7,8 @@
   vars_files:
     - "vars/proxmox/defaults.yml"
     - "vars/zeromq_vms/main.yml"
-    - "vars/zeromq_vms/configs/{{ configs }}.yml"
+    - "vars/zeromq_vms/configs/fanout/{{ configs.fanout }}.yml"
+    - "vars/zeromq_vms/configs/fanin/{{ configs.fanin }}.yml"
 
   roles:
     - zeromq_vms

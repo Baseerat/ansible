@@ -2,20 +2,20 @@
 
 - name: destory kvm stats script
   shell: pkill -u root -f log_kvm_stats
-  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
   failed_when: false
-  delegate_to: "{{ pubsub_nodes[inventory_hostname].host }}"
+  delegate_to: "{{ fanout_pubsub_nodes[inventory_hostname].host }}"
 
 - name: remove log_kvm_stats.sh script
   file:
     path: /tmp/log_kvm_stats.sh
     state: absent
-  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
-  delegate_to: "{{ pubsub_nodes[inventory_hostname].host }}"
+  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
+  delegate_to: "{{ fanout_pubsub_nodes[inventory_hostname].host }}"
 
 - name: destory radio stats script
   shell: pkill -u root -f log_radio_stats
-  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
   failed_when: false
   become: true
 
@@ -23,34 +23,34 @@
   file:
     path: /tmp/log_radio_stats.sh
     state: absent
-  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
   become: true
 
 - name: destory radio
   shell: pkill -u root -f radio
-  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
   failed_when: false
   become: true
 
 - name: remove radio files and executables
   shell: cd /home/mshahbaz/libzmq/tests;
          rm -f radio*
-  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
   become: true
 
 - name: destory dish_*
   shell: pkill -u root -f dish_
-  when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
+  when: '"subscriber" in fanout_pubsub_nodes[inventory_hostname].type'
   failed_when: false
   become: true
 
 - name: remove dish_* files and executables
   shell: cd /home/mshahbaz/libzmq/tests;
          rm -f dish_*
-  when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
+  when: '"subscriber" in fanout_pubsub_nodes[inventory_hostname].type'
   become: true
 
 - name: reset kvm vcpu affinity
   shell: taskset -a -p 0xffff $(qm list | grep {{ inventory_hostname }} | awk '{print $6}')
-  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
-  delegate_to: "{{ pubsub_nodes[inventory_hostname].host }}"
+  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
+  delegate_to: "{{ fanout_pubsub_nodes[inventory_hostname].host }}"
