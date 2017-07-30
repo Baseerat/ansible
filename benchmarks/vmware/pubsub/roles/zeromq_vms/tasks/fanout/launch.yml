@@ -35,7 +35,7 @@
   become: true
 
 - name: add connections to radio.cpp
-  include: roles/zeromq_vms/tasks/add_connection.yml sub="{{ _sub }}"
+  include: roles/zeromq_vms/tasks/fanout/add_connection.yml sub="{{ _sub }}"
   with_items: "{{ pubsub_nodes[inventory_hostname].subs }}"
   loop_control:
     loop_var: _sub

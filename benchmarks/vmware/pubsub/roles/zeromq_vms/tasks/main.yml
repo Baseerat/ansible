@@ -8,14 +8,14 @@
   include: roles/zeromq_vms/tasks/common/remove.yml
   tags: remove_common
 
-- name: launch zeromq
-  include: roles/zeromq_vms/tasks/launch.yml
-  tags: launch_zeromq
+- name: launch fanout
+  include: roles/zeromq_vms/tasks/fanout/launch.yml
+  tags: launch_fanout
 
-- name: destroy zeromq
-  include: roles/zeromq_vms/tasks/destroy.yml
-  tags: destroy_zeromq
+- name: destroy fanout
+  include: roles/zeromq_vms/tasks/fanout/destroy.yml
+  tags: destroy_fanout
 
-- name: collect stats
-  include: roles/zeromq_vms/tasks/collect.yml
-  tags: collect_stats
+- name: collect fanout stats
+  include: roles/zeromq_vms/tasks/fanout/collect.yml
+  tags: collect_fanout_stats
