@@ -5,6 +5,9 @@
   when: '"publisher" in pubsub_nodes[inventory_hostname].type'
   delegate_to: "{{ pubsub_nodes[inventory_hostname].host }}"
 
+- pause:
+    seconds: 2
+
 - name: upload dish.cpp to subscribers
   template:
     src: roles/zeromq_vms/templates/dish.cpp.j2
