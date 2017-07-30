@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+cd /tmp
+
+#rm -f "dish_stats_with__subs_2x{{ pub_count_per_node }}__cmd_{{ pub_cmds }}.log"
+
+dish_pid=$(pidof dish)
+
+while true
+do
+    top -b -n2 -p $dish_pid | grep dish | tail -n1 | awk '{print $9, $10}' >> "dish_stats_with__subs_2x{{ pub_count_per_node }}__cmd_{{ pub_cmds }}.log";
+done

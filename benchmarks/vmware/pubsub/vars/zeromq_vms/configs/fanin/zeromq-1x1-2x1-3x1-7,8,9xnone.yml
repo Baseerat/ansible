@@ -1,0 +1,26 @@
+---
+
+sub:
+  prme_id: 1
+  vm_id: 120
+
+pub_cmds: 'msleep (1);' # e.g. msleep(1);
+
+pub_count_per_node: 2
+
+pubsub_nodes:
+  prme1-k8s-node-120:
+    type: "subscriber"
+    host: "prme-nsx-perf-001"
+
+  prme2-k8s-node-120:
+    type: "publisher"
+    subs: # can only have one subscriber
+     - "{{ sub }}"
+    count: "{{ pub_count_per_node }}"
+
+  prme3-k8s-node-120:
+    type: "publisher"
+    subs: # can only have one subscriber
+      - "{{ sub }}"
+    count: "{{ pub_count_per_node }}"

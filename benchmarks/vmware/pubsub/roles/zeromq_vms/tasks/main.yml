@@ -19,3 +19,15 @@
 - name: collect fanout stats
   include: roles/zeromq_vms/tasks/fanout/collect.yml
   tags: collect_fanout_stats
+
+- name: launch fanin
+  include: roles/zeromq_vms/tasks/fanin/launch.yml
+  tags: launch_fanin
+
+- name: destroy fanin
+  include: roles/zeromq_vms/tasks/fanin/destroy.yml
+  tags: destroy_fanin
+
+#- name: collect fanin stats
+#  include: roles/zeromq_vms/tasks/fanin/collect.yml
+#  tags: collect_fanin_stats

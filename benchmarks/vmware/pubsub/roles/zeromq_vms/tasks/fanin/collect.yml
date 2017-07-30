@@ -1,0 +1,32 @@
+---
+
+- name: get current date and time
+  shell: 'date "+%Y%m%d%H%M%S.%6N"'
+  register: current_date_time
+  when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
+  delegate_to: "{{ pubsub_nodes[inventory_hostname].host }}"
+
+- name: create directory with date and time
+  shell: ssh {{ pubsub_analyst_host }} mkdir {{ pubsub_analyst_path }}/sub/vms/{{ current_date_time.stdout }}
+  when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
+  delegate_to: "{{ pubsub_nodes[inventory_hostname].host }}"
+
+- name: fetch dish stats to host
+  shell: scp -r {{ ansible_user }}@{{ ansible_host }}:/tmp/dish_stats_with__* /tmp/
+  when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
+  delegate_to: "{{ pubsub_nodes[inventory_hostname].host }}"
+
+- name: fetch dish and kvm stats to analyst host
+  shell: scp -r /tmp/dish_stats_with__* /tmp/kvm_stats_with__* {{ pubsub_analyst_host }}:{{ pubsub_analyst_path }}/sub/vms/{{ current_date_time.stdout }}
+  when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
+  delegate_to: "{{ pubsub_nodes[inventory_hostname].host }}"
+
+- name: cleanup dish stats
+  shell: cd /tmp; rm -rf dish_stats_with__*
+  when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: cleanup kvm stats
+  shell: cd /tmp; rm -rf dish_stats_with__* kvm_stats_with__*
+  when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
+  delegate_to: "{{ pubsub_nodes[inventory_hostname].host }}"
