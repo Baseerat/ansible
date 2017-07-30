@@ -4,9 +4,9 @@ pub:
   prme_id: 1
   vm_id: 120
 
-pub_cmds: 'msleep (1);' # e.g. msleep (1);
+pub_cmds: 'msleep (1);' # e.g. msleep(1);
 
-sub_count_per_node: 32
+sub_count_per_node: 4
 
 pubsub_nodes:
   prme1-k8s-node-120:

@@ -12,8 +12,7 @@
 
 - name: build dish_*.cpp
   shell: cd /home/mshahbaz/libzmq/tests;
-         gcc dish_{{ port }}.cpp -o dish_{{ port }} -lzmq -O2;
-         cd ~/
+         gcc dish_{{ port }}.cpp -o dish_{{ port }} -lzmq -O2
   vars:
     port: "{{ pubsub_sub_port_base|int + item|int }}"
   with_sequence: start=0 end={{ pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
@@ -37,15 +36,20 @@
 
 - name: build radio.cpp
   shell: cd /home/mshahbaz/libzmq/tests;
-         gcc radio.cpp -o radio -lzmq -O2;
-         cd ~/
+         gcc radio.cpp -o radio -lzmq -O2
+  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: upload log_radio_stats.sh script to publishers
+  template:
+    src: roles/zeromq_vms/templates/log_radio_stats.sh.j2
+    dest: /tmp/log_radio_stats.sh
   when: '"publisher" in pubsub_nodes[inventory_hostname].type'
   become: true
 
 - name: launch dish_*
   shell: cd /home/mshahbaz/libzmq/tests;
          ./dish_{{ port }} &
-         cd ~/
   vars:
     port: "{{ pubsub_sub_port_base|int + item|int }}"
   with_sequence: start=0 end={{ pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
@@ -55,7 +59,10 @@
 - name: launch radio
   shell: cd /home/mshahbaz/libzmq/tests;
          ./radio &
-         cd ~/
   when: '"publisher" in pubsub_nodes[inventory_hostname].type'
   become: true
 
+- name: log radio stats
+  shell: sh /tmp/log_radio_stats.sh &
+  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  become: true

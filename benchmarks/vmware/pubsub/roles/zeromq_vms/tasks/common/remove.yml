@@ -4,8 +4,7 @@
   become: true
   shell: cd /home/mshahbaz/libzmq;
          make uninstall;
-         ldconfig;
-         cd ~/
+         ldconfig
 
 - name: remove libzmq repository
   become: true

@@ -59,5 +59,4 @@
          ./configure --enable-drafts;
          make -j4;
          make install;
-         ldconfig;
-         cd ~/
+         ldconfig

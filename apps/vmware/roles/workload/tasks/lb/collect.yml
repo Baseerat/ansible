@@ -21,6 +21,6 @@
   delegate_to: "{{ workload_analyst_host }}"
 
 - name: cleanup {{ workload_logs_dir }} folder
-  shell: cd {{ workload_logs_dir }}; rm -rf *; cd ~/
+  shell: cd {{ workload_logs_dir }}; rm -rf *
   when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true

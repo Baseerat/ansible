@@ -1,5 +1,18 @@
 ---
 
+- name: destory radio stats script
+  shell: pkill -u root -f log_radio_stats
+  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  failed_when: false
+  become: true
+
+- name: remove log_radio_stats.sh script
+  file:
+    path: /tmp/log_radio_stats.sh
+    state: absent
+  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  become: true
+
 - name: destory radio
   shell: pkill -u root -f radio
   when: '"publisher" in pubsub_nodes[inventory_hostname].type'
@@ -8,8 +21,7 @@
 
 - name: remove radio files and executables
   shell: cd /home/mshahbaz/libzmq/tests;
-         rm -f radio*;
-         cd ~/
+         rm -f radio*
   when: '"publisher" in pubsub_nodes[inventory_hostname].type'
   become: true
 
@@ -21,7 +33,6 @@
 
 - name: remove dish_* files and executables
   shell: cd /home/mshahbaz/libzmq/tests;
-         rm -f dish_*;
-         cd ~/
+         rm -f dish_*
   when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
   become: true

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+cd /home/mshahbaz
+
+rm -f "radio_stats_with__{{ pub_cmds }}.log"
+
+while true
+do
+    ps -o pcpu,rsz -p $(pidof radio) | tail -n1 >> "radio_stats_with__{{ pub_cmds }}.log";
+    sleep {{ pubsub_pub_stats_interval }};
+done
