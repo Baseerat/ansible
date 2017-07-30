@@ -49,3 +49,8 @@
          rm -f dish_*
   when: '"subscriber" in pubsub_nodes[inventory_hostname].type'
   become: true
+
+- name: reset kvm vcpu affinity
+  shell: taskset -a -p 0xffff $(qm list | grep {{ inventory_hostname }} | awk '{print $6}')
+  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  delegate_to: "{{ pubsub_nodes[inventory_hostname].host }}"

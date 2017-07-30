@@ -1,5 +1,10 @@
 ---
 
+- name: set kvm vcpu affinity
+  shell: taskset -a -p 0x0100 $(qm list | grep {{ inventory_hostname }} | awk '{print $6}')
+  when: '"publisher" in pubsub_nodes[inventory_hostname].type'
+  delegate_to: "{{ pubsub_nodes[inventory_hostname].host }}"
+
 - name: upload dish.cpp to subscribers
   template:
     src: roles/zeromq_vms/templates/dish.cpp.j2
@@ -66,6 +71,8 @@
 - name: launch radio
   shell: cd /home/mshahbaz/libzmq/tests;
          ./radio &
+         sleep 2;
+         taskset -a -p 0x4 $(pidof radio)
   when: '"publisher" in pubsub_nodes[inventory_hostname].type'
   become: true
 
