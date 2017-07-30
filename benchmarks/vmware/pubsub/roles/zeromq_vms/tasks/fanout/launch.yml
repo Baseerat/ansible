@@ -59,6 +59,8 @@
   template:
     src: roles/zeromq_vms/templates/log_kvm_stats.sh.j2
     dest: /tmp/log_kvm_stats.sh
+  vars:
+    count_per_node: "{{ sub_count_per_node }}"
   when: '"publisher" in pubsub_nodes[inventory_hostname].type'
   delegate_to: "{{ pubsub_nodes[inventory_hostname].host }}"
 
