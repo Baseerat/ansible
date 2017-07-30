@@ -52,6 +52,12 @@ Host prme-nsx-perf-009
     ForwardAgent yes
     IdentityFile ./keys/vmw_prme_rsa
 
+Host mshahbaz-poweredge-3-pve
+    Hostname 128.112.168.28
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/pu_pve_rsa
+
 
 # For accessing kubernetes dashboard
 Host prme-nsx-perf-001-k8s

@@ -15,3 +15,7 @@
 - name: destroy zeromq
   include: roles/zeromq_vms/tasks/destroy.yml
   tags: destroy_zeromq
+
+- name: collect stats
+  include: roles/zeromq_vms/tasks/collect.yml
+  tags: collect_stats
