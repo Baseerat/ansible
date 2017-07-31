@@ -1,0 +1,39 @@
+---
+
+- name: install git
+  apt:
+    name: git
+
+- name: install libtool
+  apt:
+    name: libtool
+
+- name: install pkg-config
+  apt:
+    name: pkg-config
+
+- name: install autoconf
+  apt:
+    name: autoconf
+
+- name: install cmake
+  apt:
+    name: cmake
+
+- name: install uuid-dev
+  apt:
+    name: uuid-dev
+
+- name: clone libzmq source code
+  git:
+    repo: git://github.com/zeromq/libzmq.git
+    dest: /root/libzmq
+    version: master
+
+- name: build libzmq
+  shell: cd /root/libzmq;
+         ./autogen.sh;
+         ./configure --enable-drafts;
+         make -j4;
+         make install;
+         ldconfig

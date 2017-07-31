@@ -1,0 +1,12 @@
+---
+
+- name: add connection to broker.cpp
+  lineinfile:
+    path: /root/libzmq/tests/broker.cpp
+    line: 'rc = zmq_connect (radio, "udp://{{ ip }}:{{ port}}"); assert (rc == 0);'
+    insertafter: '__insert_here__'
+    state: present
+  vars:
+    ip: "{{ hostvars[__sub.node].ansible_eth7.ipv4.address }}"
+    port: "{{ pubsub_sub_port_base|int + item|int }}"
+  with_sequence: start=0 end={{ __sub.count|int - 1 }} format=%d

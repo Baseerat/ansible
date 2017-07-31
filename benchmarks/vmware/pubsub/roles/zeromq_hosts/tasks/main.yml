@@ -1,0 +1,21 @@
+---
+
+- name: install common utilities
+  include: roles/zeromq_hosts/tasks/common/install.yml
+  tags: install_common
+
+- name: remove common utilities
+  include: roles/zeromq_hosts/tasks/common/remove.yml
+  tags: remove_common
+
+- name: launch broker
+  include: roles/zeromq_hosts/tasks/broker/launch.yml
+  tags: launch_broker
+
+- name: destroy broker
+  include: roles/zeromq_hosts/tasks/broker/destroy.yml
+  tags: destroy_broker
+
+- name: collect broker stats
+  include: roles/zeromq_hosts/tasks/broker/collect.yml
+  tags: collect_broker_stats

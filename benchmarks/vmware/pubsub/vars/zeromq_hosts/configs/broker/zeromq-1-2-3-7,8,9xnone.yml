@@ -1,0 +1,26 @@
+---
+
+broker:
+  node: prme-nsx-perf-002
+
+broker_pub_cmds: 'msleep (1);' # e.g. msleep(1);
+
+broker_pub_count_per_node: 1
+broker_sub_count_per_node: 1
+
+broker_pubsub_nodes:
+  prme-nsx-perf-001:
+    type: "publisher"
+    broker: "{{ broker }}"
+    count: "{{ broker_pub_count_per_node }}"
+
+  prme-nsx-perf-002:
+    type: "broker"
+    subs:
+      - node: prme-nsx-perf-003
+        count: "{{ broker_sub_count_per_node }}"
+
+  prme-nsx-perf-003:
+    type: "subscriber"
+    broker: "{{ broker }}"
+    count: "{{ broker_sub_count_per_node }}"

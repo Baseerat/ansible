@@ -1,0 +1,15 @@
+---
+
+- name: provision zeromq
+  hosts:
+          prme-nsx-perf-001
+         ,prme-nsx-perf-002
+         ,prme-nsx-perf-003
+  gather_facts: true
+
+  vars_files:
+    - "vars/zeromq_hosts/main.yml"
+    - "vars/zeromq_hosts/configs/broker/{{ configs.broker }}.yml"
+
+  roles:
+    - zeromq_hosts

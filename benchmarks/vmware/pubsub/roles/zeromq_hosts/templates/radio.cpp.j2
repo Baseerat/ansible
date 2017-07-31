@@ -1,0 +1,48 @@
+#include "testutil.hpp"
+
+int main(void)
+{
+        //setup_test_environment ();
+        void *ctx = zmq_ctx_new ();
+        assert (ctx);
+
+        //const char* msg_body = "Hello World!";
+        unsigned short msg_body = {{ pubsub_message }};
+        const char* msg_group = "{{ pubsub_topic }}";
+        zmq_msg_t msg;
+        zmq_msg_t *msg_ = &msg;
+
+        void *radio = zmq_socket (ctx, ZMQ_RADIO);
+        /*int rc = zmq_connect (radio, "udp://ip:port");
+        assert (rc == 0);*/
+
+        int rc;
+        // __insert_here__
+
+        msleep (SETTLE_TIME);
+
+        while (true)
+        {
+                //rc = zmq_msg_init_size (msg_, strlen (msg_body));
+                rc = zmq_msg_init_size (msg_, sizeof (unsigned short));
+                assert (rc == 0);
+                //memcpy (zmq_msg_data (msg_), msg_body, strlen (msg_body));
+                *((unsigned short *)zmq_msg_data (msg_)) = msg_body;
+                rc = zmq_msg_set_group (msg_, msg_group);
+                assert (rc == 0);
+                rc = zmq_msg_send (msg_, radio, 0);
+                assert (rc != -1);
+                //printf("%i\n", rc);
+                zmq_msg_close (msg_);
+                {{ pub_cmds }}
+        }
+
+        rc = zmq_close (radio);
+        assert (rc == 0);
+
+        rc = zmq_ctx_term (ctx);
+        assert (rc == 0);
+        return 0;
+}
+
+/* To build, run: gcc radio.cpp -o radio -lzmq -O2 */

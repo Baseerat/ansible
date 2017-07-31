@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+cd /tmp
+
+#rm -f "broker_stats_with__pubs_{{ pub_count_per_node }}__subs_{{ sub_count_per_node }}__cmd_{{ pub_cmds }}.log"
+
+broker_pid=$(pidof broker)
+
+while true
+do
+    top -b -n2 -p $broker_pid | grep broker | tail -n1 | awk '{print $9, $10}' >> "broker_stats_with__pubs_{{ pub_count_per_node }}__subs_{{ sub_count_per_node }}__cmd_{{ pub_cmds }}.log";
+done

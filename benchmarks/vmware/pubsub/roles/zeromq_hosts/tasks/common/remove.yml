@@ -1,0 +1,47 @@
+---
+
+- name: remove libzmq
+  shell: cd /root/libzmq;
+         make uninstall;
+         ldconfig
+
+- name: remove libzmq repository
+  file:
+    path: /root/libzmq
+    state: absent
+
+- name: remove git
+  apt:
+    name: git
+    purge: yes
+    state: absent
+
+- name: remove libtool
+  apt:
+    name: libtool
+    purge: yes
+    state: absent
+
+- name: remove pkg-config
+  apt:
+    name: pkg-config
+    purge: yes
+    state: absent
+
+- name: remove autoconf
+  apt:
+    name: autoconf
+    purge: yes
+    state: absent
+
+- name: remove cmake
+  apt:
+    name: cmake
+    purge: yes
+    state: absent
+
+- name: remove uuid-dev
+  apt:
+    name: uuid-dev
+    purge: yes
+    state: absent
