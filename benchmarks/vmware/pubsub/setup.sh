@@ -14,3 +14,5 @@ cp -f ../../../testbeds/vmware/roles/proxmox/defaults/main.yml ./vars/proxmox/de
 #ansible-playbook zeromq_vms.yml --tags collect_fanout_stats
 #ansible-playbook zeromq_vms.yml --tags launch_fanin
 #ansible-playbook zeromq_vms.yml --tags collect_fanin_stats
+#ansible-playbook zeromq_vms.yml --tags launch_broker
+#ansible-playbook zeromq_vms.yml --tags collect_broker_stats

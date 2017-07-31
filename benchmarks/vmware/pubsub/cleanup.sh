@@ -5,6 +5,7 @@
 #ansible-playbook zeromq_vms.yml --tags remove_common
 #ansible-playbook zeromq_vms.yml --tags destroy_fanout
 #ansible-playbook zeromq_vms.yml --tags destroy_fanin
+#ansible-playbook zeromq_vms.yml --tags destroy_broker
 
 rm -f ansible.cfg
 rm -f inventory.ini
