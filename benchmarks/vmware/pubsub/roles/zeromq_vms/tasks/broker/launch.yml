@@ -1,0 +1,141 @@
+---
+
+- name: set kvm vcpu affinity
+  shell: taskset -a -p 0x0100 $(qm list | grep {{ inventory_hostname }} | awk '{print $6}')
+  when: '"broker" in broker_pubsub_nodes[inventory_hostname].type'
+  delegate_to: "{{ broker_pubsub_nodes[inventory_hostname].host }}"
+
+- pause:
+    seconds: 2
+
+- name: upload radio.cpp to publishers
+  template:
+    src: roles/zeromq_vms/templates/radio.cpp.j2
+    dest: /home/mshahbaz/libzmq/tests/radio_{{ item }}.cpp
+  vars:
+    pub_cmds: "{{ broker_pub_cmds }}"
+  with_sequence: start=0 end={{ broker_pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
+  when: '"publisher" in broker_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: add connection to radio_*.cpp
+  lineinfile:
+    path: /home/mshahbaz/libzmq/tests/radio_{{ item }}.cpp
+    line: 'rc = zmq_connect (radio, "udp://{{ ip }}:{{ port}}"); assert (rc == 0);'
+    insertafter: '__insert_here__'
+    state: present
+  vars:
+    ip: "{{ proxmox_vm_network_address_prefix }}{{ broker_pubsub_nodes[inventory_hostname].broker.prme_id }}.{{ broker_pubsub_nodes[inventory_hostname].broker.vm_id }}"
+    port: "{{ pubsub_sub_port_base }}"
+  with_sequence: start=0 end={{ broker_pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
+  when: '"publisher" in broker_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: build radio_*.cpp
+  shell: cd /home/mshahbaz/libzmq/tests;
+         gcc radio_{{ item }}.cpp -o radio_{{ item }} -lzmq -O2
+  with_sequence: start=0 end={{ broker_pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
+  when: '"publisher" in broker_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: upload dish.cpp to subscribers
+  template:
+    src: roles/zeromq_vms/templates/dish.cpp.j2
+    dest: /home/mshahbaz/libzmq/tests/dish_{{ port }}.cpp
+  vars:
+    port: "{{ pubsub_sub_port_base|int + item|int }}"
+  with_sequence: start=0 end={{ broker_pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
+  when: '"subscriber" in broker_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: build dish_*.cpp
+  shell: cd /home/mshahbaz/libzmq/tests;
+         gcc dish_{{ port }}.cpp -o dish_{{ port }} -lzmq -O2
+  vars:
+    port: "{{ pubsub_sub_port_base|int + item|int }}"
+  with_sequence: start=0 end={{ broker_pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
+  when: '"subscriber" in broker_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: upload broker.cpp to brokers
+  template:
+    src: roles/zeromq_vms/templates/broker.cpp.j2
+    dest: /home/mshahbaz/libzmq/tests/broker.cpp
+  vars:
+    port: "{{ pubsub_sub_port_base }}"
+  when: '"broker" in broker_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: add connections to broker.cpp
+  include: roles/zeromq_vms/tasks/broker/add_connection.yml __sub="{{ _sub }}"
+  with_items: "{{ broker_pubsub_nodes[inventory_hostname].subs }}"
+  loop_control:
+    loop_var: _sub
+  when: '"broker" in broker_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: build broker.cpp
+  shell: cd /home/mshahbaz/libzmq/tests;
+         gcc broker.cpp -o broker -lzmq -O2
+  when: '"broker" in broker_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: upload log_broker_stats.sh script to brokers
+  template:
+    src: roles/zeromq_vms/templates/log_broker_stats.sh.j2
+    dest: /tmp/log_broker_stats.sh
+  vars:
+    pub_count_per_node: "{{ broker_pub_count_per_node }}"
+    sub_count_per_node: "{{ broker_sub_count_per_node }}"
+    pub_cmds: "{{ broker_pub_cmds }}"
+  when: '"broker" in broker_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: upload log_broker_kvm_stats.sh script to brokers' host
+  template:
+    src: roles/zeromq_vms/templates/log_broker_kvm_stats.sh.j2
+    dest: /tmp/log_broker_kvm_stats.sh
+  vars:
+    pub_count_per_node: "{{ broker_pub_count_per_node }}"
+    sub_count_per_node: "{{ broker_sub_count_per_node }}"
+    pub_cmds: "{{ broker_pub_cmds }}"
+  when: '"broker" in broker_pubsub_nodes[inventory_hostname].type'
+  delegate_to: "{{ broker_pubsub_nodes[inventory_hostname].host }}"
+
+- name: launch dish_*
+  shell: cd /home/mshahbaz/libzmq/tests;
+         ./dish_{{ port }} &
+  vars:
+    port: "{{ pubsub_sub_port_base|int + item|int }}"
+  with_sequence: start=0 end={{ broker_pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
+  when: '"subscriber" in broker_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: launch broker
+  shell: cd /home/mshahbaz/libzmq/tests;
+         ./broker &
+         sleep 2;
+         taskset -a -p 0x4 $(pidof broker)
+  when: '"broker" in broker_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: launch radio_*
+  shell: cd /home/mshahbaz/libzmq/tests;
+         ./radio_{{ item }} &
+  with_sequence: start=0 end={{ broker_pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
+  when: '"publisher" in broker_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- pause:
+    seconds: 5
+
+- name: log radio stats
+  shell: sh /tmp/log_broker_stats.sh &
+  when: '"broker" in broker_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: log kvm stats
+  shell: sh /tmp/log_broker_kvm_stats.sh &
+  when: '"broker" in broker_pubsub_nodes[inventory_hostname].type'
+  delegate_to: "{{ broker_pubsub_nodes[inventory_hostname].host }}"
+

@@ -1,0 +1,68 @@
+---
+
+- name: destory kvm stats script
+  shell: pkill -u root -f log_broker_kvm_stats
+  when: '"broker" in broker_pubsub_nodes[inventory_hostname].type'
+  failed_when: false
+  delegate_to: "{{ broker_pubsub_nodes[inventory_hostname].host }}"
+
+- name: remove log_broker_kvm_stats.sh script
+  file:
+    path: /tmp/log_broker_kvm_stats.sh
+    state: absent
+  when: '"broker" in broker_pubsub_nodes[inventory_hostname].type'
+  delegate_to: "{{ broker_pubsub_nodes[inventory_hostname].host }}"
+
+- name: destory broker stats script
+  shell: pkill -u root -f log_broker_stats
+  when: '"broker" in broker_pubsub_nodes[inventory_hostname].type'
+  failed_when: false
+  become: true
+
+- name: remove log_broker_stats.sh script
+  file:
+    path: /tmp/log_broker_stats.sh
+    state: absent
+  when: '"broker" in broker_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: destory radio_*
+  shell: pkill -u root -f radio_
+  when: '"publisher" in broker_pubsub_nodes[inventory_hostname].type'
+  failed_when: false
+  become: true
+
+- name: remove radio_* files and executables
+  shell: cd /home/mshahbaz/libzmq/tests;
+         rm -f radio_*
+  when: '"publisher" in broker_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: destory broker
+  shell: pkill -u root -f broker
+  when: '"broker" in broker_pubsub_nodes[inventory_hostname].type'
+  failed_when: false
+  become: true
+
+- name: remove broker files and executables
+  shell: cd /home/mshahbaz/libzmq/tests;
+         rm -f radio*
+  when: '"broker" in broker_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: destory dish_*
+  shell: pkill -u root -f dish_
+  when: '"subscriber" in broker_pubsub_nodes[inventory_hostname].type'
+  failed_when: false
+  become: true
+
+- name: remove dish_* files and executables
+  shell: cd /home/mshahbaz/libzmq/tests;
+         rm -f dish_*
+  when: '"subscriber" in broker_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: reset kvm vcpu affinity
+  shell: taskset -a -p 0xffff $(qm list | grep {{ inventory_hostname }} | awk '{print $6}')
+  when: '"broker" in broker_pubsub_nodes[inventory_hostname].type'
+  delegate_to: "{{ broker_pubsub_nodes[inventory_hostname].host }}"

@@ -9,6 +9,7 @@
     - "vars/zeromq_vms/main.yml"
     - "vars/zeromq_vms/configs/fanout/{{ configs.fanout }}.yml"
     - "vars/zeromq_vms/configs/fanin/{{ configs.fanin }}.yml"
+    - "vars/zeromq_vms/configs/broker/{{ configs.broker }}.yml"
 
   roles:
     - zeromq_vms
