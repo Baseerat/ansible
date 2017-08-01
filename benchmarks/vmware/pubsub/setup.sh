@@ -9,6 +9,7 @@ cp -f ../../../testbeds/vmware/roles/proxmox/defaults/main.yml ./vars/proxmox/de
 
 #ansible-playbook mqtt_vms.yml --tags install_common
 #ansible-playbook mqtt_vms.yml --tags setup_mqtt
+
 #ansible-playbook zeromq_vms.yml --tags install_common
 #ansible-playbook zeromq_vms.yml --tags launch_fanout
 #ansible-playbook zeromq_vms.yml --tags collect_fanout_stats
@@ -16,3 +17,7 @@ cp -f ../../../testbeds/vmware/roles/proxmox/defaults/main.yml ./vars/proxmox/de
 #ansible-playbook zeromq_vms.yml --tags collect_fanin_stats
 #ansible-playbook zeromq_vms.yml --tags launch_broker
 #ansible-playbook zeromq_vms.yml --tags collect_broker_stats
+
+#ansible-playbook zeromq_hosts.yml --tags install_common
+#ansible-playbook zeromq_hosts.yml --tags launch_broker
+#ansible-playbook zeromq_hosts.yml --tags collect_broker_stats

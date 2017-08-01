@@ -6,7 +6,7 @@ broker:
 
 broker_pub_cmds: 'msleep (1);' # e.g. msleep(1);
 
-broker_pub_count_per_node: 1
+broker_pub_count_per_node: 128
 broker_sub_count_per_node: 1
 
 broker_pubsub_nodes:

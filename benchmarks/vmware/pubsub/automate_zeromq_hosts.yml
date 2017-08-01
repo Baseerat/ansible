@@ -1,0 +1,83 @@
+---
+
+- name: provision automate
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - lineinfile:
+        path: vars/zeromq_hosts/configs/broker/zeromq-1-2-3-7,8,9xnone.yml
+        regexp: '^broker_pub_count_per_node'
+        line: 'broker_pub_count_per_node: 1'
+
+    - lineinfile:
+        path: vars/zeromq_hosts/configs/broker/zeromq-1-2-3-7,8,9xnone.yml
+        regexp: '^broker_sub_count_per_node'
+        line: 'broker_sub_count_per_node: 1'
+    - name: running broker with pub - 1, sub - 1
+      shell: ansible-playbook zeromq_hosts.yml --tags launch_broker;
+             sleep 30;
+             ansible-playbook zeromq_hosts.yml --tags destroy_broker
+
+    - lineinfile:
+        path: vars/zeromq_hosts/configs/broker/zeromq-1-2-3-7,8,9xnone.yml
+        regexp: '^broker_sub_count_per_node'
+        line: 'broker_sub_count_per_node: 2'
+    - name: running broker with pub - 1, sub - 2
+      shell: ansible-playbook zeromq_hosts.yml --tags launch_broker;
+             sleep 30;
+             ansible-playbook zeromq_hosts.yml --tags destroy_broker
+
+    - lineinfile:
+        path: vars/zeromq_hosts/configs/broker/zeromq-1-2-3-7,8,9xnone.yml
+        regexp: '^broker_sub_count_per_node'
+        line: 'broker_sub_count_per_node: 4'
+    - name: running broker with pub - 1, sub - 4
+      shell: ansible-playbook zeromq_hosts.yml --tags launch_broker;
+             sleep 30;
+             ansible-playbook zeromq_hosts.yml --tags destroy_broker
+
+    - lineinfile:
+        path: vars/zeromq_hosts/configs/broker/zeromq-1-2-3-7,8,9xnone.yml
+        regexp: '^broker_sub_count_per_node'
+        line: 'broker_sub_count_per_node: 8'
+    - name: running broker with pub - 1, sub - 8
+      shell: ansible-playbook zeromq_hosts.yml --tags launch_broker;
+             sleep 30;
+             ansible-playbook zeromq_hosts.yml --tags destroy_broker
+
+    - lineinfile:
+        path: vars/zeromq_hosts/configs/broker/zeromq-1-2-3-7,8,9xnone.yml
+        regexp: '^broker_sub_count_per_node'
+        line: 'broker_sub_count_per_node: 16'
+    - name: running broker with pub - 1, sub - 16
+      shell: ansible-playbook zeromq_hosts.yml --tags launch_broker;
+             sleep 30;
+             ansible-playbook zeromq_hosts.yml --tags destroy_broker
+
+    - lineinfile:
+        path: vars/zeromq_hosts/configs/broker/zeromq-1-2-3-7,8,9xnone.yml
+        regexp: '^broker_sub_count_per_node'
+        line: 'broker_sub_count_per_node: 32'
+    - name: running broker with pub - 1, sub - 32
+      shell: ansible-playbook zeromq_hosts.yml --tags launch_broker;
+             sleep 30;
+             ansible-playbook zeromq_hosts.yml --tags destroy_broker
+
+    - lineinfile:
+        path: vars/zeromq_hosts/configs/broker/zeromq-1-2-3-7,8,9xnone.yml
+        regexp: '^broker_sub_count_per_node'
+        line: 'broker_sub_count_per_node: 64'
+    - name: running broker with pub - 1, sub - 64
+      shell: ansible-playbook zeromq_hosts.yml --tags launch_broker;
+             sleep 30;
+             ansible-playbook zeromq_hosts.yml --tags destroy_broker
+
+    - lineinfile:
+        path: vars/zeromq_hosts/configs/broker/zeromq-1-2-3-7,8,9xnone.yml
+        regexp: '^broker_sub_count_per_node'
+        line: 'broker_sub_count_per_node: 128'
+    - name: running broker with pub - 1, sub - 128
+      shell: ansible-playbook zeromq_hosts.yml --tags launch_broker;
+             sleep 30;
+             ansible-playbook zeromq_hosts.yml --tags destroy_broker
