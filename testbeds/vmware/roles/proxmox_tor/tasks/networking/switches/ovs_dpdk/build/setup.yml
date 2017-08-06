@@ -90,13 +90,13 @@
 
 - name: launch ovs-vswitchd
   shell: cd /root/ovs/vswitchd;
-         nohup ./ovs-vswitchd --dpdk -c 0x1 -n {{ switches.ovs_dpdk.memory_channels }}
+         nohup ./ovs-vswitchd --dpdk -c 0x1 -n {{ nodes[inventory_hostname].dpdk.memory_channels }}
                               -- unix:{{ OVS_VAR_RUN_DIR }}/db.sock --pidfile &
          cd /root
 
 - name: set pmd cpu mask
   shell: cd /root/ovs/utilities;
-         ./ovs-vsctl set Open_vSwitch . other_config:pmd-cpu-mask={{ switches.ovs_dpdk.cpu_mask }};
+         ./ovs-vsctl set Open_vSwitch . other_config:pmd-cpu-mask={{ nodes[inventory_hostname].dpdk.cpu_mask }};
          cd /root
 
 - name: initialize ovs-vsctl

@@ -24,17 +24,17 @@ tor_switch:
       prme-nsx-perf-004:
         - "table=0,priority=10,arp,nw_dst=172.16.140.158 actions=1" # to prme-nsx-perf-001
         - "table=0,priority=10,arp,nw_dst=172.16.140.159 actions=2" # to prme-nsx-perf-002
-        - "table=0,priority=10,arp,nw_dst=172.16.140.160 actions=3" # to prme-nsx-perf-003
-        - "table=0,priority=10,arp,nw_dst=172.16.140.96 actions=4" # to prme-nsx-perf-007 via prme-nsx-perf-005
-        - "table=0,priority=10,arp,nw_dst=172.16.140.97 actions=4" # to prme-nsx-perf-008 via prme-nsx-perf-005
-        - "table=0,priority=10,arp,nw_dst=172.16.140.98 actions=4" # to prme-nsx-perf-009 via prme-nsx-perf-005
+        - "table=0,priority=10,arp,nw_dst=172.16.140.160 actions=4" # to prme-nsx-perf-003
+        - "table=0,priority=10,arp,nw_dst=172.16.140.96 actions=3" # to prme-nsx-perf-007 via prme-nsx-perf-005
+        - "table=0,priority=10,arp,nw_dst=172.16.140.97 actions=3" # to prme-nsx-perf-008 via prme-nsx-perf-005
+        - "table=0,priority=10,arp,nw_dst=172.16.140.98 actions=3" # to prme-nsx-perf-009 via prme-nsx-perf-005
 
         - "table=0,priority=10,ip,nw_dst=172.16.140.158 actions=1" # to prme-nsx-perf-001
         - "table=0,priority=10,ip,nw_dst=172.16.140.159 actions=2" # to prme-nsx-perf-002
-        - "table=0,priority=10,ip,nw_dst=172.16.140.160 actions=3" # to prme-nsx-perf-003
-        - "table=0,priority=10,ip,nw_dst=172.16.140.96 actions=4" # to prme-nsx-perf-007 via prme-nsx-perf-005
-        - "table=0,priority=10,ip,nw_dst=172.16.140.97 actions=4" # to prme-nsx-perf-008 via prme-nsx-perf-005
-        - "table=0,priority=10,ip,nw_dst=172.16.140.98 actions=4" # to prme-nsx-perf-009 via prme-nsx-perf-005
+        - "table=0,priority=10,ip,nw_dst=172.16.140.160 actions=4" # to prme-nsx-perf-003
+        - "table=0,priority=10,ip,nw_dst=172.16.140.96 actions=3" # to prme-nsx-perf-007 via prme-nsx-perf-005
+        - "table=0,priority=10,ip,nw_dst=172.16.140.97 actions=3" # to prme-nsx-perf-008 via prme-nsx-perf-005
+        - "table=0,priority=10,ip,nw_dst=172.16.140.98 actions=3" # to prme-nsx-perf-009 via prme-nsx-perf-005
       prme-nsx-perf-006:
         - "table=0,priority=10,arp,nw_dst=172.16.140.96 actions=4" # to prme-nsx-perf-007
         - "table=0,priority=10,arp,nw_dst=172.16.140.97 actions=1" # to prme-nsx-perf-008

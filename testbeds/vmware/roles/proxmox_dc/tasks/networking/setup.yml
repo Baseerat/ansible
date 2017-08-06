@@ -7,3 +7,6 @@
 - name: setup linux bridge
   include: roles/proxmox_dc/tasks/networking/switches/linux_bridge/setup.yml
   when: 'dc_switch.type == "linux_bridge"'
+
+- name: add iptables rule to filter traffic coming from eth0 belonging to the overlay subnet
+  shell: iptables -I INPUT -s {{ proxmox_vm_network_address_prefix }}0.0/16 -i eth0 -j DROP
