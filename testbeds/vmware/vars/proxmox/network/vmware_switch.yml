@@ -4,72 +4,72 @@ networking:
   prme-nsx-perf-001:
     remote_nodes:
       - prme_id: 2
-        address: 172.16.40.159
+        interface: eth7
       - prme_id: 3
-        address: 172.16.40.160
+        interface: eth7
       - prme_id: 7
-        address: 172.16.40.96
+        interface: eth6
       - prme_id: 8
-        address: 172.16.40.97
+        interface: eth6
       - prme_id: 9
-        address: 172.16.40.98
+        interface: eth6
   prme-nsx-perf-002:
     remote_nodes:
       - prme_id: 1
-        address: 172.16.40.158
+        interface: eth7
       - prme_id: 3
-        address: 172.16.40.160
+        interface: eth7
       - prme_id: 7
-        address: 172.16.40.96
+        interface: eth6
       - prme_id: 8
-        address: 172.16.40.97
+        interface: eth6
       - prme_id: 9
-        address: 172.16.40.98
+        interface: eth6
   prme-nsx-perf-003:
     remote_nodes:
       - prme_id: 1
-        address: 172.16.40.158
+        interface: eth7
       - prme_id: 2
-        address: 172.16.40.159
+        interface: eth7
       - prme_id: 7
-        address: 172.16.40.96
+        interface: eth6
       - prme_id: 8
-        address: 172.16.40.97
+        interface: eth6
       - prme_id: 9
-        address: 172.16.40.98
+        interface: eth6
   prme-nsx-perf-007:
     remote_nodes:
       - prme_id: 1
-        address: 172.16.40.158
+        interface: eth7
       - prme_id: 2
-        address: 172.16.40.159
+        interface: eth7
       - prme_id: 3
-        address: 172.16.40.160
+        interface: eth7
       - prme_id: 8
-        address: 172.16.40.97
+        interface: eth6
       - prme_id: 9
-        address: 172.16.40.98
+        interface: eth6
   prme-nsx-perf-008:
     remote_nodes:
       - prme_id: 1
-        address: 172.16.40.158
+        interface: eth7
       - prme_id: 2
-        address: 172.16.40.159
+        interface: eth7
       - prme_id: 3
-        address: 172.16.40.160
+        interface: eth7
       - prme_id: 7
-        address: 172.16.40.96
+        interface: eth6
       - prme_id: 9
-        address: 172.16.40.98
+        interface: eth6
   prme-nsx-perf-009:
     remote_nodes:
       - prme_id: 1
-        address: 172.16.40.158
+        interface: eth7
       - prme_id: 2
-        address: 172.16.40.159
+        interface: eth7
       - prme_id: 3
-        address: 172.16.40.160
+        interface: eth7
       - prme_id: 7
-        address: 172.16.40.96
+        interface: eth6
       - prme_id: 8
-        address: 172.16.40.97
+        interface: eth6

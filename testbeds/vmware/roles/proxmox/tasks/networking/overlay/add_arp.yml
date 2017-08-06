@@ -1,0 +1,8 @@
+---
+
+- set_fact:
+    remote_hostname: prme-nsx-perf-00{{ remote_node.prme_id }}
+    remote_interface: ansible_{{ remote_node.interface }}
+
+- name: add static arp entry
+  shell: arp -s {{ hostvars[remote_hostname][remote_interface].ipv4.address }} {{ hostvars[remote_hostname][remote_interface].macaddress }}

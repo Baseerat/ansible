@@ -1,8 +1,12 @@
 ---
 
+- set_fact:
+    remote_hostname: prme-nsx-perf-00{{ remote_node.prme_id }}
+    remote_interface: ansible_{{ remote_node.interface }}
+
 - name: add a {{ proxmox_overlay_tunnel_type }} tunnel using br0
   openvswitch_port:
     bridge: br0
     port: "{{ proxmox_overlay_tunnel_type }}_{{ remote_node.prme_id }}"
     state: present
-    set: interface {{ proxmox_overlay_tunnel_type }}_{{ remote_node.prme_id }} type={{ proxmox_overlay_tunnel_type }} options:remote_ip={{ remote_node.address }}
+    set: interface {{ proxmox_overlay_tunnel_type }}_{{ remote_node.prme_id }} type={{ proxmox_overlay_tunnel_type }} options:remote_ip={{ hostvars[remote_hostname][remote_interface].ipv4.address }}
