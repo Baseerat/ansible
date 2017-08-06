@@ -30,9 +30,14 @@ nodes:
       eth9:
         pci_id: "0000:44:00.1"
         if_index: 2
+    dpdk:
+      cpu_mask: '0x0220'
+      memory_channels: 4
 
 switches:
+  pisces:
+    cflags: '-O2 -Wno-cast-align' # Options: -g or ''
+    p4_programs:
+      base_dir: files
   ovs_dpdk:
     cflags: '-O2 -Wno-cast-align' # Options: -g or ''
-    cpu_mask: '0x0220'
-    memory_channels: 4
