@@ -7,8 +7,7 @@
 
   vars_files:
     - "vars/kubernetes/main.yml"
-    - "vars/kubernetes/networking.yml"
-    - "vars/kubernetes/apps.yml"
+    - "vars/kubernetes/configs/{{ configs }}.yml"
 
   roles:
     - kubernetes

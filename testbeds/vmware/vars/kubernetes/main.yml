@@ -1,47 +1,17 @@
 ---
 
-master:
-  prme_id: 1
-  vm_id: 120
+configs: prme-1x1-2x1-3x1-7x1-8x1-9x1
 
-nodes:
-  prme1-k8s-node-120:
-    type: "master:minion"
-    master: "{{ master }}"
-  prme1-k8s-node-121:
-    type: "minion"
-    master: "{{ master }}"
-  prme1-k8s-node-122:
-    type: "minion"
-    master: "{{ master }}"
-  prme2-k8s-node-120:
-    type: "minion"
-    master: "{{ master }}"
-  prme2-k8s-node-121:
-    type: "minion"
-    master: "{{ master }}"
-  prme3-k8s-node-120:
-    type: "minion"
-    master: "{{ master }}"
-  prme3-k8s-node-121:
-    type: "minion"
-    master: "{{ master }}"
-  prme7-k8s-node-120:
-    type: "minion"
-    master: "{{ master }}"
-  prme7-k8s-node-121:
-    type: "minion"
-    master: "{{ master }}"
-  prme8-k8s-node-120:
-    type: "minion"
-    master: "{{ master }}"
-  prme8-k8s-node-121:
-    type: "minion"
-    master: "{{ master }}"
-  prme9-k8s-node-120:
-    type: "minion"
-    master: "{{ master }}"
-  prme9-k8s-node-121:
-    type: "minion"
-    master: "{{ master }}"
-
+apps:
+#  - name: kubernetes-dashboard
+#    namespace: kube-system
+#    policy: rr
+  - name: hello-world
+    namespace: default
+    policy: rr
+#  - name: httperf-clients
+#    namespace: default
+#    policy: rr
+#  - name: apache-servers
+#    namespace: default
+#    policy: wrr
