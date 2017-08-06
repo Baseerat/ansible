@@ -62,7 +62,7 @@
          export DPDK_DIR=$RTE_SDK;
          export DPDK_BUILD=$RTE_SDK/$RTE_TARGET;
          ./boot.sh;
-         ./configure --with-dpdk=$DPDK_BUILD CFLAGS="{{ switches.pisces.flags }}" \
+         ./configure --with-dpdk=$DPDK_BUILD CFLAGS="{{ switches.pisces.cflags }}" \
                      p4inputfile=./include/p4/examples/{{ tor_switch.pisces.p4_program }} \
                      p4outputdir=./include/p4/src;
          make clean;
@@ -113,13 +113,13 @@
 
 - name: launch ovs-vswitchd
   shell: cd /root/ovs/vswitchd;
-         nohup ./ovs-vswitchd --dpdk -c 0x1 -n {{ switches.pisces.memory_channels }}
+         nohup ./ovs-vswitchd --dpdk -c 0x1 -n {{ nodes[inventory_hostname].dpdk.memory_channels }}
                               -- unix:{{ OVS_VAR_RUN_DIR }}/db.sock --pidfile &
          cd /root
 
 - name: set pmd cpu mask
   shell: cd /root/ovs/utilities;
-         ./ovs-vsctl set Open_vSwitch . other_config:pmd-cpu-mask={{ switches.pisces.cpu_mask }};
+         ./ovs-vsctl set Open_vSwitch . other_config:pmd-cpu-mask={{ nodes[inventory_hostname].dpdk.cpu_mask }};
          cd /root
 
 - name: initialize ovs-vsctl
