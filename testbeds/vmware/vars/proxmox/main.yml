@@ -3,3 +3,6 @@
 network: tor_network # Options: tor_network, vmware_switch
 
 configs: prme-1x1-2x1-3x1-7x1-8x1-9x1
+
+overlay_switch:
+  type: ovs_kernel # Options: ovs_kernel, ovs_dpdk, pisces
