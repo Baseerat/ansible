@@ -1,6 +1,7 @@
 ---
 
-baseerat_address: 192.168.254.254
+baseerat_ip_address: 192.168.200.200
+baseerat_mac_address: "11:22:33:44:55:66"
 baseerat_port: 12345
 
 baseerat_interfaces:

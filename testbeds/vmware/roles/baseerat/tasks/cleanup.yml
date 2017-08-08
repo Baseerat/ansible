@@ -1,10 +1,13 @@
 ---
 
-- name: remove {{ baseerat_address }}/32 from group0
-  shell: ip addr del {{ baseerat_address }}/32 dev group0
+- name: remove static arp entry
+  shell: arp -d {{ baseerat_ip_address }}
 
-- name: delete dummy interface group0
-  shell: ip link del dev group0
+#- name: remove {{ baseerat_address }}/32 from group0
+#  shell: ip addr del {{ baseerat_address }}/32 dev group0
+#
+#- name: delete dummy interface group0
+#  shell: ip link del dev group0
 
 - name: delete flow rule for intercepting baseerat packets at br0
-  shell: ovs-ofctl del-flows br0 "udp,nw_dst={{ baseerat_address }},tp_dst={{ baseerat_port }}"
+  shell: ovs-ofctl del-flows br0 "udp,nw_dst={{ baseerat_ip_address }},tp_dst={{ baseerat_port }}"
