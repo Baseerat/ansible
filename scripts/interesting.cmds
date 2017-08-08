@@ -22,7 +22,7 @@ ovs-dpctl dump-flows
 
 tcpdump -vvv -i br0 udp -w temp0.pcap
 
-echo -n "hello" >/dev/udp/172.16.140.96/12345
+echo -n "hello" >/dev/udp/192.168.200.200/12345
 
 nc -lu 12345
 
