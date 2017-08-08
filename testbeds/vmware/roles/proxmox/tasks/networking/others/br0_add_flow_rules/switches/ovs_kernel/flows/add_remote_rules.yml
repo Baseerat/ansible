@@ -1,0 +1,9 @@
+---
+
+- set_fact:
+    remote_hostname: prme-nsx-perf-00{{ remote_node.prme_id }}
+
+- name: add route for remote VMs
+  shell: ovs-ofctl add-flow br0 "priority=10,arp,arp_tpa={{ proxmox_vm_network_address_prefix }}{{ remote_node.prme_id }}.{{ item }} actions=output:{{ remote_node.prme_id }}";
+         ovs-ofctl add-flow br0 "priority=10,ip,nw_dst={{ proxmox_vm_network_address_prefix }}{{ remote_node.prme_id }}.{{ item }} actions=output:{{ remote_node.prme_id }}"
+  with_items: "{{ nodes[remote_hostname].vm_ids }}"

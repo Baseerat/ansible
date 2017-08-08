@@ -1,0 +1,21 @@
+---
+
+- name: disable stp on br0
+  command: ovs-vsctl set bridge br0 stp_enable=false
+
+- name: remove existing rules from br0
+  shell: ovs-ofctl del-flows br0
+
+- name: add low priority local rule
+  shell: ovs-ofctl add-flow br0 "priority=0 actions=local"
+
+- name: add routes for hypervisor gateway
+  shell: ovs-ofctl add-flow br0 "priority=10,arp,arp_tpa={{ proxmox_vm_network_address_prefix }}{{ item.prme_id }}.1 actions=output:{{ item.prme_id }}";
+         ovs-ofctl add-flow br0 "priority=10,ip,nw_dst={{ proxmox_vm_network_address_prefix }}{{ item.prme_id }}.1 actions=output:{{ item.prme_id }}"
+  with_items: "{{ networking[inventory_hostname].remote_nodes }}"
+
+- name: add route for remote VMs
+  include: roles/proxmox/tasks/networking/others/br0_add_flow_rules/switches/ovs_kernel/flows/add_remote_rules.yml remote_node="{{ _remote_node }}"
+  with_items: "{{ networking[inventory_hostname].remote_nodes }}"
+  loop_control:
+    loop_var: _remote_node

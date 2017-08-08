@@ -1,0 +1,10 @@
+---
+
+- name: enable stp on br0
+  command: ovs-vsctl set bridge br0 stp_enable=true
+
+- name: remove existing rules from br0
+  shell: ovs-ofctl del-flows br0
+
+- name: add low priority local rule
+  shell: ovs-ofctl add-flow br0 "priority=0 actions=normal"

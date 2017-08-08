@@ -167,3 +167,15 @@ prme-nsx-perf-006
     deparse, \
     output:4"
 
+-----------------------------------------------------------
+
+ovs-ofctl add-flow br0 "table=0, dl_type=0x0806, nw_dst=192.168.200.200, \
+    actions=move:NXM_OF_ETH_SRC[]->NXM_OF_ETH_DST[], \
+            mod_dl_src:11:22:33:44:55:66, \
+            load:0x2->NXM_OF_ARP_OP[], \
+            move:NXM_NX_ARP_SHA[]->NXM_NX_ARP_THA[],
+            move:NXM_OF_ARP_SPA[]->NXM_OF_ARP_TPA[], \
+            load:0x112233445566->NXM_NX_ARP_SHA[], \
+            load:0xC0A8C8C8->NXM_OF_ARP_SPA[], \
+            in_port"
+
