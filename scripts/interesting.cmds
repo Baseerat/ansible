@@ -8,6 +8,16 @@ ovs-appctl dpif/dump-flows br0 | sed G
 
 ovs-appctl dpif/show
 
+ovs-appctl ofproto/trace 'in_port(1),eth(src=0e:39:71:9c:fb:43,dst=ff:ff:ff:ff:ff:ff),eth_type(0x0806),arp(sip=192.168.1.1,tip=192.168.1.120,op=1/0xff)'
+
+ovs-dpctl show
+
+ovs-vsctl list interface vxlan_2
+
+ovs-vsctl list br br0
+
+ovs-dpctl dump-flows
+
 ------------------------------------------------------------------------------------------------------------------------
 
 tcpdump -vvv -i br0 udp -w temp0.pcap

@@ -19,3 +19,7 @@
 - name: add tap interfaces to br0
   shell: ovs-vsctl add-port br0 tap{{ item }}i0
   with_items: "{{ nodes[inventory_hostname]['vm_ids'] }}"
+
+- name: set tap interfaces ofport number
+  shell: ovs-vsctl set interface tap{{ item }}i0 ofport_request={{ nodes[inventory_hostname].prme_id }}{{ item }}
+  with_items: "{{ nodes[inventory_hostname]['vm_ids'] }}"
