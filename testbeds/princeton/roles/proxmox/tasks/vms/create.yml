@@ -33,7 +33,7 @@
 
 - name: change ip address in /etc/network/interfaces
   template:
-    src: roles/proxmox/templates/interfaces_static.j2
+    src: roles/proxmox/templates/vm_interfaces_static.j2
     dest: /mnt/vm{{ proxmox_vm_id }}/etc/network/interfaces
     owner: root
     group: root

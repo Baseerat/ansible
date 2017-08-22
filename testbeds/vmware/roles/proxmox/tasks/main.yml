@@ -1,5 +1,13 @@
 ---
 
+- name: setup hosts (should be done once after a clean install)
+  include: roles/proxmox/tasks/hosts/setup.yml
+  tags: setup_hosts
+
+- name: clean hosts
+  include: roles/proxmox/tasks/hosts/cleanup.yml
+  tags: cleanup_hosts
+
 - name: add VM template
   include: roles/proxmox/tasks/vms/template/add.yml
   tags: add_template
@@ -7,6 +15,14 @@
 - name: remove VM template
   include: roles/proxmox/tasks/vms/template/remove.yml
   tags: remove_template
+
+- name: install ovs_dpdk
+  include: roles/proxmox/tasks/networking/overlay/switches/ovs_dpdk/build/setup.yml
+  tags: install_ovs_dpdk
+
+- name: clean ovs_dpdk
+  include: roles/proxmox/tasks/networking/overlay/switches/ovs_dpdk/build/cleanup.yml
+  tags: clean_ovs_dpdk
 
 - name: setup overlay network
   include: roles/proxmox/tasks/networking/overlay/setup.yml

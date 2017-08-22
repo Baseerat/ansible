@@ -10,11 +10,12 @@ ansible-playbook proxmox_tor.yml --tags setup_tor_network
 
 #TODO: add arp rules for dc and tor.
 
+#ansible-playbook proxmox.yml --tags setup_hosts
 #ansible-playbook proxmox.yml --tags add_template
 ansible-playbook proxmox.yml --tags setup_overlay
 ansible-playbook proxmox.yml --tags create_vms
 ansible-playbook proxmox.yml --tags add_br0_flow_rules
-#ansible-playbook proxmox.yml --tags setup_br0_as_primary_bridge
+#ansible-playbook proxmox.yml --tags setup_br0_as_primary_bridge - deprecated!
 sleep 30
 
 ansible-playbook baseerat.yml --tags setup

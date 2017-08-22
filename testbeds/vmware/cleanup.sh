@@ -7,11 +7,12 @@
 
 ansible-playbook baseerat.yml --tags cleanup
 
-#ansible-playbook proxmox.yml --tags cleanup_br0_as_primary_bridge
+#ansible-playbook proxmox.yml --tags cleanup_br0_as_primary_bridge - deprecated!
 ansible-playbook proxmox.yml --tags remove_br0_flow_rules
 ansible-playbook proxmox.yml --tags destroy_vms
 ansible-playbook proxmox.yml --tags cleanup_overlay
 #ansible-playbook proxmox.yml --tags remove_template
+#ansible-playbook proxmox.yml --tags cleanup_hosts
 
 ansible-playbook proxmox_tor.yml --tags cleanup_tor_network
 #ansible-playbook proxmox_tor.yml --tags clean_ovs_dpdk

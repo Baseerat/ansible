@@ -1,0 +1,38 @@
+---
+
+- name: revert .bashrc file
+  template:
+    src: roles/proxmox/templates/host_bashrc.orig.j2
+    dest: /root/.bashrc
+    backup: yes
+
+- name: revert interfaces file
+  template:
+    src: roles/proxmox/templates/host_interfaces_static/{{ inventory_hostname }}.orig.j2
+    dest: /etc/network/interfaces
+    backup: yes
+
+- name: remove lshw
+  apt:
+    name: lshw
+    purge: yes
+    state: absent
+
+- name: remove vim
+  apt:
+    name: vim
+    purge: yes
+    state: absent
+
+- name: ensure that pve-no-subscription repository is not present in the /etc/apt/sources.list
+  lineinfile:
+    path: /etc/apt/sources.list
+    line: "deb http://download.proxmox.com/debian/pve jessie pve-no-subscription"
+    state: absent
+
+- name: update cache
+  apt:
+    update_cache: yes
+  ignore_errors: yes
+
+
