@@ -12,17 +12,8 @@
     dest: /etc/network/interfaces
     backup: yes
 
-- name: remove lshw
-  apt:
-    name: lshw
-    purge: yes
-    state: absent
-
-- name: remove vim
-  apt:
-    name: vim
-    purge: yes
-    state: absent
+- name: remove essential utilities
+  shell: apt-get -y purge tmux unzip git python-pip python-yaml python-setuptools build-essential dh-autoreconf pve-headers-`uname -r`
 
 - name: ensure that pve-no-subscription repository is not present in the /etc/apt/sources.list
   lineinfile:

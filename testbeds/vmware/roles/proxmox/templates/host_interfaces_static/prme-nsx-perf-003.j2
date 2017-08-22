@@ -3,25 +3,25 @@ iface lo inet loopback
 
 auto eth0
 iface eth0 inet static
-        address 10.115.40.158
+        address 10.115.40.160
         netmask 255.255.252.0
         gateway 10.115.43.253
         post-up echo 1 > /proc/sys/net/ipv4/conf/eth0/proxy_arp
 
 auto vmbr0
 iface vmbr0 inet static
-        address  192.168.1.1
+        address  192.168.3.1
         netmask  255.255.255.0
         bridge_ports none
         bridge_stp off
         bridge_fd 0
         post-up echo 1 > /proc/sys/net/ipv4/ip_forward
-        post-up iptables -t nat -A POSTROUTING -s '192.168.1.0/24' -o eth0 -j MASQUERADE
-        post-down iptables -t nat -D POSTROUTING -s '192.168.1.0/24' -o eth0 -j MASQUERAD
+        post-up iptables -t nat -A POSTROUTING -s '192.168.3.0/24' -o eth0 -j MASQUERADE
+        post-down iptables -t nat -D POSTROUTING -s '192.168.3.0/24' -o eth0 -j MASQUERAD
 
 auto vmbr1
 iface vmbr1 inet static
-	address  172.16.1.1
+	address  172.16.3.1
 	netmask  255.255.255.0
 	bridge_ports none
 	bridge_stp off
@@ -30,11 +30,11 @@ iface vmbr1 inet static
 # To vmware switch
 auto eth5
 iface eth5 inet static
-	address 172.16.40.158
+	address 172.16.40.160
 	netmask 255.255.255.0
 
 # To prme-nsx-perf-004 machine
 auto eth2
 iface eth2 inet static
-	address 172.16.140.158
+	address 172.16.140.160
 	netmask 255.255.255.0

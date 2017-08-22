@@ -28,13 +28,13 @@ iface vmbr1 inet static
 	bridge_fd 0
 
 # To vmware switch
-auto eth2
-iface eth2 inet static
+auto eth5
+iface eth5 inet static
 	address 172.16.40.159
 	netmask 255.255.255.0
 
 # To prme-nsx-perf-004 machine
-auto eth5
-iface eth5 inet static
+auto eth2
+iface eth2 inet static
 	address 172.16.140.159
 	netmask 255.255.255.0
