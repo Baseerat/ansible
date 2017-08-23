@@ -3,3 +3,7 @@
 - name: setup ovs (kernel) as gateway bridge
   include: roles/proxmox/tasks/networking/others/br0_add_flow_rules/switches/ovs_kernel/setup.yml
   when: 'overlay_switch.bridge.type == "ovs_kernel"'
+
+- name: setup pisces as gateway bridge
+  include: roles/proxmox/tasks/networking/others/br0_add_flow_rules/switches/pisces/setup.yml
+  when: 'overlay_switch.bridge.type == "pisces"'

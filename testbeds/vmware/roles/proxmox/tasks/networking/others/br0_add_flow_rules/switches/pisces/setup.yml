@@ -1,0 +1,44 @@
+---
+
+- name: add static arp entries
+  include: roles/proxmox/tasks/networking/others/br0_add_flow_rules/switches/pisces/add_arp.yml remote_node="{{ item }}"
+  with_items: "{{ networking[inventory_hostname]['remote_nodes'] }}"
+
+- name: include overlay variables
+  include_vars: roles/proxmox/defaults/networking/overlay.yml
+
+- name: remove existing rules from br0
+  shell: cd /root/ovs/utilities;
+         ./ovs-ofctl --protocols=OpenFlow15 del-flows br0;
+         cd /root
+
+- set_fact:
+    inventory_interface: ansible_{{ overlay[inventory_hostname]['interfaces'][network] }}
+
+- name: add underlay flow rule for the local interface in br0
+  shell: cd /root/ovs/utilities;
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=0,priority=10,ipv4__dstAddr={{ hostvars[inventory_hostname][inventory_interface].ipv4.address | ipaddr('address') | ipaddr('int') }} actions=2";
+         cd /root
+
+- name: add underlay flow rules for remote interfaces in br0
+  include: roles/proxmox/tasks/networking/others/br0_add_flow_rules/switches/pisces/flows/add_underlay_remote_rules.yml remote_node="{{ item }}"
+  with_items: "{{ networking[inventory_hostname]['remote_nodes'] }}"
+
+
+
+
+
+
+#- name: add low priority local rule
+#  shell: ovs-ofctl add-flow br0 "priority=0 actions=local"
+#
+#- name: add routes for hypervisor gateway
+#  shell: ovs-ofctl add-flow br0 "priority=10,arp,arp_tpa={{ proxmox_vm_network_address_prefix }}{{ item.prme_id }}.1 actions=output:{{ item.prme_id }}";
+#         ovs-ofctl add-flow br0 "priority=10,ip,nw_dst={{ proxmox_vm_network_address_prefix }}{{ item.prme_id }}.1 actions=output:{{ item.prme_id }}"
+#  with_items: "{{ networking[inventory_hostname].remote_nodes }}"
+#
+#- name: add route for remote VMs
+#  include: roles/proxmox/tasks/networking/others/br0_add_flow_rules/switches/ovs_kernel/flows/add_remote_rules.yml remote_node="{{ _remote_node }}"
+#  with_items: "{{ networking[inventory_hostname].remote_nodes }}"
+#  loop_control:
+#    loop_var: _remote_node
