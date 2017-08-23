@@ -18,6 +18,8 @@ ovs-vsctl list br br0
 
 ovs-dpctl dump-flows
 
+ovs-appctl dpif-netdev/pmd-rxq-show
+
 ------------------------------------------------------------------------------------------------------------------------
 
 tcpdump -vvv -i br0 udp -w temp0.pcap
