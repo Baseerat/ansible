@@ -1,0 +1,40 @@
+---
+
+- name: include overlay variables
+  include_vars: roles/proxmox/defaults/networking/overlay.yml
+
+- name: remove static route for overlay traffic
+  shell: ip route del {{ proxmox_vm_network_address_prefix }}0.0/16 dev vmbr0
+
+- name: delete veth port from br0
+  shell: cd /root/ovs/utilities;
+         ./ovs-vsctl del-port br0 br0-eth5;
+         cd /root
+
+- name: delete the veth link
+  shell: ip link del {{ overlay[inventory_hostname]['interfaces'][network] }} type veth peer name br0-{{ overlay[inventory_hostname]['interfaces'][network] }}
+
+- name: reset mtu size to 1500
+  command: ip link set mtu 1500 dev br0
+
+- name: remove br0 from vmbr0 bridge
+  shell: brctl delif vmbr0 br0
+
+- name: delete flow rules
+  shell: cd /root/ovs/utilities;
+         ./ovs-ofctl --protocols=OpenFlow15 del-flows br0;
+         cd /root
+
+- name: remove interfaces from br0
+  shell: cd /root/ovs/utilities;
+         ./ovs-vsctl del-port br0 dpdk0;
+         cd /root
+
+- name: bring down br0
+  shell: ip link set dev br0 down
+
+- name: delete ovs bridge br0
+  shell: cd /root/ovs/utilities;
+         ./ovs-vsctl del-br br0;
+         cd /root
+

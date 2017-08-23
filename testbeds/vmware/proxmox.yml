@@ -4,7 +4,7 @@
   hosts:
           prme-nsx-perf-001
          ,prme-nsx-perf-002
-         ,prme-nsx-perf-003
+#         ,prme-nsx-perf-003
 #         ,prme-nsx-perf-007
 #         ,prme-nsx-perf-008
 #         ,prme-nsx-perf-009
