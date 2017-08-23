@@ -11,6 +11,7 @@ ansible-playbook baseerat.yml --tags cleanup
 ansible-playbook proxmox.yml --tags remove_br0_flow_rules
 ansible-playbook proxmox.yml --tags destroy_vms
 ansible-playbook proxmox.yml --tags cleanup_overlay
+ansible-playbook proxmox.yml --tags clean_pisces
 #ansible-playbook proxmox.yml --tags remove_template
 #ansible-playbook proxmox.yml --tags cleanup_hosts
 
