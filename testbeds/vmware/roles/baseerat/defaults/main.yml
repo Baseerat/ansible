@@ -13,5 +13,12 @@ baseerat_interfaces:
   prme-nsx-perf-008: 1
   prme-nsx-perf-009: 1
 
-#baseerat_bitmap: 0x1E2237
-baseerat_bitmap: 0x122030
+baseerat_bitmaps:
+  prme-nsx-perf-001: 0x1E2237
+#  prme-nsx-perf-002: 0x122030
+#  prme-nsx-perf-003: 0x122030
+#  prme-nsx-perf-007: 0x122030
+#  prme-nsx-perf-008: 0x122030
+#  prme-nsx-perf-009: 0x122030
+
+#baseerat_bitmap: 0x1E2232
