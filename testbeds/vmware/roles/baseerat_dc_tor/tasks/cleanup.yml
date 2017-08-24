@@ -1,0 +1,29 @@
+---
+
+- name: delete flow rules for group matching
+  shell: cd /root/ovs/utilities;
+         ./ovs-ofctl --protocols=OpenFlow15 del-flows br0 "table=0,ethernet__etherType=0x0800,ipv4__protocol=17,udp__dstPort=4789,vxlan__grp0Id_grp0Bitmask=0x10/0xF0";
+         ./ovs-ofctl --protocols=OpenFlow15 del-flows br0 "table=1";
+         ./ovs-ofctl --protocols=OpenFlow15 del-flows br0 "table=11";
+         ./ovs-ofctl --protocols=OpenFlow15 del-flows br0 "table=12";
+         ./ovs-ofctl --protocols=OpenFlow15 del-flows br0 "table=14";
+         ./ovs-ofctl --protocols=OpenFlow15 del-flows br0 "table=13"
+  when: 'inventory_hostname == "prme-nsx-perf-004"'
+
+
+- name: delete flow rules for group matching
+  shell: cd /root/ovs/utilities;
+         ./ovs-ofctl --protocols=OpenFlow15 del-flows br0 "table=0,ethernet__etherType=0x0800,ipv4__protocol=17,udp__dstPort=4789,vxlan__grp1Id_grp1Bitmask=0x20/0xF0";
+         ./ovs-ofctl --protocols=OpenFlow15 del-flows br0 "table=1";
+  when: 'inventory_hostname == "prme-nsx-perf-005"'
+
+
+- name: delete flow rules for group matching
+  shell: cd /root/ovs/utilities;
+         ./ovs-ofctl --protocols=OpenFlow15 del-flows br0 "table=0,ethernet__etherType=0x0800,ipv4__protocol=17,udp__dstPort=4789,vxlan__grp2Id_grp2Bitmask=0x30/0xF0";
+         ./ovs-ofctl --protocols=OpenFlow15 del-flows br0 "table=1";
+         ./ovs-ofctl --protocols=OpenFlow15 del-flows br0 "table=11";
+         ./ovs-ofctl --protocols=OpenFlow15 del-flows br0 "table=12";
+         ./ovs-ofctl --protocols=OpenFlow15 del-flows br0 "table=14";
+         ./ovs-ofctl --protocols=OpenFlow15 del-flows br0 "table=13"
+  when: 'inventory_hostname == "prme-nsx-perf-006"'

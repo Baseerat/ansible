@@ -1,0 +1,79 @@
+---
+
+# Note: we don't need group ids for bitmaps, we can instead specify which header to look at.2
+
+- name: add flow rules for group matching
+  shell: cd /root/ovs/utilities;
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=0,priority=100,ethernet__etherType=0x0800,ipv4__protocol=17,udp__dstPort=4789,vxlan__grp0Id_grp0Bitmask=0x10/0xF0 actions=resubmit(,1)"
+  when: 'inventory_hostname == "prme-nsx-perf-004"'
+
+- name: add flow rules for bitmap matching
+  shell: cd /root/ovs/utilities;
+
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp0Id_grp0Bitmask=0x1/0x0F actions=resubmit(,11)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp0Id_grp0Bitmask=0x2/0x0F actions=resubmit(,12)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp0Id_grp0Bitmask=0x4/0x0F actions=resubmit(,14)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp0Id_grp0Bitmask=0x8/0x0F actions=resubmit(,13)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp0Id_grp0Bitmask=0x3/0x0F actions=resubmit(,12),resubmit(,11)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp0Id_grp0Bitmask=0x5/0x0F actions=resubmit(,14),resubmit(,11)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp0Id_grp0Bitmask=0x9/0x0F actions=resubmit(,13),resubmit(,11)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp0Id_grp0Bitmask=0x6/0x0F actions=resubmit(,14),resubmit(,12)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp0Id_grp0Bitmask=0xA/0x0F actions=resubmit(,13),resubmit(,12)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp0Id_grp0Bitmask=0xC/0x0F actions=resubmit(,13),resubmit(,14)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp0Id_grp0Bitmask=0x7/0x0F actions=resubmit(,14),resubmit(,12),resubmit(,11)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp0Id_grp0Bitmask=0xB/0x0F actions=resubmit(,13),resubmit(,12),resubmit(,11)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp0Id_grp0Bitmask=0xD/0x0F actions=resubmit(,13),resubmit(,14),resubmit(,11)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp0Id_grp0Bitmask=0xE/0x0F actions=resubmit(,13),resubmit(,14),resubmit(,12)";
+
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=11,priority=10 actions=set_field:0x00259096602a->ethernet__dstAddr,set_field:{{ '172.16.140.158' | ipaddr('address') | ipaddr('int') }}->ipv4__dstAddr,calc_fields_update(ipv4__hdrChecksum,csum16,fields:ipv4__version_ihl,ipv4__diffserv,ipv4__totalLen,ipv4__identification,ipv4__flags_fragOffset,ipv4__ttl,ipv4__protocol,ipv4__srcAddr,ipv4__dstAddr),deparse,output:1";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=12,priority=10 actions=set_field:0x00259096604a->ethernet__dstAddr,set_field:{{ '172.16.140.159' | ipaddr('address') | ipaddr('int') }}->ipv4__dstAddr,calc_fields_update(ipv4__hdrChecksum,csum16,fields:ipv4__version_ihl,ipv4__diffserv,ipv4__totalLen,ipv4__identification,ipv4__flags_fragOffset,ipv4__ttl,ipv4__protocol,ipv4__srcAddr,ipv4__dstAddr),deparse,output:2";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=14,priority=10 actions=set_field:0x0025909664c2->ethernet__dstAddr,set_field:{{ '172.16.140.160' | ipaddr('address') | ipaddr('int') }}->ipv4__dstAddr,calc_fields_update(ipv4__hdrChecksum,csum16,fields:ipv4__version_ihl,ipv4__diffserv,ipv4__totalLen,ipv4__identification,ipv4__flags_fragOffset,ipv4__ttl,ipv4__protocol,ipv4__srcAddr,ipv4__dstAddr),deparse,output:4";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=13,priority=10 actions=output:3";
+         cd /root
+  when: 'inventory_hostname == "prme-nsx-perf-004"'
+
+
+- name: add flow rules for group matching
+  shell: cd /root/ovs/utilities;
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=0,priority=100,ethernet__etherType=0x0800,ipv4__protocol=17,udp__dstPort=4789,vxlan__grp1Id_grp1Bitmask=0x20/0xF0 actions=resubmit(,1)"
+  when: 'inventory_hostname == "prme-nsx-perf-005"'
+
+- name: add flow rules for bitmap matching
+  shell: cd /root/ovs/utilities;
+
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp1Id_grp1Bitmask=0x1/0x0F actions=output:1";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp1Id_grp1Bitmask=0x2/0x0F actions=output:2";
+
+         cd /root
+  when: 'inventory_hostname == "prme-nsx-perf-005"'
+
+
+- name: add flow rules for group matching
+  shell: cd /root/ovs/utilities;
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=0,priority=100,ethernet__etherType=0x0800,ipv4__protocol=17,udp__dstPort=4789,vxlan__grp2Id_grp2Bitmask=0x30/0xF0 actions=resubmit(,1)"
+  when: 'inventory_hostname == "prme-nsx-perf-006"'
+
+- name: add flow rules for bitmap matching
+  shell: cd /root/ovs/utilities;
+
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp2Id_grp2Bitmask=0x1/0x0F actions=resubmit(,14)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp2Id_grp2Bitmask=0x2/0x0F actions=resubmit(,11)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp2Id_grp2Bitmask=0x4/0x0F actions=resubmit(,12)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp2Id_grp2Bitmask=0x8/0x0F actions=resubmit(,13)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp2Id_grp2Bitmask=0x3/0x0F actions=resubmit(,11),resubmit(,14)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp2Id_grp2Bitmask=0x5/0x0F actions=resubmit(,12),resubmit(,14)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp2Id_grp2Bitmask=0x9/0x0F actions=resubmit(,13),resubmit(,14)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp2Id_grp2Bitmask=0x6/0x0F actions=resubmit(,12),resubmit(,11)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp2Id_grp2Bitmask=0xA/0x0F actions=resubmit(,13),resubmit(,11)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp2Id_grp2Bitmask=0xC/0x0F actions=resubmit(,13),resubmit(,12)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp2Id_grp2Bitmask=0x7/0x0F actions=resubmit(,12),resubmit(,11),resubmit(,14)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp2Id_grp2Bitmask=0xB/0x0F actions=resubmit(,13),resubmit(,11),resubmit(,14)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp2Id_grp2Bitmask=0xD/0x0F actions=resubmit(,13),resubmit(,12),resubmit(,14)";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=1,priority=10,vxlan__grp2Id_grp2Bitmask=0xE/0x0F actions=resubmit(,13),resubmit(,12),resubmit(,11)";
+
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=14,priority=10 actions=set_field:0x0025909663c1->ethernet__dstAddr,set_field:{{ '172.16.140.96' | ipaddr('address') | ipaddr('int') }}->ipv4__dstAddr,calc_fields_update(ipv4__hdrChecksum,csum16,fields:ipv4__version_ihl,ipv4__diffserv,ipv4__totalLen,ipv4__identification,ipv4__flags_fragOffset,ipv4__ttl,ipv4__protocol,ipv4__srcAddr,ipv4__dstAddr),deparse,output:4";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=11,priority=10 actions=set_field:0x00259096665f->ethernet__dstAddr,set_field:{{ '172.16.140.97' | ipaddr('address') | ipaddr('int') }}->ipv4__dstAddr,calc_fields_update(ipv4__hdrChecksum,csum16,fields:ipv4__version_ihl,ipv4__diffserv,ipv4__totalLen,ipv4__identification,ipv4__flags_fragOffset,ipv4__ttl,ipv4__protocol,ipv4__srcAddr,ipv4__dstAddr),deparse,output:1";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=12,priority=10 actions=set_field:0x0025909663bf->ethernet__dstAddr,set_field:{{ '172.16.140.98' | ipaddr('address') | ipaddr('int') }}->ipv4__dstAddr,calc_fields_update(ipv4__hdrChecksum,csum16,fields:ipv4__version_ihl,ipv4__diffserv,ipv4__totalLen,ipv4__identification,ipv4__flags_fragOffset,ipv4__ttl,ipv4__protocol,ipv4__srcAddr,ipv4__dstAddr),deparse,output:2";
+         ./ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=13,priority=10 actions=output:3";
+         cd /root
+  when: 'inventory_hostname == "prme-nsx-perf-006"'

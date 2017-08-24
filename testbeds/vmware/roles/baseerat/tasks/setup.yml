@@ -12,7 +12,7 @@
 
 - name: add flow rule for intercepting baseerat packets at br0
   shell: ovs-ofctl add-flow br0 "table=0,priority=10,udp,nw_dst={{ baseerat_ip_address }},tp_dst={{ baseerat_port }}
-                   actions=set_tunnel:0x160000,output:{{ baseerat_interfaces[inventory_hostname] }}"
+                   actions=set_tunnel:0x1E2234,output:{{ baseerat_interfaces[inventory_hostname] }}"
   when: 'inventory_hostname == "prme-nsx-perf-001"'
 
 - name: add flow rule for intercepting baseerat packets at br0
@@ -24,3 +24,18 @@
   shell: ovs-ofctl add-flow br0 "table=0,priority=10,udp,nw_dst={{ baseerat_ip_address }},tp_dst={{ baseerat_port }}
                    actions=set_field:192.168.3.120->nw_dst,output:local"
   when: 'inventory_hostname == "prme-nsx-perf-003"'
+
+- name: add flow rule for intercepting baseerat packets at br0
+  shell: ovs-ofctl add-flow br0 "table=0,priority=10,udp,nw_dst={{ baseerat_ip_address }},tp_dst={{ baseerat_port }}
+                   actions=set_field:192.168.7.120->nw_dst,output:local"
+  when: 'inventory_hostname == "prme-nsx-perf-007"'
+
+- name: add flow rule for intercepting baseerat packets at br0
+  shell: ovs-ofctl add-flow br0 "table=0,priority=10,udp,nw_dst={{ baseerat_ip_address }},tp_dst={{ baseerat_port }}
+                   actions=set_field:192.168.8.120->nw_dst,output:local"
+  when: 'inventory_hostname == "prme-nsx-perf-008"'
+
+- name: add flow rule for intercepting baseerat packets at br0
+  shell: ovs-ofctl add-flow br0 "table=0,priority=10,udp,nw_dst={{ baseerat_ip_address }},tp_dst={{ baseerat_port }}
+                   actions=set_field:192.168.9.120->nw_dst,output:local"
+  when: 'inventory_hostname == "prme-nsx-perf-009"'

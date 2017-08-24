@@ -21,3 +21,15 @@
 - name: delete flow rule for intercepting baseerat packets at br0
   shell: ovs-ofctl del-flows br0 "table=0,udp,nw_dst={{ baseerat_ip_address }},tp_dst={{ baseerat_port }}"
   when: 'inventory_hostname == "prme-nsx-perf-003"'
+
+- name: delete flow rule for intercepting baseerat packets at br0
+  shell: ovs-ofctl del-flows br0 "table=0,udp,nw_dst={{ baseerat_ip_address }},tp_dst={{ baseerat_port }}"
+  when: 'inventory_hostname == "prme-nsx-perf-007"'
+
+- name: delete flow rule for intercepting baseerat packets at br0
+  shell: ovs-ofctl del-flows br0 "table=0,udp,nw_dst={{ baseerat_ip_address }},tp_dst={{ baseerat_port }}"
+  when: 'inventory_hostname == "prme-nsx-perf-008"'
+
+- name: delete flow rule for intercepting baseerat packets at br0
+  shell: ovs-ofctl del-flows br0 "table=0,udp,nw_dst={{ baseerat_ip_address }},tp_dst={{ baseerat_port }}"
+  when: 'inventory_hostname == "prme-nsx-perf-009"'

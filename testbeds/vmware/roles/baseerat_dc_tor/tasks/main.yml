@@ -1,0 +1,9 @@
+---
+
+- name: setup baseerat (dc/tor)
+  include: roles/baseerat_dc_tor/tasks/setup.yml
+  tags: setup
+
+- name: cleanup baseerat (dc/tor)
+  include: roles/baseerat_dc_tor/tasks/cleanup.yml
+  tags: cleanup
