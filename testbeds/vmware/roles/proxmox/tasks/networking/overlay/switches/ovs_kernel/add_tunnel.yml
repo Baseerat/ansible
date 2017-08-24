@@ -9,7 +9,7 @@
     bridge: br0
     port: "{{ proxmox_overlay_tunnel_type }}_{{ remote_node.prme_id }}"
     state: present
-    set: interface {{ proxmox_overlay_tunnel_type }}_{{ remote_node.prme_id }} type={{ proxmox_overlay_tunnel_type }} options:remote_ip={{ hostvars[remote_hostname][remote_interface].ipv4.address }}
+    set: interface {{ proxmox_overlay_tunnel_type }}_{{ remote_node.prme_id }} type={{ proxmox_overlay_tunnel_type }} options:remote_ip={{ hostvars[remote_hostname][remote_interface].ipv4.address }} options:key=flow
 
 - name: set interface ofport number
   shell: ovs-vsctl set interface {{ proxmox_overlay_tunnel_type }}_{{ remote_node.prme_id }} ofport_request={{ remote_node.prme_id }}
