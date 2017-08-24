@@ -2,13 +2,12 @@
 
 network: vmware_switch # Options: tor_network, vmware_switch
 
-configs: prme-1x1-2x1-3x1-7,8,9xnone
+configs: prme-1x1-2x1-3x1-7x1-8x1-9x1
 
 overlay_switch:
   type: ovs_kernel # Options: ovs_kernel, pisces
   bridge:
     type: ovs_kernel # Options: ovs_kernel, pisces
-
   pisces:
     p4_program: "baseerat.p4"
 

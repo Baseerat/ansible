@@ -40,11 +40,11 @@ networking:
   prme-nsx-perf-007:
     remote_nodes:
       - prme_id: 1
-        interface: eth7
+        interface: eth5
       - prme_id: 2
-        interface: eth7
+        interface: eth5
       - prme_id: 3
-        interface: eth7
+        interface: eth5
       - prme_id: 8
         interface: eth2
       - prme_id: 9
@@ -52,11 +52,11 @@ networking:
   prme-nsx-perf-008:
     remote_nodes:
       - prme_id: 1
-        interface: eth7
+        interface: eth5
       - prme_id: 2
-        interface: eth7
+        interface: eth5
       - prme_id: 3
-        interface: eth7
+        interface: eth5
       - prme_id: 7
         interface: eth2
       - prme_id: 9
@@ -64,11 +64,11 @@ networking:
   prme-nsx-perf-009:
     remote_nodes:
       - prme_id: 1
-        interface: eth7
+        interface: eth5
       - prme_id: 2
-        interface: eth7
+        interface: eth5
       - prme_id: 3
-        interface: eth7
+        interface: eth5
       - prme_id: 7
         interface: eth2
       - prme_id: 8
