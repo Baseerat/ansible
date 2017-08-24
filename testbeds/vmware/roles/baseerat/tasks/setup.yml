@@ -2,6 +2,7 @@
 
 - name: add static arp entry
   shell: arp -s {{ baseerat_ip_address }} {{ baseerat_mac_address }}
+  when: 'inventory_hostname == "prme-nsx-perf-001"'
 
 #- name: create and bring up dummy interface group0
 #  shell: ip link add name group0 type dummy; ip link set dev group0 up
@@ -10,4 +11,16 @@
 #  shell: ip addr add {{ baseerat_address }}/32 dev group0
 
 - name: add flow rule for intercepting baseerat packets at br0
-  shell: ovs-ofctl add-flow br0 "udp,nw_dst={{ baseerat_ip_address }},tp_dst={{ baseerat_port }} actions=output:{{ baseerat_interfaces[inventory_hostname] }}"
+  shell: ovs-ofctl add-flow br0 "table=0,priority=10,udp,nw_dst={{ baseerat_ip_address }},tp_dst={{ baseerat_port }}
+                   actions=set_tunnel:0x160000,output:{{ baseerat_interfaces[inventory_hostname] }}"
+  when: 'inventory_hostname == "prme-nsx-perf-001"'
+
+- name: add flow rule for intercepting baseerat packets at br0
+  shell: ovs-ofctl add-flow br0 "table=0,priority=10,udp,nw_dst={{ baseerat_ip_address }},tp_dst={{ baseerat_port }}
+                   actions=set_field:192.168.2.120->nw_dst,output:local"
+  when: 'inventory_hostname == "prme-nsx-perf-002"'
+
+- name: add flow rule for intercepting baseerat packets at br0
+  shell: ovs-ofctl add-flow br0 "table=0,priority=10,udp,nw_dst={{ baseerat_ip_address }},tp_dst={{ baseerat_port }}
+                   actions=set_field:192.168.3.120->nw_dst,output:local"
+  when: 'inventory_hostname == "prme-nsx-perf-003"'

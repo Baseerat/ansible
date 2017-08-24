@@ -37,12 +37,11 @@ header_type vxlan_t {
     fields {
         flags : 8;
         reserved : 24;
-        vni : 8;
-        grp0Id : 2;
+        grp0Id : 4;
         grp0Bitmask : 4;
-        grp1Id : 2;
-        grp1Bitmask : 2;
-        grp2Id : 2;
+        grp1Id : 4;
+        grp1Bitmask : 4;
+        grp2Id : 4;
         grp2Bitmask : 4;
         reserved2 : 8;
     }
