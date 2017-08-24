@@ -10,5 +10,5 @@ overlay_switch:
     type: pisces # Options: ovs_kernel, pisces
 
   pisces:
-    p4_program: "simple_router.p4"
+    p4_program: "baseerat.p4"
 

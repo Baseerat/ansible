@@ -5,8 +5,8 @@ networking:
     remote_nodes:
       - prme_id: 2
         interface: eth5
-#      - prme_id: 3
-#        interface: eth5
+      - prme_id: 3
+        interface: eth5
 #      - prme_id: 7
 #        interface: eth6
 #      - prme_id: 8
@@ -17,20 +17,20 @@ networking:
     remote_nodes:
       - prme_id: 1
         interface: eth5
-#      - prme_id: 3
-#        interface: eth5
+      - prme_id: 3
+        interface: eth5
 #      - prme_id: 7
 #        interface: eth6
 #      - prme_id: 8
 #        interface: eth6
 #      - prme_id: 9
 #        interface: eth6
-#  prme-nsx-perf-003:
-#    remote_nodes:
-#      - prme_id: 1
-#        interface: eth5
-#      - prme_id: 2
-#        interface: eth5
+  prme-nsx-perf-003:
+    remote_nodes:
+      - prme_id: 1
+        interface: eth5
+      - prme_id: 2
+        interface: eth5
 #      - prme_id: 7
 #        interface: eth6
 #      - prme_id: 8
