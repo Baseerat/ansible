@@ -2,6 +2,7 @@
 
 baseerat_ip_address: 192.168.200.200
 baseerat_mac_address: "11:22:33:44:55:66"
+baseerat_gw_address_prefix: 192.168.
 baseerat_port: 12345
 
 baseerat_interfaces:
@@ -11,3 +12,6 @@ baseerat_interfaces:
   prme-nsx-perf-007: 1
   prme-nsx-perf-008: 1
   prme-nsx-perf-009: 1
+
+#baseerat_bitmap: 0x1E2237
+baseerat_bitmap: 0x122030

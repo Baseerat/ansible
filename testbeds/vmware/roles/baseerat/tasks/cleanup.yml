@@ -1,14 +1,11 @@
 ---
 
-- name: remove static arp entry
-  shell: arp -d {{ baseerat_ip_address }}
+- name: delete flow rules for group0 in br0
+  shell: ovs-ofctl del-flows br0 "table=0,arp,arp_tpa={{ baseerat_ip_address }}";
+         ovs-ofctl del-flows br0 "table=0,ip,nw_dst={{ baseerat_ip_address }}";
+         ovs-vsctl del-port br0 group0;
+         ip netns del groups
   when: 'inventory_hostname == "prme-nsx-perf-001"'
-
-#- name: remove {{ baseerat_address }}/32 from group0
-#  shell: ip addr del {{ baseerat_address }}/32 dev group0
-#
-#- name: delete dummy interface group0
-#  shell: ip link del dev group0
 
 - name: delete flow rule for intercepting baseerat packets at br0
   shell: ovs-ofctl del-flows br0 "table=0,udp,nw_dst={{ baseerat_ip_address }},tp_dst={{ baseerat_port }}"
