@@ -1,0 +1,18 @@
+---
+
+- name: setup sflow
+  include: roles/sflow/tasks/sflow/setup.yml
+  tags: setup_sflow
+
+- name: cleanup sflow
+  include: roles/sflow/tasks/sflow/cleanup.yml
+  tags: cleanup_sflow
+
+- name: install common utilities
+  include: roles/sflow/tasks/common/install.yml
+  tags: install_common
+
+- name: remove common utilities
+  include: roles/sflow/tasks/common/remove.yml
+  tags: remove_common
+

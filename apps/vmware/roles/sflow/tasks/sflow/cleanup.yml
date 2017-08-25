@@ -1,0 +1,40 @@
+---
+
+- name: stop hsflowd service
+  service:
+    name: hsflowd
+    state: stopped
+  when: 'inventory_hostname in "prme1-k8s-node-120"'
+  become: true
+
+- name: reset polling interval in /etc/hsflowd.conf
+  lineinfile:
+    path: /etc/hsflowd.conf
+    line: '  #     polling = 30'
+    state: absent
+  when: 'inventory_hostname in "prme1-k8s-node-120"'
+  become: true
+
+- name: reset collector in /etc/hsflowd.conf
+  lineinfile:
+    path: /etc/hsflowd.conf
+    regexp: '^  collector '
+    line: '  collector { ip=127.0.0.1 udpport=6343 }'
+    state: absent
+  when: 'inventory_hostname in "prme1-k8s-node-120"'
+  become: true
+
+- name: remove hsflowd
+  apt:
+    name: hsflowd
+    purge: yes
+    state: absent
+  when: 'inventory_hostname in "prme1-k8s-node-120"'
+  become: true
+
+- name: remove hsflowd debian files
+  file:
+    path: /home/mshahbaz/hsflowd-ubuntu14_2.0.11-1_amd64.deb
+    state: absent
+  when: 'inventory_hostname in "prme1-k8s-node-120"'
+  become: true
