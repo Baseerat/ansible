@@ -24,7 +24,18 @@
   with_items: '{{ baseerat_groups }}'
   when: 'inventory_hostname in baseerat_bitmaps'
 
+- name: get mac address of the VM
+  shell: ip link show eth0 | awk '/ether/ {print $2}'
+  register: macaddress
+  delegate_to: prme{{ prme_id }}-k8s-node-120
+
+- name: get ip address of the VM
+  shell: hostname -I | awk '{print $1}'
+  register: address
+  delegate_to: prme{{ prme_id }}-k8s-node-120
+
 - name: add flow rules for intercepting baseerat packets from egress at br0
   shell: ovs-ofctl add-flow br0 "table=0,priority=20,udp,nw_dst={{ item.address }},tp_dst={{ item.port }}
-                   actions=set_field:192.168.{{ prme_id }}.120->nw_dst,output:local"
+                   actions=set_field:{{ macaddress.stdout }}->dl_dst,set_field:{{ address.stdout }}->nw_dst,output:local"
   with_items: '{{ baseerat_groups }}'
+
