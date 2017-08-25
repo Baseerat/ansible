@@ -1,5 +1,14 @@
 ---
 
+- name: stop and destroy sflowtrend docker
+  shell: docker stop sflowtrend;
+         docker rm sflowtrend
+  when: 'inventory_hostname in "prme2-k8s-node-120" or
+         inventory_hostname in "prme3-k8s-node-120" or
+         inventory_hostname in "prme7-k8s-node-120" or
+         inventory_hostname in "prme8-k8s-node-120"'
+  become: true
+
 - name: stop hsflowd service
   service:
     name: hsflowd

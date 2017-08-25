@@ -1,5 +1,8 @@
 #!/bin/sh
 
+#ansible-playbook sflow.yml --tags remove_common
+#ansible-playbook sflow.yml --tags cleanup_sflow
+
 #ansible-playbook workload.yml --tags cleanup_lb_workload
 #ansible-playbook feedback.yml --tags cleanup_memcached
 
