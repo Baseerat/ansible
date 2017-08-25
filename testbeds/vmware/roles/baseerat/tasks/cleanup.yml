@@ -1,15 +1,21 @@
 ---
 
 - name: delete flow rules for group0 in br0
-  shell: ovs-ofctl del-flows br0 "table=0,in_port=local,arp,arp_tpa={{ baseerat_ip_address }}";
-         ovs-ofctl del-flows br0 "table=0,in_port=local,ip,nw_dst={{ baseerat_ip_address }}";
-         ovs-vsctl del-port br0 group0;
+  shell: ovs-ofctl del-flows br0 "table=0,in_port=local,arp,arp_tpa={{ item.address }}";
+         ovs-ofctl del-flows br0 "table=0,in_port=local,ip,nw_dst={{ item.address }}"
+  with_items: '{{ baseerat_groups }}'
+  when: 'inventory_hostname in baseerat_bitmaps'
+
+- name: delete groups namespace
+  shell: ovs-vsctl del-port br0 group0;
          ip netns del groups
   when: 'inventory_hostname in baseerat_bitmaps'
 
 - name: delete flow rule for intercepting baseerat packets to egress at br0
-  shell: ovs-ofctl del-flows br0 "table=0,in_port=local,udp,nw_dst={{ baseerat_ip_address }},tp_dst={{ baseerat_port }}"
+  shell: ovs-ofctl del-flows br0 "table=0,in_port=local,udp,nw_dst={{ item.address }},tp_dst={{ item.port }}"
+  with_items: '{{ baseerat_groups }}'
   when: 'inventory_hostname in baseerat_bitmaps'
 
 - name: delete flow rule for intercepting baseerat packets from egress at br0
-  shell: ovs-ofctl del-flows br0 "table=0,udp,nw_dst={{ baseerat_ip_address }},tp_dst={{ baseerat_port }}"
+  shell: ovs-ofctl del-flows br0 "table=0,udp,nw_dst={{ item.address }},tp_dst={{ item.port }}"
+  with_items: '{{ baseerat_groups }}'

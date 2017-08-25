@@ -1,24 +1,30 @@
 ---
 
-- name: add flow rules for group0 in br0
+- name: create and setup groups namespace
   shell: ip netns add groups;
          ip link add group0i0 type veth peer name group0i1;
          ip link set group0i1 netns groups;
-         ip netns exec groups ifconfig group0i1 {{ baseerat_ip_address }}/24 up;
-         ip netns exec groups ip route add {{ baseerat_gw_address_prefix }}{{ prme_id }}/24 dev group0i1;
+         ip netns exec groups ifconfig group0i1 up;
+         ip netns exec groups ip route add {{ baseerat_gw_address_prefix }}{{ prme_id }}.0/24 dev group0i1;
          ifconfig group0i0 up;
          ovs-vsctl add-port br0 group0i0;
-         ovs-vsctl set interface group0i0 ofport_request=10;
-         ovs-ofctl add-flow br0 "table=0,priority=10,in_port=local,arp,arp_tpa={{ baseerat_ip_address }} actions=output:10";
-         ovs-ofctl add-flow br0 "table=0,priority=10,in_port=local,ip,nw_dst={{ baseerat_ip_address }} actions=output:10"
+         ovs-vsctl set interface group0i0 ofport_request=10
+  when: 'inventory_hostname in baseerat_bitmaps'
+
+- name: add flow rules for group0 in br0
+  shell: ip netns exec groups ip addr add {{ item.address }}/32 dev group0i1;
+         ovs-ofctl add-flow br0 "table=0,priority=10,in_port=local,arp,arp_tpa={{ item.address }} actions=output:10";
+         ovs-ofctl add-flow br0 "table=0,priority=10,in_port=local,ip,nw_dst={{ item.address }} actions=output:10"
+  with_items: '{{ baseerat_groups }}'
   when: 'inventory_hostname in baseerat_bitmaps'
 
 - name: add flow rules for intercepting baseerat packets to egress at br0
-  shell: ovs-ofctl add-flow br0 "table=0,priority=20,in_port=local,udp,nw_dst={{ baseerat_ip_address }},tp_dst={{ baseerat_port }}
-                   actions=set_tunnel:{{ baseerat_bitmaps[inventory_hostname] }},output:{{ baseerat_interfaces[inventory_hostname] }}"
+  shell: ovs-ofctl add-flow br0 "table=0,priority=20,in_port=local,udp,nw_dst={{ item.address }},tp_dst={{ item.port }}
+                   actions=set_tunnel:{{ baseerat_bitmaps[inventory_hostname][item.address][item.port] }},output:{{ baseerat_interfaces[inventory_hostname] }}"
+  with_items: '{{ baseerat_groups }}'
   when: 'inventory_hostname in baseerat_bitmaps'
 
 - name: add flow rules for intercepting baseerat packets from egress at br0
-  shell: ovs-ofctl add-flow br0 "table=0,priority=20,udp,nw_dst={{ baseerat_ip_address }},tp_dst={{ baseerat_port }}
+  shell: ovs-ofctl add-flow br0 "table=0,priority=20,udp,nw_dst={{ item.address }},tp_dst={{ item.port }}
                    actions=set_field:192.168.{{ prme_id }}.120->nw_dst,output:local"
-
+  with_items: '{{ baseerat_groups }}'
