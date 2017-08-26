@@ -1,1 +1,4 @@
 ---
+
+collectors:
+  count: 1
