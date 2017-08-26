@@ -15,4 +15,5 @@ cp -f ../../testbeds/vmware/roles/kubernetes/defaults/main.yml ./vars/kubernetes
 #ansible-playbook workload.yml --tags collect_lb_workload
 
 #ansible-playbook sflow.yml --tags install_common
-#ansible-playbook sflow.yml --tags setup_sflow
+#ansible-playbook sflow.yml --tags launch_sflow
+#ansible-playbook sflow.yml --tags collect_sflow_stats

@@ -6,38 +6,45 @@
     update_cache: yes
 
 - name: ensure docker repository key is installed
+  become: true
   apt_key:
     id: "{{ docker_apt_key_id }}"
     keyserver: "{{ docker_apt_keyserver }}"
     state: present
 
 - name: ensure docker registry is available
+  become: true
   apt_repository:
     repo: "{{ docker_apt_repo }}"
     update_cache: yes
     state: present
 
 - name: install docker-engine
+  become: true
   apt:
     name: docker-engine
 
 - name: add user {{ ansible_user }} to docker group
+  become: true
   user:
     name: "{{ ansible_user }}"
     groups: docker
     append: yes
 
 - name: restart docker service
+  become: true
   service:
     name: docker
     state: restarted
 
 - name: get docker compose
+  become: true
   get_url:
     url: "{{ docker_compose_url }}"
     dest: /usr/local/bin/docker-compose
     mode: 0755
 
 - name: install ifstat
+  become: true
   apt:
     name: ifstat

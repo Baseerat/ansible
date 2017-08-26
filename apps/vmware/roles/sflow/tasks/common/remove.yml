@@ -1,29 +1,34 @@
 ---
 
 - name: remove docker repository key if installed
+  become: true
   apt_key:
     id: "{{ docker_apt_key_id }}"
     keyserver: "{{ docker_apt_keyserver }}"
     state: absent
 
 - name: remove docker registry if available
+  become: true
   apt_repository:
     repo: "{{ docker_apt_repo }}"
     update_cache: yes
     state: absent
 
 - name: remove docker-engine
+  become: true
   apt:
     name: docker-engine
     purge: yes
     state: absent
 
 - name: remove docker compose
+  become: true
   file:
     path: /usr/local/bin/docker-compose
     state: absent
 
 - name: remove ifstat
+  become: true
   apt:
     name: ifstat
     purge: yes
