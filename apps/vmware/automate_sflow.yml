@@ -1,0 +1,78 @@
+---
+
+- name: provision automate sflow
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - lineinfile:
+        path: vars/sflow.yml
+        regexp: '^  count:'
+        line: '  count: 1'
+    - name: running sflow with 1 collector
+      shell: ansible-playbook sflow.yml --tags launch_sflow;
+             sleep 30;
+             ansible-playbook sflow.yml --tags destroy_sflow
+
+    - lineinfile:
+        path: vars/sflow.yml
+        regexp: '^  count:'
+        line: '  count: 2'
+    - name: running sflow with 2 collector
+      shell: ansible-playbook sflow.yml --tags launch_sflow;
+             sleep 30;
+             ansible-playbook sflow.yml --tags destroy_sflow
+
+    - lineinfile:
+        path: vars/sflow.yml
+        regexp: '^  count:'
+        line: '  count: 4'
+    - name: running sflow with 4 collector
+      shell: ansible-playbook sflow.yml --tags launch_sflow;
+             sleep 30;
+             ansible-playbook sflow.yml --tags destroy_sflow
+
+    - lineinfile:
+        path: vars/sflow.yml
+        regexp: '^  count:'
+        line: '  count: 8'
+    - name: running sflow with 8 collector
+      shell: ansible-playbook sflow.yml --tags launch_sflow;
+             sleep 30;
+             ansible-playbook sflow.yml --tags destroy_sflow
+
+    - lineinfile:
+        path: vars/sflow.yml
+        regexp: '^  count:'
+        line: '  count: 16'
+    - name: running sflow with 16 collector
+      shell: ansible-playbook sflow.yml --tags launch_sflow;
+             sleep 30;
+             ansible-playbook sflow.yml --tags destroy_sflow
+
+    - lineinfile:
+        path: vars/sflow.yml
+        regexp: '^  count:'
+        line: '  count: 32'
+    - name: running sflow with 32 collector
+      shell: ansible-playbook sflow.yml --tags launch_sflow;
+             sleep 30;
+             ansible-playbook sflow.yml --tags destroy_sflow
+
+    - lineinfile:
+        path: vars/sflow.yml
+        regexp: '^  count:'
+        line: '  count: 64'
+    - name: running sflow with 64 collector
+      shell: ansible-playbook sflow.yml --tags launch_sflow;
+             sleep 30;
+             ansible-playbook sflow.yml --tags destroy_sflow
+
+    - lineinfile:
+        path: vars/sflow.yml
+        regexp: '^  count:'
+        line: '  count: 128'
+    - name: running sflow with 128 collector
+      shell: ansible-playbook sflow.yml --tags launch_sflow;
+             sleep 30;
+             ansible-playbook sflow.yml --tags destroy_sflow

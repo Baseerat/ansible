@@ -5,13 +5,11 @@
     url: https://github.com/sflow/host-sflow/releases/download/v2.0.11-1/hsflowd-ubuntu14_2.0.11-1_amd64.deb
     dest: /home/mshahbaz/hsflowd-ubuntu14_2.0.11-1_amd64.deb
   when: 'inventory_hostname in "prme1-k8s-node-120"'
-  become: true
 
 - name: install hsflowd debian files
   shell: dpkg -i hsflowd-ubuntu14_2.0.11-1_amd64.deb;
          update-rc.d hsflowd defaults
   when: 'inventory_hostname in "prme1-k8s-node-120"'
-  become: true
 
 - name: uncomment default collector in /etc/hsflowd.conf
   lineinfile:
@@ -20,7 +18,6 @@
     line: '  #collector { ip=127.0.0.1 udpport=6343 }'
     state: present
   when: 'inventory_hostname in "prme1-k8s-node-120"'
-  become: true
 
 - name: add collector in /etc/hsflowd.conf
   lineinfile:
@@ -30,7 +27,6 @@
     state: present
   with_sequence: start=0 end={{ collectors.count|int - 1}} format=%d
   when: 'inventory_hostname in "prme1-k8s-node-120"'
-  become: true
 
 - name: update polling interval in /etc/hsflowd.conf
   lineinfile:
@@ -39,14 +35,12 @@
     insertafter: '^  #     polling'
     state: present
   when: 'inventory_hostname in "prme1-k8s-node-120"'
-  become: true
 
 - name: start hsflowd service
   service:
     name: hsflowd
     state: started
   when: 'inventory_hostname in "prme1-k8s-node-120"'
-  become: true
 
 #- name: start sflowtrend docker
 #  shell: docker run --name=sflowtrend -p 12345:6343/udp -p 8087:8087 -p 8443:8443 sflow/sflowtrend &
@@ -54,7 +48,6 @@
 #         inventory_hostname in "prme3-k8s-node-120" or
 #         inventory_hostname in "prme7-k8s-node-120" or
 #         inventory_hostname in "prme8-k8s-node-120"'
-#  become: true
 
 - pause:
     seconds: 2
@@ -63,5 +56,4 @@
   shell: rm -rf /tmp/sflow_stats__collectors_{{ collectors.count }}.log;
          ifstat -i eth0 -b -d proc -n -w >> /tmp/sflow_stats__collectors_{{ collectors.count }}.log &
   when: 'inventory_hostname in "prme1-k8s-node-120"'
-  become: true
 
