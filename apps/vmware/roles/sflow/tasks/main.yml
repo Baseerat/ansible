@@ -8,6 +8,10 @@
   include: roles/sflow/tasks/sflow/destroy.yml
   tags: destroy_sflow
 
+- name: collect sflow stats
+  include: roles/sflow/tasks/sflow/collect.yml
+  tags: collect_sflow_stats
+
 - name: install common utilities
   include: roles/sflow/tasks/common/install.yml
   tags: install_common
