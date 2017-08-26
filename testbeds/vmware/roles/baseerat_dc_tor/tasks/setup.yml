@@ -1,7 +1,5 @@
 ---
 
-# Note: we don't need group ids for bitmaps, we can instead specify which header to look at.2
-
 - name: add flow rules for bitmap matching
   shell: cd /root/ovs/utilities;
 
