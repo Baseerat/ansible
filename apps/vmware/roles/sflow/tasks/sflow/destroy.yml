@@ -4,6 +4,7 @@
   shell: pkill -u root -f ifstat
   when: 'inventory_hostname in "prme1-k8s-node-120"'
   failed_when: false
+  become: true
 
 #- name: stop and destroy sflowtrend docker
 #  shell: docker stop sflowtrend;
@@ -12,12 +13,14 @@
 #         inventory_hostname in "prme3-k8s-node-120" or
 #         inventory_hostname in "prme7-k8s-node-120" or
 #         inventory_hostname in "prme8-k8s-node-120"'
+#  become: true
 
 - name: stop hsflowd service
   service:
     name: hsflowd
     state: stopped
   when: 'inventory_hostname in "prme1-k8s-node-120"'
+  become: true
 
 - name: remove hsflowd
   apt:
@@ -25,9 +28,11 @@
     purge: yes
     state: absent
   when: 'inventory_hostname in "prme1-k8s-node-120"'
+  become: true
 
 - name: remove hsflowd debian files
   file:
     path: /home/mshahbaz/hsflowd-ubuntu14_2.0.11-1_amd64.deb
     state: absent
   when: 'inventory_hostname in "prme1-k8s-node-120"'
+  become: true
