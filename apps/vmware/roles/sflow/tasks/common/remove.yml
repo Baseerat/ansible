@@ -23,6 +23,12 @@
     path: /usr/local/bin/docker-compose
     state: absent
 
+- name: remove ifstat
+  apt:
+    name: ifstat
+    purge: yes
+    state: absent
+
 - name: update cache
   become: true
   apt:

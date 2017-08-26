@@ -37,3 +37,7 @@
     url: "{{ docker_compose_url }}"
     dest: /usr/local/bin/docker-compose
     mode: 0755
+
+- name: install ifstat
+  apt:
+    name: ifstat
