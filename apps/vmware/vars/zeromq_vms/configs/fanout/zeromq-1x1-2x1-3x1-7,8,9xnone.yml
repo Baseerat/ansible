@@ -1,0 +1,40 @@
+---
+
+fanout_pub:
+  prme_id: 1
+  vm_id: 120
+
+fanout_pub_scheme:
+#  type: "baseerat" # type options: baseerat, unicast
+  type: "unicast"
+  baseerat:
+    address: 192.168.200.200
+    port: 12345
+
+fanout_pub_cmds: '' # e.g., msleep(1); or usleep(1);
+#fanout_pub_cmds: 'struct timespec req;req.tv_sec = 0;req.tv_nsec = 1L;nanosleep(&req, (struct timespec *)NULL);'
+
+fanout_sub_count_per_node: 1
+
+fanout_pubsub_nodes:
+  prme1-k8s-node-120:
+    type: "publisher"
+    subs:
+      - prme_id: 2
+        vm_id: 120
+        count: 1 #"{{ fanout_sub_count_per_node }}"
+      - prme_id: 3
+        vm_id: 120
+        count: "{{ fanout_sub_count_per_node }}"
+    host: "prme-nsx-perf-001"
+
+  prme2-k8s-node-120:
+    type: "subscriber"
+    pub: "{{ fanout_pub }}"
+    count: 1 #"{{ fanout_sub_count_per_node }}"
+
+  prme3-k8s-node-120:
+    type: "subscriber"
+    pub: "{{ fanout_pub }}"
+    count: "{{ fanout_sub_count_per_node }}"
+

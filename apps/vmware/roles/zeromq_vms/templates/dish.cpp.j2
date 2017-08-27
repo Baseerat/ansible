@@ -1,0 +1,46 @@
+#include "testutil.hpp"
+
+int main (void)
+{
+        //setup_test_environment ();
+        void *ctx = zmq_ctx_new ();
+        assert (ctx);
+
+        zmq_msg_t msg;
+        zmq_msg_t *msg_ = &msg;
+
+        void *dish = zmq_socket (ctx, ZMQ_DISH);
+
+        int rc = zmq_bind (dish, "udp://*:{{ port }}");
+        assert (rc == 0);
+
+        msleep (SETTLE_TIME);
+
+        rc = zmq_join (dish, "{{ pubsub_topic }}");
+        assert (rc == 0);
+
+        while (true)
+        {
+                rc = zmq_msg_init (msg_);
+                assert (rc == 0);
+                rc = zmq_msg_recv (msg_, dish, 0);
+                printf ("%s: ", zmq_msg_group (msg_));
+                /*char * msg_body = (char*) malloc (sizeof(char) * (zmq_msg_size (msg_) + 1));
+                memcpy (msg_body, zmq_msg_data (msg_), zmq_msg_size (msg_));
+                msg_body [zmq_msg_size (msg_)] = '\0';
+                printf("%s\n", msg_body);*/
+                unsigned short msg_body = *((unsigned short *)zmq_msg_data (msg_));
+                printf("%x\n", msg_body);
+                zmq_msg_close (msg_);
+        }
+
+        rc = zmq_close (dish);
+        assert (rc == 0);
+
+        rc = zmq_ctx_term (ctx);
+        assert (rc == 0);
+
+        return 0;
+}
+
+/* To build, run: gcc dish.cpp -o dish -lzmq -O2 */

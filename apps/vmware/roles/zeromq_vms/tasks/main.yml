@@ -1,0 +1,21 @@
+---
+
+- name: install common utilities
+  include: roles/zeromq_vms/tasks/common/install.yml
+  tags: install_common
+
+- name: remove common utilities
+  include: roles/zeromq_vms/tasks/common/remove.yml
+  tags: remove_common
+
+- name: launch fanout
+  include: roles/zeromq_vms/tasks/fanout/launch.yml
+  tags: launch_fanout
+
+- name: destroy fanout
+  include: roles/zeromq_vms/tasks/fanout/destroy.yml
+  tags: destroy_fanout
+
+- name: collect fanout stats
+  include: roles/zeromq_vms/tasks/fanout/collect.yml
+  tags: collect_fanout_stats

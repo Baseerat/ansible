@@ -1,0 +1,72 @@
+---
+
+- name: update cache
+  become: true
+  apt:
+    update_cache: yes
+
+- name: install htop
+  become: true
+  apt:
+    name: htop
+
+- name: install git
+  become: true
+  apt:
+    name: git
+
+- name: install build-essential
+  become: true
+  apt:
+    name: build-essential
+
+- name: install libtool
+  become: true
+  apt:
+    name: libtool
+
+- name: install pkg-config
+  become: true
+  apt:
+    name: pkg-config
+
+- name: install autoconf
+  become: true
+  apt:
+    name: autoconf
+
+- name: install cmake
+  become: true
+  apt:
+    name: cmake
+
+- name: install uuid-dev
+  become: true
+  apt:
+    name: uuid-dev
+
+- name: install ifstat
+  become: true
+  apt:
+    name: ifstat
+
+- name: install cpulimit
+  become: true
+  apt:
+    name: cpulimit
+
+- name: clone libzmq source code
+  become: true
+  git:
+    repo: git://github.com/zeromq/libzmq.git
+    dest: /home/mshahbaz/libzmq
+    version: master
+
+- name: build libzmq
+  become: true
+  shell: cd /home/mshahbaz/libzmq;
+         ./autogen.sh;
+         ./configure --enable-drafts;
+         make -j4;
+         make install;
+         ldconfig

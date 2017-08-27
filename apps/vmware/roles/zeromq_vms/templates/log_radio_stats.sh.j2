@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+cd /tmp
+
+#rm -f "radio_stats_with__subs_{{ sub_count_per_node }}__cmd_{{ pub_cmds }}.{{ fanout_pub_scheme.type }}.log"
+
+radio_pid=$(pidof radio)
+
+while true
+do
+    top -b -n2 -p $radio_pid | grep radio | tail -n1 | awk '{print $9, $10}' >> "radio_stats_with__subs_{{ sub_count_per_node }}__cmd_{{ pub_cmds }}.{{ fanout_pub_scheme.type }}.log";
+done

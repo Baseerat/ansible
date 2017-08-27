@@ -1,0 +1,126 @@
+---
+
+- name: set kvm vcpu affinity
+  shell: taskset -a -p 0x0100 $(qm list | grep {{ inventory_hostname }} | awk '{print $6}')
+  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
+  delegate_to: "{{ fanout_pubsub_nodes[inventory_hostname].host }}"
+
+- pause:
+    seconds: 2
+
+- name: upload dish.cpp to subscribers
+  template:
+    src: roles/zeromq_vms/templates/dish.cpp.j2
+    dest: /home/mshahbaz/libzmq/tests/dish_{{ port }}.cpp
+  vars:
+    port: "{{ pubsub_sub_port_base|int + item|int }}"
+  with_sequence: start=0 end={{ fanout_pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
+  when: '"subscriber" in fanout_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: build dish_*.cpp
+  shell: cd /home/mshahbaz/libzmq/tests;
+         gcc dish_{{ port }}.cpp -o dish_{{ port }} -lzmq -O2
+  vars:
+    port: "{{ pubsub_sub_port_base|int + item|int }}"
+  with_sequence: start=0 end={{ fanout_pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
+  when: '"subscriber" in fanout_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: upload radio.cpp to publishers
+  template:
+    src: roles/zeromq_vms/templates/radio.cpp.j2
+    dest: /home/mshahbaz/libzmq/tests/radio.cpp
+  vars:
+    pub_cmds: "{{ fanout_pub_cmds }}"
+  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: add connections to radio.cpp for unicast scheme
+  include: roles/zeromq_vms/tasks/fanout/add_connection.yml __sub="{{ _sub }}"
+  with_items: "{{ fanout_pubsub_nodes[inventory_hostname].subs }}"
+  loop_control:
+    loop_var: _sub
+  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type and
+         fanout_pub_scheme.type == "unicast"'
+  become: true
+
+- name: add connection to radio.cpp for baseerat scheme
+  lineinfile:
+    path: /home/mshahbaz/libzmq/tests/radio.cpp
+    line: 'rc = zmq_connect (radio, "udp://{{ ip }}:{{ port}}"); assert (rc == 0);'
+    insertafter: '__insert_here__'
+    state: present
+  vars:
+    ip: "{{ fanout_pub_scheme.baseerat.address }}"
+    port: "{{ fanout_pub_scheme.baseerat.port }}"
+  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type and
+         fanout_pub_scheme.type == "baseerat"'
+  become: true
+
+- name: build radio.cpp
+  shell: cd /home/mshahbaz/libzmq/tests;
+         gcc radio.cpp -o radio -lzmq -O2
+  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+#- name: upload log_radio_stats.sh script to publishers
+#  template:
+#    src: roles/zeromq_vms/templates/log_radio_stats.sh.j2
+#    dest: /tmp/log_radio_stats.sh
+#  vars:
+#    sub_count_per_node: "{{ fanout_sub_count_per_node }}"
+#    pub_cmds: "{{ fanout_pub_cmds }}"
+#  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
+#  become: true
+
+#- name: upload log_kvm_stats.sh script to publishers' host
+#  template:
+#    src: roles/zeromq_vms/templates/log_kvm_stats.sh.j2
+#    dest: /tmp/log_kvm_stats.sh
+#  vars:
+#    count_per_node: "{{ fanout_sub_count_per_node }}"
+#    pub_cmds: "{{ fanout_pub_cmds }}"
+#  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
+#  delegate_to: "{{ fanout_pubsub_nodes[inventory_hostname].host }}"
+
+- name: launch dish_*
+  shell: cd /home/mshahbaz/libzmq/tests;
+         ./dish_{{ port }} &
+  vars:
+    port: "{{ pubsub_sub_port_base|int + item|int }}"
+  with_sequence: start=0 end={{ fanout_pubsub_nodes[inventory_hostname].count|int - 1 }} format=%d
+  when: '"subscriber" in fanout_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- name: launch radio
+  shell: cd /home/mshahbaz/libzmq/tests;
+         ./radio &
+         cpulimit -p $(ps aux | grep radio | grep -v grep | awk '{print $2}') -l 100 &
+         sleep 2;
+         taskset -a -p 0x4 $(pidof radio)
+  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
+  become: true
+
+- pause:
+    seconds: 5
+
+#- name: log radio stats
+#  shell: sh /tmp/log_radio_stats.sh &
+#  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
+#  become: true
+#
+#- name: log kvm stats
+#  shell: sh /tmp/log_kvm_stats.sh &
+#  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
+#  delegate_to: "{{ fanout_pubsub_nodes[inventory_hostname].host }}"
+
+#- name: log radio's throughput stats
+#  shell: ifstat -i eth0 -b -d proc -n -w >> '/tmp/sflow_stats_with__subs_{{ fanout_sub_count_per_node }}__cmd_{{ fanout_pub_cmds }}.{{ fanout_pub_scheme.type }}.log' &
+#  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
+#  become: true
+
+- name: log dish's throughput stats
+  shell: ifstat -i eth0 -b -d proc -n -w >> '/tmp/dish_stats_with__subs_1+{{ fanout_sub_count_per_node }}__cmd_{{ fanout_pub_cmds }}.{{ fanout_pub_scheme.type }}.log' &
+  when: 'inventory_hostname == "prme2-k8s-node-120"'
+  become: true

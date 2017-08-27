@@ -1,0 +1,17 @@
+---
+
+- name: provision zeromq vms
+  hosts:
+#         prme*k8s-node-*
+         prme1-k8s-node-120
+        ,prme2-k8s-node-120
+        ,prme3-k8s-node-120
+  gather_facts: false
+
+  vars_files:
+    - "vars/proxmox/defaults.yml"
+    - "vars/zeromq_vms/main.yml"
+    - "vars/zeromq_vms/configs/fanout/{{ configs.fanout }}.yml"
+
+  roles:
+    - zeromq_vms
