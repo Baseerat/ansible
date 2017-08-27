@@ -32,6 +32,7 @@ fanout_pubsub_nodes:
     type: "subscriber"
     pub: "{{ fanout_pub }}"
     count: 1 #"{{ fanout_sub_count_per_node }}"
+    host: "prme-nsx-perf-002"
 
   prme3-k8s-node-120:
     type: "subscriber"
