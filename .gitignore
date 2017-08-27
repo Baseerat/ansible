@@ -111,6 +111,7 @@ apps/vmware/ansible.cfg
 apps/vmware/inventory.ini
 apps/vmware/vars/kubernetes/
 apps/vmware/keys
+apps/vmware/vars/proxmox/
 
 benchmarks/vmware/pubsub/ssh_config
 benchmarks/vmware/pubsub/ansible.cfg

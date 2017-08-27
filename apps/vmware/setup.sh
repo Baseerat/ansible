@@ -8,6 +8,8 @@ cp -f ../../testbeds/vmware/ssh_config .
 cp -rf ../../testbeds/vmware/keys ./keys
 cp -rf ../../testbeds/vmware/vars/kubernetes ./vars
 cp -f ../../testbeds/vmware/roles/kubernetes/defaults/main.yml ./vars/kubernetes/defaults.yml
+mkdir -p ./vars/proxmox
+cp -f ../../testbeds/vmware/roles/proxmox/defaults/main.yml ./vars/proxmox/defaults.yml
 
 #ansible-playbook feedback.yml --tags setup_memcached
 #ansible-playbook workload.yml --tags setup_lb_workload
