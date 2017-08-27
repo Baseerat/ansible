@@ -1,14 +1,8 @@
 ---
 
-- name: destroy ifstat
-  shell: pkill -u root -f ifstat
-  when: 'inventory_hostname == "prme2-k8s-node-120"'
-  failed_when: false
-  become: true
-
 #- name: destroy ifstat
 #  shell: pkill -u root -f ifstat
-#  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
+#  when: 'inventory_hostname == "prme2-k8s-node-120"'
 #  failed_when: false
 #  become: true
 
@@ -25,18 +19,18 @@
 #  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
 #  delegate_to: "{{ fanout_pubsub_nodes[inventory_hostname].host }}"
 
-#- name: destory radio stats script
-#  shell: pkill -u root -f log_radio_stats
-#  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
-#  failed_when: false
-#  become: true
+- name: destory radio stats script
+  shell: pkill -u root -f log_radio_stats
+  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
+  failed_when: false
+  become: true
 
-#- name: remove log_radio_stats.sh script
-#  file:
-#    path: /tmp/log_radio_stats.sh
-#    state: absent
-#  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
-#  become: true
+- name: remove log_radio_stats.sh script
+  file:
+    path: /tmp/log_radio_stats.sh
+    state: absent
+  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
+  become: true
 
 - name: destory radio
   shell: pkill -u root -f radio;

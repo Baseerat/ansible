@@ -64,15 +64,15 @@
   when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
   become: true
 
-#- name: upload log_radio_stats.sh script to publishers
-#  template:
-#    src: roles/zeromq_vms/templates/log_radio_stats.sh.j2
-#    dest: /tmp/log_radio_stats.sh
-#  vars:
-#    sub_count_per_node: "{{ fanout_sub_count_per_node }}"
-#    pub_cmds: "{{ fanout_pub_cmds }}"
-#  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
-#  become: true
+- name: upload log_radio_stats.sh script to publishers
+  template:
+    src: roles/zeromq_vms/templates/log_radio_stats.sh.j2
+    dest: /tmp/log_radio_stats.sh
+  vars:
+    sub_count_per_node: "{{ fanout_sub_count_per_node }}"
+    pub_cmds: "{{ fanout_pub_cmds }}"
+  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
+  become: true
 
 #- name: upload log_kvm_stats.sh script to publishers' host
 #  template:
@@ -105,22 +105,17 @@
 - pause:
     seconds: 5
 
-#- name: log radio stats
-#  shell: sh /tmp/log_radio_stats.sh &
-#  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
-#  become: true
-#
+- name: log radio stats
+  shell: sh /tmp/log_radio_stats.sh &
+  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
+  become: true
+
 #- name: log kvm stats
 #  shell: sh /tmp/log_kvm_stats.sh &
 #  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
 #  delegate_to: "{{ fanout_pubsub_nodes[inventory_hostname].host }}"
 
-#- name: log radio's throughput stats
-#  shell: ifstat -i eth0 -b -d proc -n -w >> '/tmp/sflow_stats_with__subs_{{ fanout_sub_count_per_node }}__cmd_{{ fanout_pub_cmds }}.{{ fanout_pub_scheme.type }}.log' &
-#  when: '"publisher" in fanout_pubsub_nodes[inventory_hostname].type'
+#- name: log dish's throughput stats
+#  shell: ifstat -i eth0 -b -d proc -n -w >> '/tmp/dish_stats_with__subs_1+{{ fanout_sub_count_per_node }}__cmd_{{ fanout_pub_cmds }}.{{ fanout_pub_scheme.type }}.log' &
+#  when: 'inventory_hostname == "prme2-k8s-node-120"'
 #  become: true
-
-- name: log dish's throughput stats
-  shell: ifstat -i eth0 -b -d proc -n -w >> '/tmp/dish_stats_with__subs_1+{{ fanout_sub_count_per_node }}__cmd_{{ fanout_pub_cmds }}.{{ fanout_pub_scheme.type }}.log' &
-  when: 'inventory_hostname == "prme2-k8s-node-120"'
-  become: true
