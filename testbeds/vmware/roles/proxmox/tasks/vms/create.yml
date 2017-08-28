@@ -21,6 +21,11 @@
   failed_when: false
   delegate_to: localhost
 
+- name: set VM cores, sockets, and memory
+  shell: pvesh set /nodes/{{ inventory_hostname }}/qemu/{{ proxmox_vm_id }}/config -sockets {{ proxmox_vm_sockets }};
+         pvesh set /nodes/{{ inventory_hostname }}/qemu/{{ proxmox_vm_id }}/config -cores {{ proxmox_vm_cores }};
+         pvesh set /nodes/{{ inventory_hostname }}/qemu/{{ proxmox_vm_id }}/config -memory {{ proxmox_vm_memory }}
+
 - name: set VM eth0 interface type to virtio
   shell: pvesh set /nodes/{{ inventory_hostname }}/qemu/{{ proxmox_vm_id }}/config -net0 virtio,bridge=vmbr0
 
