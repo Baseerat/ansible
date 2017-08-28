@@ -1,0 +1,38 @@
+---
+
+- name: get set-lb-weight.py script
+  get_url:
+    url: "https://raw.githubusercontent.com/Baseerat/ipvs-dynamic-weight/master/set-lb-weight.py"
+    dest: /usr/local/bin/set-lb-weight.py
+    mode: 0755
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: get service address
+  shell: kubectl --namespace={{ workload.lb.apache_servers.namespace }} get service apache-servers -s {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} -o jsonpath={.spec.clusterIP}
+  register: service_address
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: get service port
+  shell: kubectl --namespace={{ workload.lb.apache_servers.namespace }} get service apache-servers -s {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} -o jsonpath={.spec.ports[].port}
+  register: service_port
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: get endpoint addresses
+  shell: kubectl --namespace={{ workload.lb.apache_servers.namespace }} get endpoints apache-servers -s {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} -o jsonpath={range.subsets[].addresses[*]}{.ip},{end}
+  register: endpoint_addresses
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: get endpoint port
+  shell: kubectl --namespace={{ workload.lb.apache_servers.namespace }} get endpoints apache-servers -s {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} -o jsonpath={.subsets[].ports[].port}
+  register: endpoint_port
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: run set-lb-weight.py script
+  shell: nohup set-lb-weight.py {{ endpoint_addresses.stdout }} {{ endpoint_port.stdout }} {{ memcached_address.stdout }}:11211 {{ workload.lb.ipvsadm.feedback.timeout }} {{ service_address.stdout }} {{ service_port.stdout }} > /dev/null 2> /dev/null < /dev/null &
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true

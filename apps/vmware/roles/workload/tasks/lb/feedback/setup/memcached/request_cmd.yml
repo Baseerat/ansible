@@ -1,0 +1,13 @@
+---
+
+- name: get memcached address
+  shell: kubectl --namespace={{ workload.lb.apache_servers.feedback.namespace }} get pods -s {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} --selector=app=memcached -o jsonpath={.items[*].status.podIP}
+  register: memcached_address
+  failed_when: 'memcached_address.stdout == ""'
+  become: true
+
+- name: create memcached script
+  set_fact:
+    feedback_command: "python /root/request-lb-weight.py `hostname -i` {{ memcached_address.stdout }}:11211 {{ workload.lb.apache_servers.feedback.timeout }} False {{ workload.lb.apache_servers.feedback.metric }} {{ workload.lb.apache_servers.feedback.param }};"
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true

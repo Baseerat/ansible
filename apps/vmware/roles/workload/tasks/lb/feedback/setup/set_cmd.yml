@@ -1,0 +1,5 @@
+---
+
+- name: configure memcached feedback set cmd
+  include: roles/workload/tasks/lb/feedback/setup/memcached/set_cmd.yml
+  when: 'workload.lb.apache_servers.feedback.type == "memcached"'

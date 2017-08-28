@@ -1,0 +1,14 @@
+---
+
+- name: stop set-lb-weight.py script
+  shell: pkill -u root -f set-lb-weight.py
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  failed_when: false
+  become: true
+
+- name: remove set-lb-weight.py script
+  file:
+    path: /usr/local/bin/set-lb-weight.py
+    state: absent
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true

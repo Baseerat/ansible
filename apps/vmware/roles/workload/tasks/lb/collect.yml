@@ -12,12 +12,12 @@
   delegate_to: "{{ workload_local_host }}"
 
 - name: fetch results to local host
-  shell: scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r {{ ansible_user }}@{{ ansible_host }}:{{ workload_logs_dir }}/ipvsadm_L_n* /tmp/
+  shell: scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r {{ ansible_user }}@{{ ansible_host }}:{{ workload_logs_dir }}/* /tmp/
   when: '"minion" in nodes[inventory_hostname]["type"]'
   delegate_to: "{{ workload_local_host }}"
 
 - name: fetch results to analyst host
-  shell: scp -r /tmp/ipvsadm_L_n* {{ workload_analyst_host }}:{{ workload_analyst_path }}/apps/dlb/{{ current_date_time.stdout }}
+  shell: scp -r /tmp/ipvsadm_L_n* /tmp/httperf-clients-* {{ workload_analyst_host }}:{{ workload_analyst_path }}/apps/dlb/{{ current_date_time.stdout }}
   when: '"master" in nodes[inventory_hostname]["type"]'
   delegate_to: "{{ workload_local_host }}"
 
@@ -27,7 +27,7 @@
   become: true
 
 - name: cleanup results on local host
-  shell: cd /tmp; rm -rf ipvsadm_L_n*
+  shell: cd /tmp; rm -rf ipvsadm_L_n* httperf-clients-*
   when: '"master" in nodes[inventory_hostname]["type"]'
   delegate_to: "{{ workload_local_host }}"
 
