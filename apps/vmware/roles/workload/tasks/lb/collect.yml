@@ -7,7 +7,7 @@
   delegate_to: "{{ workload_local_host }}"
 
 - name: create directory with date and time
-  shell: ssh {{ workload_analyst_host }} mkdir -p {{ workload_analyst_path }}/apps/dlb/{{ current_date_time.stdout }}
+  shell: ssh {{ workload_analyst_host }} mkdir -p {{ workload_analyst_path }}/apps/lb/{{ current_date_time.stdout }}
   when: '"master" in nodes[inventory_hostname]["type"]'
   delegate_to: "{{ workload_local_host }}"
 
@@ -17,7 +17,7 @@
   delegate_to: "{{ workload_local_host }}"
 
 - name: fetch results to analyst host
-  shell: scp -r /tmp/ipvsadm_L_n* /tmp/httperf-clients-* {{ workload_analyst_host }}:{{ workload_analyst_path }}/apps/dlb/{{ current_date_time.stdout }}
+  shell: scp -r /tmp/ipvsadm_L_n* /tmp/httperf-clients-* {{ workload_analyst_host }}:{{ workload_analyst_path }}/apps/lb/{{ current_date_time.stdout }}
   when: '"master" in nodes[inventory_hostname]["type"]'
   delegate_to: "{{ workload_local_host }}"
 
