@@ -2,5 +2,6 @@
 
 workload_logs_dir: /var/logs
 
-workload_analyst_host: prme-nsx-perf-001
-workload_analyst_path: /root/mshahbaz/Baseerat/results
+workload_analyst_host: root@128.112.168.28 # hostname requires ssh_config file on the host, will use IP instead
+workload_analyst_path: /root/mshahbaz/notebooks/baseerat/vmware/results
+workload_local_host: prme-nsx-perf-001

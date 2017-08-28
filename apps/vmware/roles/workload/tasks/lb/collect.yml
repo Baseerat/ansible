@@ -4,23 +4,30 @@
   shell: 'date "+%Y%m%d%H%M%S.%6N"'
   register: current_date_time
   when: '"master" in nodes[inventory_hostname]["type"]'
-  delegate_to: "{{ workload_analyst_host }}"
+  delegate_to: "{{ workload_local_host }}"
 
 - name: create directory with date and time
-  file:
-    path: "{{ workload_analyst_path }}/{{ current_date_time.stdout }}"
-    state: directory
+  shell: ssh {{ workload_analyst_host }} mkdir -p {{ workload_analyst_path }}/apps/dlb/{{ current_date_time.stdout }}
   when: '"master" in nodes[inventory_hostname]["type"]'
-  delegate_to: "{{ workload_analyst_host }}"
+  delegate_to: "{{ workload_local_host }}"
 
-- name: fetch results to {{ workload_analyst_host }}
-  shell: scp -r {{ ansible_user }}@{{ ansible_host }}:{{ workload_logs_dir }}/* {{ workload_analyst_path }}/{{ hostvars[master_node].current_date_time.stdout }}
-  vars:
-    master_node: "prme{{ nodes[inventory_hostname].master.prme_id }}-k8s-node-{{ nodes[inventory_hostname].master.vm_id }}"
+- name: fetch results to local host
+  shell: scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r {{ ansible_user }}@{{ ansible_host }}:{{ workload_logs_dir }}/ipvsadm_L_n* /tmp/
   when: '"minion" in nodes[inventory_hostname]["type"]'
-  delegate_to: "{{ workload_analyst_host }}"
+  delegate_to: "{{ workload_local_host }}"
 
-- name: cleanup {{ workload_logs_dir }} folder
+- name: fetch results to analyst host
+  shell: scp -r /tmp/ipvsadm_L_n* {{ workload_analyst_host }}:{{ workload_analyst_path }}/apps/dlb/{{ current_date_time.stdout }}
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  delegate_to: "{{ workload_local_host }}"
+
+- name: cleanup results on minions
   shell: cd {{ workload_logs_dir }}; rm -rf *
   when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true
+
+- name: cleanup results on local host
+  shell: cd /tmp; rm -rf ipvsadm_L_n*
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  delegate_to: "{{ workload_local_host }}"
+

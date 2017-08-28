@@ -6,7 +6,7 @@
 
   vars_files:
     - "vars/kubernetes/main.yml"
-    - "vars/kubernetes/networking.yml"
+    - "vars/kubernetes/configs/{{ configs }}.yml"
     - "vars/kubernetes/defaults.yml"
     - "vars/feedback.yml"
 
