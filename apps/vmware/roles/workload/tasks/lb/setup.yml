@@ -33,8 +33,8 @@
   include: roles/workload/tasks/lb/feedback/setup/set_cmd.yml
 
 - name: fetch dump-ipvsadm-L-n.py script
-  get_url:
-    url: https://raw.githubusercontent.com/Baseerat/ipvs-utils/master/dump-ipvsadm-L-n.py
+  copy:
+    src: roles/workload/files/dump-ipvsadm-L-n.py
     dest: /usr/local/bin/dump-ipvsadm-L-n.py
     mode: 0755
   when: '"minion" in nodes[inventory_hostname]["type"]'
@@ -46,8 +46,8 @@
   become: true
 
 - name: fetch dump-ipvsadm-L-n--stats.py script
-  get_url:
-    url: https://raw.githubusercontent.com/Baseerat/ipvs-utils/master/dump-ipvsadm-L-n--stats.py
+  copy:
+    src: roles/workload/files/dump-ipvsadm-L-n--stats.py
     dest: /usr/local/bin/dump-ipvsadm-L-n--stats.py
     mode: 0755
   when: '"minion" in nodes[inventory_hostname]["type"]'

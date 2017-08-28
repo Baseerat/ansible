@@ -1,0 +1,34 @@
+---
+
+- name: stop inf-loop-cpulimit-rand.sh scripts
+  shell: pkill -u root -f inf-loop-cpulimit-rand.sh
+  failed_when: false
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: stop left over inf-loop.sh scripts
+  shell: pkill -u root -f inf-loop.sh
+  failed_when: false
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: remove inf-loop.sh script
+  file:
+    path: /usr/local/bin/inf-loop.sh
+    state: absent
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: remove inf-loop-cpulimit.sh script
+  file:
+    path: /usr/local/bin/inf-loop-cpulimit.sh
+    state: absent
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: remove inf-loop-cpulimit-rand.sh script
+  file:
+    path: /usr/local/bin/inf-loop-cpulimit-rand.sh
+    state: absent
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true

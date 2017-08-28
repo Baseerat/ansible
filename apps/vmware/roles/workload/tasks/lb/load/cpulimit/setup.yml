@@ -1,0 +1,30 @@
+---
+
+- name: copy inf-loop.sh script
+  copy:
+    src: roles/workload/files/inf-loop.sh
+    dest: /usr/local/bin/inf-loop.sh
+    mode: 0755
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: copy inf-loop-cpulimit.sh script
+  copy:
+    src: roles/workload/files/inf-loop-cpulimit.sh
+    dest: /usr/local/bin/inf-loop-cpulimit.sh
+    mode: 0755
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: copy inf-loop-cpulimit-rand.sh script
+  copy:
+    src: roles/workload/files/inf-loop-cpulimit-rand.sh
+    dest: /usr/local/bin/inf-loop-cpulimit-rand.sh
+    mode: 0755
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: run inf-loop-cpulimit-rand.sh script
+  shell: inf-loop-cpulimit-rand.sh $(({{ workload.lb.load.cpulimit.base_seed }} + {{ prme_id }}{{ vm_id }})) {{ workload.lb.load.cpulimit.processes }} {{ workload.lb.load.cpulimit.percentage }} {{ workload.lb.load.cpulimit.sleep }} &
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true

@@ -85,3 +85,7 @@
 - name: install python-psutil
   apt:
     name: python-psutil
+
+- name: install cpulimit
+  apt:
+    name: cpulimit

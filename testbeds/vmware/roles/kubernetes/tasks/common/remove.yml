@@ -92,6 +92,12 @@
     purge: yes
     state: absent
 
+- name: remove cpulimit
+  apt:
+    name: cpulimit
+    purge: yes
+    state: absent
+
 - name: update cache
   become: true
   apt:

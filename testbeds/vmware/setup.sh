@@ -22,7 +22,7 @@ sleep 30
 ansible-playbook baseerat_dc_tor.yml --tags setup
 ansible-playbook baseerat.yml --tags setup
 
-#ansible-playbook kubernetes.yml --tags install_common
-#ansible-playbook kubernetes.yml --tags create_overlay
-#ansible-playbook kubernetes.yml --tags create_cluster
+ansible-playbook kubernetes.yml --tags install_common
+ansible-playbook kubernetes.yml --tags create_overlay
+ansible-playbook kubernetes.yml --tags create_cluster
 #ansible-playbook kubernetes.yml --tags create_apps
