@@ -1,0 +1,5 @@
+---
+
+- name: cleanup load generator using stress-ng
+  include: roles/workload/tasks/lb/load/stress_ng/cleanup.yml
+  when: 'workload.lb.load.type == "stress_ng"'

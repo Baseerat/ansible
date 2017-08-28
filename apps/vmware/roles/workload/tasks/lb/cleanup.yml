@@ -1,5 +1,8 @@
 ---
 
+- name: cleanup load generator
+  include: roles/workload/tasks/lb/load/cleanup.yml
+
 - name: cleanup feedback set cmd
   include: roles/workload/tasks/lb/feedback/cleanup/set_cmd.yml
 

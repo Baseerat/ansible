@@ -1,0 +1,25 @@
+---
+
+- name: stop stress-ng-rand.sh script
+  shell: pkill -u root -f stress-ng-rand.sh
+  failed_when: false
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: stop left over dockers
+  shell: docker stop stress-ng-{{ prme_id }}{{ vm_id }}
+  failed_when: false
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: remove stress-ng-rand.sh script
+  file:
+    path: /usr/local/bin/stress-ng-rand.sh
+    state: absent
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: remove stress-ng docker image
+  shell: docker rmi lorel/docker-stress-ng
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true

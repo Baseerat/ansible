@@ -1,0 +1,19 @@
+---
+
+- name: copy stress-ng-rand.sh script
+  copy:
+    src: roles/workload/files/stress-ng-rand.sh
+    dest: /usr/local/bin/stress-ng-rand.sh
+    mode: 0755
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: pull stress-ng docker image
+  shell: docker pull lorel/docker-stress-ng
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: run stress-ng-rand.sh script
+  shell: stress-ng-rand.sh $(({{ workload.lb.load.stress_ng.base_seed }} + {{ prme_id }}{{ vm_id }})) stress-ng-{{ prme_id }}{{ vm_id }} {{ workload.lb.load.stress_ng.cpu }} {{ workload.lb.load.stress_ng.sleep }} &
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true

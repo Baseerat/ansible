@@ -7,7 +7,7 @@ workload:
       namespace: default
       policy: wlc
       feedback:
-        type: memcached # Options: '' to disable feedback
+        type: 'memcached' # Options: 'memcached' or'' to disable feedback
         namespace: default
         timeout: 1
         metric: cpu  # cpu, loadavg
@@ -28,3 +28,9 @@ workload:
       feedback:
         type: memcached
         timeout: 1
+    load:
+        type: '' # Options: 'stress_ng' or '' to disable load
+        stress_ng:
+          base_seed: 1
+          cpu: 40
+          sleep: 0.5
