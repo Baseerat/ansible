@@ -7,3 +7,7 @@
 - name: setup load generator using cpulimit
   include: roles/workload/tasks/lb/load/cpulimit/setup.yml
   when: 'workload.lb.load.type == "cpulimit"'
+
+- name: setup load generator using cpulimit_host
+  include: roles/workload/tasks/lb/load/cpulimit_host/setup.yml
+  when: 'workload.lb.load.type == "cpulimit_host"'

@@ -20,75 +20,87 @@
   when: '"minion" in nodes[inventory_hostname]["type"]'
   delegate_to: prme-nsx-perf-00{{ prme_id }}
 
-#- name: set node labels
-#  shell: kubectl label nodes {{ item }} nodetype={{ workload.lb.nodes[item].nodetype }}
-#  with_items: "{{ workload.lb.nodes }}"
-#  when: '"master" in nodes[inventory_hostname]["type"]'
-#  become: true
-#
-#- name: create workload logs dir
-#  file:
-#    path: "{{ workload_logs_dir }}"
-#    state: directory
-#  become: true
-#
-#- name: configure feedback request cmd
-#  include: roles/workload/tasks/lb/feedback/setup/request_cmd.yml
-#
-#- name: define feedback_command if undefined
-#  set_fact:
-#    feedback_command: ""
-#  when: '"master" in nodes[inventory_hostname]["type"] and feedback_command is not defined'
-#  become: true
-#
-#- name: upload apache-servers' configs
-#  template:
-#    src: roles/workload/templates/apache-servers.yml.j2
-#    dest: /tmp/app.apache-servers.yml
-#  when: '"master" in nodes[inventory_hostname]["type"]'
-#  become: true
-#
-#- name: create apache-servers' apps
-#  shell: kubectl apply -f /tmp/app.apache-servers.yml
-#  when: '"master" in nodes[inventory_hostname]["type"]'
-#  become: true
-#
-#- pause:
-#    minutes: 2
-#
-#- name: sync apache-servers' service
-#  shell: kube-ipvs-proxy.py {{ workload.lb.apache_servers.namespace }} {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} sync apache-servers {{ workload.lb.apache_servers.policy }}
-#  when: '"minion" in nodes[inventory_hostname]["type"]'
-#  become: true
-#
-#- name: configure feedback set cmd
-#  include: roles/workload/tasks/lb/feedback/setup/set_cmd.yml
-#
-#- name: fetch dump-ipvsadm-L-n.py script
-#  copy:
-#    src: roles/workload/files/dump-ipvsadm-L-n.py
-#    dest: /usr/local/bin/dump-ipvsadm-L-n.py
-#    mode: 0755
-#  when: '"minion" in nodes[inventory_hostname]["type"]'
-#  become: true
-#
-#- name: run dump-ipvsadm-L-n.py script
-#  shell: nohup dump-ipvsadm-L-n.py {{ workload.lb.ipvsadm.stats.timeout }} {{ workload_logs_dir }}/ipvsadm_L_n.{{ inventory_hostname }}.csv > /dev/null 2> /dev/null < /dev/null &
-#  when: '"minion" in nodes[inventory_hostname]["type"]'
-#  become: true
-#
-#- name: fetch dump-ipvsadm-wL-n--stats.py script
-#  copy:
-#    src: roles/workload/files/dump-ipvsadm-L-n--stats.py
-#    dest: /usr/local/bin/dump-ipvsadm-L-n--stats.py
-#    mode: 0755
-#  when: '"minion" in nodes[inventory_hostname]["type"]'
-#  become: true
-#
-#- name: run dump-ipvsadm-L-n--stats.py script
-#  shell: nohup dump-ipvsadm-L-n--stats.py {{ workload.lb.ipvsadm.stats.timeout }} {{ workload_logs_dir }}/ipvsadm_L_n__stats.{{ inventory_hostname }}.csv > /dev/null 2> /dev/null < /dev/null &
-#  when: '"minion" in nodes[inventory_hostname]["type"]'
-#  become: true
-#
-#- name: setup load generator
-#  include: roles/workload/tasks/lb/load/setup.yml
+- name: set node labels
+  shell: kubectl label nodes {{ item }} nodetype={{ workload.lb.nodes[item].nodetype }}
+  with_items: "{{ workload.lb.nodes }}"
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: create workload logs dir
+  file:
+    path: "{{ workload_logs_dir }}"
+    state: directory
+  become: true
+
+- name: configure feedback request cmd
+  include: roles/workload/tasks/lb/feedback/setup/request_cmd.yml
+
+- name: define feedback_command if undefined
+  set_fact:
+    feedback_command: ""
+  when: '"master" in nodes[inventory_hostname]["type"] and feedback_command is not defined'
+  become: true
+
+- name: upload apache-servers' configs
+  template:
+    src: roles/workload/templates/apache-servers.yml.j2
+    dest: /tmp/app.apache-servers.yml
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: create apache-servers' apps
+  shell: kubectl apply -f /tmp/app.apache-servers.yml
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- pause:
+    minutes: 2
+
+- name: get running docker ids
+  shell: docker ps --filter "name=apache-servers" -q
+  register: docker_ids
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache"'
+  become: true
+
+- name: set running dockers affinity
+  shell: docker update --cpuset-cpus 1-7 {{ item }}
+  with_items: "{{ docker_ids.stdout_lines }}"
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache"'
+  become: true
+
+- name: sync apache-servers' service
+  shell: kube-ipvs-proxy.py {{ workload.lb.apache_servers.namespace }} {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} sync apache-servers {{ workload.lb.apache_servers.policy }}
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: configure feedback set cmd
+  include: roles/workload/tasks/lb/feedback/setup/set_cmd.yml
+
+- name: fetch dump-ipvsadm-L-n.py script
+  copy:
+    src: roles/workload/files/dump-ipvsadm-L-n.py
+    dest: /usr/local/bin/dump-ipvsadm-L-n.py
+    mode: 0755
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: run dump-ipvsadm-L-n.py script
+  shell: nohup dump-ipvsadm-L-n.py {{ workload.lb.ipvsadm.stats.timeout }} {{ workload_logs_dir }}/ipvsadm_L_n.{{ inventory_hostname }}.csv > /dev/null 2> /dev/null < /dev/null &
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: fetch dump-ipvsadm-wL-n--stats.py script
+  copy:
+    src: roles/workload/files/dump-ipvsadm-L-n--stats.py
+    dest: /usr/local/bin/dump-ipvsadm-L-n--stats.py
+    mode: 0755
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: run dump-ipvsadm-L-n--stats.py script
+  shell: nohup dump-ipvsadm-L-n--stats.py {{ workload.lb.ipvsadm.stats.timeout }} {{ workload_logs_dir }}/ipvsadm_L_n__stats.{{ inventory_hostname }}.csv > /dev/null 2> /dev/null < /dev/null &
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: setup load generator
+  include: roles/workload/tasks/lb/load/setup.yml

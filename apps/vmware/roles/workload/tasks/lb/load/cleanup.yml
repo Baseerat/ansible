@@ -7,3 +7,7 @@
 - name: cleanup load generator using cpulimit
   include: roles/workload/tasks/lb/load/cpulimit/cleanup.yml
   when: 'workload.lb.load.type == "cpulimit"'
+
+- name: cleanup load generator using cpulimit_host
+  include: roles/workload/tasks/lb/load/cpulimit_host/cleanup.yml
+  when: 'workload.lb.load.type == "cpulimit_host"'

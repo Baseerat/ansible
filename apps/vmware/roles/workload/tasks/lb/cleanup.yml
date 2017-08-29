@@ -1,84 +1,84 @@
 ---
 
-#- name: cleanup load generator
-#  include: roles/workload/tasks/lb/load/cleanup.yml
-#
-#- name: cleanup feedback set cmd
-#  include: roles/workload/tasks/lb/feedback/cleanup/set_cmd.yml
-#
-#- name: stop dump-ipvsadm-L-n.py script
-#  shell: pkill -u root -f dump-ipvsadm-L-n.py
-#  when: '"minion" in nodes[inventory_hostname]["type"]'
-#  failed_when: false
-#  become: true
-#
-#- name: remove dump-ipvsadm-L-n.py script
-#  file:
-#    path: /usr/local/bin/dump-ipvsadm-L-n.py
-#    state: absent
-#  when: '"minion" in nodes[inventory_hostname]["type"]'
-#  become: true
-#
-#- name: stop dump-ipvsadm-L-n--stats.py script
-#  shell: pkill -u root -f dump-ipvsadm-L-n--stats.py
-#  when: '"minion" in nodes[inventory_hostname]["type"]'
-#  failed_when: false
-#  become: true
-#
-#- name: remove dump-ipvsadm-L-n--stats.py script
-#  file:
-#    path: /usr/local/bin/dump-ipvsadm-L-n--stats.py
-#    state: absent
-#  when: '"minion" in nodes[inventory_hostname]["type"]'
-#  become: true
-#
-#- name: remove httperf-clients' configs
-#  file:
-#    path: /tmp/app.httperf-clients.yml
-#    state: absent
-#  when: '"master" in nodes[inventory_hostname]["type"]'
-#  failed_when: false
-#  become: true
-#
-#- name: delete httperf-clients' deployment
-#  shell: kubectl --namespace={{ workload.lb.httperf_clients.namespace }} delete deployment httperf-clients
-#  when: '"master" in nodes[inventory_hostname]["type"]'
-#  failed_when: false
-#  become: true
-#
-#- name: clear apache-servers' rules from ipvs table
-#  command: kube-ipvs-proxy.py {{ workload.lb.apache_servers.namespace }} {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} clear apache-servers {{ workload.lb.apache_servers.policy }}
-#  when: '"minion" in nodes[inventory_hostname]["type"]'
-#  become: true
-#
-#- name: remove apache-servers' configs
-#  file:
-#    path: /tmp/app.apache-servers.yml
-#    state: absent
-#  when: '"master" in nodes[inventory_hostname]["type"]'
-#  become: true
-#
-#- name: delete apache-servers' service
-#  shell: kubectl --namespace={{ workload.lb.apache_servers.namespace }} delete service apache-servers
-#  when: '"master" in nodes[inventory_hostname]["type"]'
-#  become: true
-#
-#- name: delete apache-servers' deployment
-#  shell: kubectl --namespace={{ workload.lb.apache_servers.namespace }} delete deployment apache-servers
-#  when: '"master" in nodes[inventory_hostname]["type"]'
-#  become: true
-#
-#- name: delete workload logs dir
-#  file:
-#    path: "{{ workload_logs_dir }}"
-#    state: absent
-#  become: true
-#
-#- name: delete node labels
-#  shell: kubectl label nodes {{ item }} nodetype-
-#  with_items: "{{ workload.lb.nodes }}"
-#  when: '"master" in nodes[inventory_hostname]["type"]'
-#  become: true
+- name: cleanup load generator
+  include: roles/workload/tasks/lb/load/cleanup.yml
+
+- name: cleanup feedback set cmd
+  include: roles/workload/tasks/lb/feedback/cleanup/set_cmd.yml
+
+- name: stop dump-ipvsadm-L-n.py script
+  shell: pkill -u root -f dump-ipvsadm-L-n.py
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  failed_when: false
+  become: true
+
+- name: remove dump-ipvsadm-L-n.py script
+  file:
+    path: /usr/local/bin/dump-ipvsadm-L-n.py
+    state: absent
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: stop dump-ipvsadm-L-n--stats.py script
+  shell: pkill -u root -f dump-ipvsadm-L-n--stats.py
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  failed_when: false
+  become: true
+
+- name: remove dump-ipvsadm-L-n--stats.py script
+  file:
+    path: /usr/local/bin/dump-ipvsadm-L-n--stats.py
+    state: absent
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: remove httperf-clients' configs
+  file:
+    path: /tmp/app.httperf-clients.yml
+    state: absent
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  failed_when: false
+  become: true
+
+- name: delete httperf-clients' deployment
+  shell: kubectl --namespace={{ workload.lb.httperf_clients.namespace }} delete deployment httperf-clients
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  failed_when: false
+  become: true
+
+- name: clear apache-servers' rules from ipvs table
+  command: kube-ipvs-proxy.py {{ workload.lb.apache_servers.namespace }} {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} clear apache-servers {{ workload.lb.apache_servers.policy }}
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: remove apache-servers' configs
+  file:
+    path: /tmp/app.apache-servers.yml
+    state: absent
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: delete apache-servers' service
+  shell: kubectl --namespace={{ workload.lb.apache_servers.namespace }} delete service apache-servers
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: delete apache-servers' deployment
+  shell: kubectl --namespace={{ workload.lb.apache_servers.namespace }} delete deployment apache-servers
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: delete workload logs dir
+  file:
+    path: "{{ workload_logs_dir }}"
+    state: absent
+  become: true
+
+- name: delete node labels
+  shell: kubectl label nodes {{ item }} nodetype-
+  with_items: "{{ workload.lb.nodes }}"
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
 
 - name: get VM cpu thread ids
   shell: get-vcpus.sh {{ vm_id }}

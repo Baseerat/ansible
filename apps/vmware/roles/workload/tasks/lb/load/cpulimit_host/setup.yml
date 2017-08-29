@@ -6,7 +6,7 @@
     dest: /usr/local/bin/inf-loop.sh
     mode: 0755
   when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache"'
-  become: true
+  delegate_to: prme-nsx-perf-00{{ prme_id }}
 
 - name: copy inf-loop-cpulimit.sh script
   copy:
@@ -14,7 +14,7 @@
     dest: /usr/local/bin/inf-loop-cpulimit.sh
     mode: 0755
   when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache"'
-  become: true
+  delegate_to: prme-nsx-perf-00{{ prme_id }}
 
 - name: copy inf-loop-cpulimit-rand.sh script
   copy:
@@ -22,9 +22,9 @@
     dest: /usr/local/bin/inf-loop-cpulimit-rand.sh
     mode: 0755
   when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache"'
-  become: true
+  delegate_to: prme-nsx-perf-00{{ prme_id }}
 
 - name: run inf-loop-cpulimit-rand.sh script
-  shell: inf-loop-cpulimit-rand.sh $(({{ workload.lb.load.cpulimit.base_seed }} + {{ prme_id }}{{ vm_id }})) {{ workload.lb.load.cpulimit.processes_per_core }} {{ workload.lb.load.cpulimit.percentage }} {{ workload.lb.load.cpulimit.cores }} 1 {{ workload.lb.load.cpulimit.sleep }} &
+  shell: inf-loop-cpulimit-rand.sh $(({{ workload.lb.load.cpulimit_host.base_seed }} + {{ prme_id }}{{ vm_id }})) {{ workload.lb.load.cpulimit_host.processes_per_core }} {{ workload.lb.load.cpulimit_host.percentage }} {{ workload.lb.load.cpulimit_host.cores }} 2 {{ workload.lb.load.cpulimit_host.sleep }} &
   when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache"'
-  become: true
+  delegate_to: prme-nsx-perf-00{{ prme_id }}
