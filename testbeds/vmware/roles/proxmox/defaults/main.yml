@@ -18,9 +18,9 @@ proxmox_base_vm_template: "vzdump-qemu-{{ proxmox_base_vm_hostname }}.vma.lzo"
 proxmox_base_vm_image_path: /var/lib/vz/images
 proxmox_base_vm_nbd_device: nbd0
 
-proxmox_vm_cores: 2
-proxmox_vm_sockets: 1
-proxmox_vm_memory: 4096
+proxmox_vm_cores: 8
+proxmox_vm_sockets: 2
+proxmox_vm_memory: 16384
 proxmox_vm_user: mshahbaz
 proxmox_vm_hostname_prefix: k8s-node-
 proxmox_vm_network_interface: eth0

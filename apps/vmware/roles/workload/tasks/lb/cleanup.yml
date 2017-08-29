@@ -67,3 +67,9 @@
   shell: kubectl --namespace={{ workload.lb.apache_servers.namespace }} delete deployment apache-servers
   when: '"master" in nodes[inventory_hostname]["type"]'
   become: true
+
+- name: delete workload logs dir
+  file:
+    path: "{{ workload_logs_dir }}"
+    state: absent
+  become: true

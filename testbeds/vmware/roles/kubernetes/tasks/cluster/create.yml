@@ -108,7 +108,7 @@
 
 - name: create dummy interface ipvs0
   command: ip link add ipvs0 type dummy
-  when: '"minion" in nodes[inventory_hostname]["type"]'
+#  when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true
 
 - name: copy kube-ipvs-proxy.py script
@@ -116,10 +116,10 @@
     src: roles/kubernetes/files/kube-ipvs-proxy.py
     dest: /usr/local/bin/kube-ipvs-proxy.py
     mode: 0755
-  when: '"minion" in nodes[inventory_hostname]["type"]'
+#  when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true
 
 - name: sync default kuberentes service
   command: kube-ipvs-proxy.py default {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} sync kubernetes rr
-  when: '"minion" in nodes[inventory_hostname]["type"]'
+#  when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true

@@ -1,5 +1,11 @@
 ---
 
+- name: create workload logs dir
+  file:
+    path: "{{ workload_logs_dir }}"
+    state: directory
+  become: true
+
 - name: configure feedback request cmd
   include: roles/workload/tasks/lb/feedback/setup/request_cmd.yml
 
@@ -45,7 +51,7 @@
   when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true
 
-- name: fetch dump-ipvsadm-L-n--stats.py script
+- name: fetch dump-ipvsadm-wL-n--stats.py script
   copy:
     src: roles/workload/files/dump-ipvsadm-L-n--stats.py
     dest: /usr/local/bin/dump-ipvsadm-L-n--stats.py

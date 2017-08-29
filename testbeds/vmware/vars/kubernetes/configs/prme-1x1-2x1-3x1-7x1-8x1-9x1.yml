@@ -6,7 +6,7 @@ master:
 
 nodes:
   prme1-k8s-node-120:
-    type: "master:minion"
+    type: "master"
     master: "{{ master }}"
   prme2-k8s-node-120:
     type: "minion"

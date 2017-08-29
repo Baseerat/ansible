@@ -30,4 +30,3 @@
   shell: cd /tmp; rm -rf ipvsadm_L_n* httperf-clients-*
   when: '"master" in nodes[inventory_hostname]["type"]'
   delegate_to: "{{ workload_local_host }}"
-
