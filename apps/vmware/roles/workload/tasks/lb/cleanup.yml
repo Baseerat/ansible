@@ -73,3 +73,9 @@
     path: "{{ workload_logs_dir }}"
     state: absent
   become: true
+
+- name: delete node labels
+  shell: kubectl label nodes {{ item }} nodetype-
+  with_items: "{{ workload.lb.nodes }}"
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true

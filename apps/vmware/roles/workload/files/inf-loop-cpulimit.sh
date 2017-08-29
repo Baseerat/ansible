@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-for i in `seq 1 $1`; do cpulimit -l $2 inf-loop.sh & done
+for j in `seq 1 $3`; do
+    for i in `seq 1 $1`; do taskset -c $(($j-1)) cpulimit -l $2 inf-loop.sh & done
+done

@@ -1,5 +1,11 @@
 ---
 
+- name: set node labels
+  shell: kubectl label nodes {{ item }} nodetype={{ workload.lb.nodes[item].nodetype }}
+  with_items: "{{ workload.lb.nodes }}"
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
 - name: create workload logs dir
   file:
     path: "{{ workload_logs_dir }}"
