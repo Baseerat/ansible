@@ -13,7 +13,7 @@
     backup: yes
 
 - name: remove essential utilities
-  shell: apt-get -y purge htop tmux unzip git python-pip python-yaml python-setuptools build-essential dh-autoreconf pve-headers-`uname -r`
+  shell: apt-get -y purge expect htop tmux unzip git python-pip python-yaml python-setuptools build-essential dh-autoreconf pve-headers-`uname -r`
 
 - name: ensure that pve-no-subscription repository is not present in the /etc/apt/sources.list
   lineinfile:

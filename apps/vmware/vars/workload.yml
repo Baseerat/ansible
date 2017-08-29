@@ -28,7 +28,7 @@ workload:
       feedback:
         timeout: 0.001
     load:
-        type: 'cpulimit' # Options: 'stress_ng' or 'cpulimit' or '' to disable load
+        type: '' # Options: 'stress_ng' or 'cpulimit' or '' to disable load
         stress_ng:
           base_seed: 1
           dockers: 4
