@@ -1,0 +1,34 @@
+---
+
+- name: copy zeromq-dish.py script
+  copy:
+    src: roles/workload/files/zeromq-dish.py
+    dest: /usr/local/bin/zeromq-radio.py
+    mode: 0755
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: get service address
+  shell: kubectl --namespace={{ workload.lb.apache_servers.namespace }} get service apache-servers -s {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} -o jsonpath={.spec.clusterIP}
+  register: service_address
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: get service port
+  shell: kubectl --namespace={{ workload.lb.apache_servers.namespace }} get service apache-servers -s {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} -o jsonpath={.spec.ports[].port}
+  register: service_port
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: get endpoint port
+  shell: kubectl --namespace={{ workload.lb.apache_servers.namespace }} get endpoints apache-servers -s {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} -o jsonpath={.subsets[].ports[].port}
+  register: endpoint_port
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: run zeromq-dish.py script
+  shell: python zeromq-dish.py {{ workload.lb.apache_servers.feedback.zeromq.dish.broker.port }} {{ endpoint_port.stdout }}
+                               {{ service_address.stdout }} {{ service_port.stdout }} {{ workload.lb.apache_servers.feedback.zeromq.dish.timeout }}
+                               {{ workload.lb.apache_servers.feedback.zeromq.dish.group }} {{ workload.lb.apache_servers.feedback.zeromq.dish.enable }} &
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true

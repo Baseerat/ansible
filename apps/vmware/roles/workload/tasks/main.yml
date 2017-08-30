@@ -1,5 +1,13 @@
 ---
 
+- name: install common utilities
+  include: roles/workload/tasks/common/install.yml
+  tags: install_common
+
+- name: remove common utilities
+  include: roles/workload/tasks/common/remove.yml
+  tags: remove_common
+
 - name: setup lb workload
   include: roles/workload/tasks/lb/setup.yml
   tags: setup_lb_workload

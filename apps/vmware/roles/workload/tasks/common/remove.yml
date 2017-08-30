@@ -1,0 +1,65 @@
+---
+
+- name: uninstall pyzmq
+  pip:
+    name: pyzmq
+    state: absent
+
+- name: remove libzmq
+  become: true
+  shell: cd /home/mshahbaz/libzmq;
+         make uninstall;
+         ldconfig
+
+- name: remove libzmq repository
+  become: true
+  file:
+    path: /home/mshahbaz/libzmq
+    state: absent
+
+- name: remove libtool
+  become: true
+  apt:
+    name: libtool
+    purge: yes
+    state: absent
+
+- name: remove pkg-config
+  become: true
+  apt:
+    name: pkg-config
+    purge: yes
+    state: absent
+
+- name: remove autoconf
+  become: true
+  apt:
+    name: autoconf
+    purge: yes
+    state: absent
+
+- name: remove cmake
+  become: true
+  apt:
+    name: cmake
+    purge: yes
+    state: absent
+
+- name: remove uuid-dev
+  become: true
+  apt:
+    name: uuid-dev
+    purge: yes
+    state: absent
+
+- name: remove python-dev
+  become: true
+  apt:
+    name: python-dev
+    purge: yes
+    state: absent
+
+- name: update cache
+  become: true
+  apt:
+    update_cache: yes

@@ -1,0 +1,5 @@
+---
+
+- name: cleanup zeromq feedback request cmd
+  include: roles/workload/tasks/lb/feedback/cleanup/zeromq/request_cmd.yml
+  when: 'workload.lb.apache_servers.feedback.type == "zeromq"'

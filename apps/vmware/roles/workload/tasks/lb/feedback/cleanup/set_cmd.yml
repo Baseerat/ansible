@@ -1,5 +1,9 @@
 ---
 
-- name: cleanup memcached feedback set cmd
-  include: roles/workload/tasks/lb/feedback/cleanup/memcached/set_cmd.yml
-  when: 'workload.lb.apache_servers.feedback.type == "memcached"'
+#- name: cleanup memcached feedback set cmd
+#  include: roles/workload/tasks/lb/feedback/cleanup/memcached/set_cmd.yml
+#  when: 'workload.lb.apache_servers.feedback.type == "memcached"'
+
+- name: cleanup zeromq feedback set cmd
+  include: roles/workload/tasks/lb/feedback/cleanup/zeromq/set_cmd.yml
+  when: 'workload.lb.apache_servers.feedback.type == "zeromq"'

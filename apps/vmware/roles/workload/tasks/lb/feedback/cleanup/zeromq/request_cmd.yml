@@ -1,0 +1,14 @@
+---
+
+- name: stop zeromq-radio.py script
+  shell: pkill -u root -f zeromq-radio.py
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache"'
+  failed_when: false
+  become: true
+
+- name: remove zeromq-radio.py script
+  file:
+    path: /usr/local/bin/zeromq-radio.py
+    state: absent
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache"'
+  become: true

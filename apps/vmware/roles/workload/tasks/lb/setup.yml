@@ -32,8 +32,8 @@
     state: directory
   become: true
 
-- name: configure feedback request cmd
-  include: roles/workload/tasks/lb/feedback/setup/request_cmd.yml
+#- name: configure feedback request cmd (deprecated: needed for memcached)
+#  include: roles/workload/tasks/lb/feedback/setup/request_cmd.yml
 
 - name: define feedback_command if undefined
   set_fact:
@@ -72,6 +72,9 @@
   shell: kube-ipvs-proxy.py {{ workload.lb.apache_servers.namespace }} {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} sync apache-servers {{ workload.lb.apache_servers.policy }}
   when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true
+
+- name: configure feedback request cmd
+  include: roles/workload/tasks/lb/feedback/setup/request_cmd.yml
 
 - name: configure feedback set cmd
   include: roles/workload/tasks/lb/feedback/setup/set_cmd.yml

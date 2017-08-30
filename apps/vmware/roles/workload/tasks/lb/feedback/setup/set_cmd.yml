@@ -1,5 +1,9 @@
 ---
 
-- name: configure memcached feedback set cmd
-  include: roles/workload/tasks/lb/feedback/setup/memcached/set_cmd.yml
-  when: 'workload.lb.apache_servers.feedback.type == "memcached"'
+#- name: configure memcached feedback set cmd
+#  include: roles/workload/tasks/lb/feedback/setup/memcached/set_cmd.yml
+#  when: 'workload.lb.apache_servers.feedback.type == "memcached"'
+
+- name: configure zeromq feedback set cmd
+  include: roles/workload/tasks/lb/feedback/setup/zeromq/set_cmd.yml
+  when: 'workload.lb.apache_servers.feedback.type == "zeromq"'

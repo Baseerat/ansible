@@ -6,6 +6,9 @@
 - name: cleanup feedback set cmd
   include: roles/workload/tasks/lb/feedback/cleanup/set_cmd.yml
 
+- name: cleanup feedback request cmd
+  include: roles/workload/tasks/lb/feedback/cleanup/request_cmd.yml
+
 - name: stop dump-ipvsadm-L-n.py script
   shell: pkill -u root -f dump-ipvsadm-L-n.py
   when: '"minion" in nodes[inventory_hostname]["type"]'
