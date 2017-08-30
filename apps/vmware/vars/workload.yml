@@ -16,9 +16,9 @@ workload:
       replicas: 1
       namespace: default
       uri: /cgi-bin/cpu.py?loop_count=1 # /index.html, /cgi-bin/cpu.py?loop_count=1
-      num_conns: 300
+      num_conns: 2000
       num_calls: 1
-      rate: 30
+      rate: 45
       ramp: 10
       iters: 1
       timeout: 10
