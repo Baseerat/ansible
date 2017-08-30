@@ -3,7 +3,7 @@
 workload:
   lb:
     apache_servers:
-      replicas: 8
+      replicas: 1
       namespace: default
       policy: wlc
       feedback:
@@ -13,12 +13,12 @@ workload:
         metric: cpu  # cpu, loadavg
         param: 0.5   # cpu:alpha_value, loadavg:max_load
     httperf_clients:
-      replicas: 8
+      replicas: 1
       namespace: default
-      uri: /cgi-bin/cpu.py?loop_count=1  # /index.html, /cgi-bin/cpu.py?loop_count=1
-      num_conns: 2000
+      uri: /cgi-bin/cpu.py?loop_count=1 # /index.html, /cgi-bin/cpu.py?loop_count=1
+      num_conns: 300
       num_calls: 1
-      rate: 40
+      rate: 30
       ramp: 10
       iters: 1
       timeout: 10
@@ -27,8 +27,9 @@ workload:
         timeout: 0.01
       feedback:
         timeout: 0.001
+        enable: true
     load:
-        type: 'cpulimit_host' # Options: 'stress_ng' or 'cpulimit' or 'cpulimit_host' or '' to disable load
+        type: '' # Options: 'stress_ng' or 'cpulimit' or 'cpulimit_host' or '' to disable load
         stress_ng:
           base_seed: 1
           dockers: 4
@@ -50,10 +51,10 @@ workload:
       prme2-k8s-node-120:
         nodetype: "apache"
       prme3-k8s-node-120:
-        nodetype: "apache"
+        nodetype: "other"
       prme7-k8s-node-120:
         nodetype: "httperf"
       prme8-k8s-node-120:
-        nodetype: "httperf"
+        nodetype: "other"
       prme9-k8s-node-120:
-        nodetype: "httperf"
+        nodetype: "other"

@@ -54,7 +54,7 @@
   become: true
 
 - pause:
-    minutes: 2
+    seconds: 30
 
 - name: get running docker ids
   shell: docker ps --filter "name=apache-servers" -q

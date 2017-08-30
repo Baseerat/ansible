@@ -33,6 +33,6 @@
   become: true
 
 - name: run set-lb-weight.py script
-  shell: nohup set-lb-weight.py {{ endpoint_addresses.stdout }} {{ endpoint_port.stdout }} {{ memcached_address.stdout }}:11211 {{ workload.lb.ipvsadm.feedback.timeout }} {{ service_address.stdout }} {{ service_port.stdout }} > /dev/null 2> /dev/null < /dev/null &
+  shell: nohup set-lb-weight.py {{ endpoint_addresses.stdout }} {{ endpoint_port.stdout }} {{ memcached_address.stdout }}:11211 {{ workload.lb.ipvsadm.feedback.timeout }} {{ service_address.stdout }} {{ service_port.stdout }} {{  workload.lb.ipvsadm.feedback.enable }} > /dev/null 2> /dev/null < /dev/null &
   when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true

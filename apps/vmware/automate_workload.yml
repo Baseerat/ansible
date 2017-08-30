@@ -1,0 +1,21 @@
+---
+
+- name: provision automate zeromq vms
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+#    - name: running with 1 apache, 1 httperf (300 conns, 30 rate), and no load and feedback (wlc.single.baseline.noload.nofeedback)
+#      shell: sleep 60; ansible-playbook workload.yml --tags setup_lb_workload;
+#             sleep 10; ansible-playbook workload.yml --tags run_lb_workload;
+#             sleep 60; ansible-playbook workload.yml --tags collect_lb_workload;
+#                       ansible-playbook workload.yml --tags cleanup_lb_workload
+#      with_sequence: start=0 end=3 format=%d
+
+    - name: running with 1 apache, 1 httperf (300 conns, 30 rate), and no load and feedback (wlc.single.baseline.noload.nofeedback)
+      shell: sleep 60; ansible-playbook workload.yml --tags setup_lb_workload;
+             sleep 10; ansible-playbook workload.yml --tags run_lb_workload;
+             sleep 60; ansible-playbook workload.yml --tags collect_lb_workload;
+                       ansible-playbook workload.yml --tags cleanup_lb_workload
+      with_sequence: start=0 end=3 format=%d
