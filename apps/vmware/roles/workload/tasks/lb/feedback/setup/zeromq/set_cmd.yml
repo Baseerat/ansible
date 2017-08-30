@@ -3,7 +3,7 @@
 - name: copy zeromq-dish.py script
   copy:
     src: roles/workload/files/zeromq-dish.py
-    dest: /usr/local/bin/zeromq-radio.py
+    dest: /usr/local/bin/zeromq-dish.py
     mode: 0755
   when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true
@@ -27,8 +27,8 @@
   become: true
 
 - name: run zeromq-dish.py script
-  shell: python zeromq-dish.py {{ workload.lb.apache_servers.feedback.zeromq.dish.broker.port }} {{ endpoint_port.stdout }}
-                               {{ service_address.stdout }} {{ service_port.stdout }} {{ workload.lb.apache_servers.feedback.zeromq.dish.timeout }}
-                               {{ workload.lb.apache_servers.feedback.zeromq.dish.group }} {{ workload.lb.apache_servers.feedback.zeromq.dish.enable }} &
+  shell: zeromq-dish.py {{ workload.lb.apache_servers.feedback.zeromq.dish.broker.port }} {{ endpoint_port.stdout }}
+                        {{ service_address.stdout }} {{ service_port.stdout }} {{ workload.lb.apache_servers.feedback.zeromq.dish.timeout }}
+                        {{ workload.lb.apache_servers.feedback.zeromq.dish.group }} {{ workload.lb.apache_servers.feedback.zeromq.dish.enable }} &
   when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true

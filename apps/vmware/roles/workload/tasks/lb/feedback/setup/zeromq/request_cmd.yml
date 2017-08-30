@@ -32,8 +32,8 @@
   become: true
 
 - name: run zeromq-radio.py script
-  shell: python zeromq-radio.py {{ workload.lb.apache_servers.feedback.zeromq.radio.broker.address }}:{{ workload.lb.apache_servers.feedback.zeromq.radio.broker.port }}
-                                {{ workload.lb.apache_servers.feedback.zeromq.radio.timeout }} {{ workload.lb.apache_servers.feedback.zeromq.radio.group }}
-                                {{ workload.lb.apache_servers.feedback.zeromq.radio.param }} &
+  shell: zeromq-radio.py {{ workload.lb.apache_servers.feedback.zeromq.radio.broker.address }}:{{ workload.lb.apache_servers.feedback.zeromq.radio.broker.port }}
+                         {{ workload.lb.apache_servers.feedback.zeromq.radio.timeout }} {{ workload.lb.apache_servers.feedback.zeromq.radio.group }}
+                         {{ workload.lb.apache_servers.feedback.zeromq.radio.param }} &
   when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache"'
   become: true
