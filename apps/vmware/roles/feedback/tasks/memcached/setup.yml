@@ -1,5 +1,11 @@
 ---
 
+- name: set node labels
+  shell: kubectl label nodes {{ item }} memcachednode={{ feedback.memcached.nodes[item].memcachednode }}
+  with_items: "{{ feedback.memcached.nodes }}"
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
 - name: upload memcached configs
   template:
     src: roles/feedback/templates/memcached.yml.j2

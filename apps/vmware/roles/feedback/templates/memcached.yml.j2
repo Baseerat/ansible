@@ -17,3 +17,5 @@ spec:
         name: memcached
         ports:
         - containerPort: 11211
+      nodeSelector:
+        memcachednode: "true"

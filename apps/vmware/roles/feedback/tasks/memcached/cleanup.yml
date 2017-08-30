@@ -1,5 +1,11 @@
 ---
 
+- name: clear node labels
+  shell: kubectl label nodes {{ item }} memcachednode-
+  with_items: "{{ feedback.memcached.nodes }}"
+  when: '"master" in nodes[inventory_hostname]["type"]'
+  become: true
+
 - name: remove memcached configs
   file:
     path: /tmp/app.memcached.yml

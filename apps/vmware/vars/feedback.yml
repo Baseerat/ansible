@@ -3,3 +3,14 @@
 feedback:
   memcached:
     namespace: default
+    nodes:
+      prme2-k8s-node-120:
+        memcachednode: "false"
+      prme3-k8s-node-120:
+        memcachednode: "false"
+      prme7-k8s-node-120:
+        memcachednode: "true"
+      prme8-k8s-node-120:
+        memcachednode: "true"
+      prme9-k8s-node-120:
+        memcachednode: "true"
