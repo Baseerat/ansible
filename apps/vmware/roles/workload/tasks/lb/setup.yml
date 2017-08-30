@@ -64,7 +64,7 @@
 
 - name: set running dockers affinity
   shell: docker update --cpuset-cpus {{ item|int + 1 }} {{ docker_ids.stdout_lines[item|int] }}
-  with_sequence: start=0 end={{ workload.lb.apache_servers.replicas|int - 1 }} format=%d
+  with_sequence: start=0 end={{ workload.lb.apache_servers.replicas_per_node|int - 1 }} format=%d
   when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache"'
   become: true
 
