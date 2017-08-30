@@ -22,7 +22,6 @@ workload:
               port: 12345
             timeout: 1
             group: zeromq
-            enable: "True"
 #        memcached:
 #          namespace: default
 #          timeout: 0.001
@@ -43,7 +42,7 @@ workload:
         timeout: 0.01
       feedback:
         timeout: 0.001
-        enable: true
+        enable: "True"
     load:
         type: '' # Options: 'stress_ng' or 'cpulimit' or 'cpulimit_host' or '' to disable load
         stress_ng:

@@ -1,0 +1,14 @@
+---
+
+- name: provision common
+  hosts: prme*k8s-node-*
+  gather_facts: false
+
+  vars_files:
+    - "vars/kubernetes/main.yml"
+    - "vars/kubernetes/configs/{{ configs }}.yml"
+    - "vars/kubernetes/defaults.yml"
+    - "vars/common.yml"
+
+  roles:
+    - common
