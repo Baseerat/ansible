@@ -8,7 +8,7 @@ workload:
       namespace: default
       policy: wlc
       feedback:
-        type: 'zeromq' # Options: 'zeromq' or 'memcached' or'' to disable feedback
+        type: '' # Options: 'zeromq' or 'memcached' or'' to disable feedback
         zeromq:
           radio:
             broker:
@@ -41,10 +41,10 @@ workload:
       stats:
         timeout: 0.01
       feedback:
-        timeout: 0.001
+        timeout: 0.25
         enable: "True"
     load:
-        type: 'cpulimit_host' # Options: 'stress_ng' or 'cpulimit' or 'cpulimit_host' or '' to disable load
+        type: 'cpulimit' # Options: 'stress_ng' or 'cpulimit' or 'cpulimit_host' or '' to disable load
         stress_ng:
           base_seed: 1
           dockers: 4
@@ -53,14 +53,14 @@ workload:
         cpulimit:
           base_seed: 1
           cores: 8
-          processes_per_core: 1
-          percentage: 50
+          processes_per_core: 20
+          percentage: 5
           sleep: 0.5
         cpulimit_host:
           base_seed: 1
           cores: 8
-          processes_per_core: 40
-          percentage: 20
+          processes_per_core: 100
+          percentage: 100
           sleep: 0.5
     nodes:
       prme2-k8s-node-120:

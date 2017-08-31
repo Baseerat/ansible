@@ -6,23 +6,30 @@
 
   tasks:
 
-#    - name: running with 1 apache, 1 httperf (300 conns, 30 rate), and no load and feedback (wlc.single.baseline.noload.nofeedback)
+#    - name: running with 1 apache, 1 httperf (300 conns, 30 rate), and no load, no feedback (wlc.single.baseline.noload.nofeedback)
 #      shell: sleep 60; ansible-playbook workload.yml --tags setup_lb_workload;
 #             sleep 10; ansible-playbook workload.yml --tags run_lb_workload;
 #             sleep 60; ansible-playbook workload.yml --tags collect_lb_workload;
 #                       ansible-playbook workload.yml --tags cleanup_lb_workload
 #      with_sequence: start=0 end=3 format=%d
 
-#    - name: running with 1 apache, 1 httperf (2000 conns, 45 rate), and no load and no feedback (wlc.single.max.noload.nofeedback)
+#    - name: running with 1 apache, 1 httperf (2000 conns, 45 rate), and no load, no feedback (wlc.single.max.noload.nofeedback)
 #      shell: sleep 60; ansible-playbook workload.yml --tags setup_lb_workload;
 #             sleep 10; ansible-playbook workload.yml --tags run_lb_workload;
 #             sleep 60; ansible-playbook workload.yml --tags collect_lb_workload;
 #                       ansible-playbook workload.yml --tags cleanup_lb_workload
 #      with_sequence: start=0 end=3 format=%d
 
-#    - name: running with 14 apache, 7 httperf (2 * 2000 conns, 2 * 32 rate), and no load and no feedback (wlc.multi.max.noload.nofeedback)
+#    - name: running with 14 apache, 7 httperf (2 * 2000 conns, 2 * 32 rate), and no load, no feedback (wlc.multi.max.noload.nofeedback)
 #      shell: sleep 60; ansible-playbook workload.yml --tags setup_lb_workload;
 #             sleep 10; ansible-playbook workload.yml --tags run_lb_workload;
 #             sleep 60; ansible-playbook workload.yml --tags collect_lb_workload;
 #                       ansible-playbook workload.yml --tags cleanup_lb_workload
 #      with_sequence: start=0 end=3 format=%d
+
+    - name: running with 14 apache, 7 httperf (1 * 2000 conns, 1 * 32 rate), and load, no feedback (wlc.multi.load.nofeedback)
+      shell: sleep 60;  ansible-playbook workload.yml --tags setup_lb_workload;
+             sleep 60;  ansible-playbook workload.yml --tags run_lb_workload;
+             sleep 180; ansible-playbook workload.yml --tags collect_lb_workload;
+                        ansible-playbook workload.yml --tags cleanup_lb_workload
+#      with_sequence: start=0 end=2 format=%d
