@@ -1,0 +1,16 @@
+---
+
+- name: uninstall pyzmq
+  pip:
+    name: pyzmq
+    state: absent
+
+- name: remove libzmq
+  shell: cd /root/libzmq;
+         make uninstall;
+         ldconfig
+
+- name: remove libzmq repository
+  file:
+    path: /root/libzmq
+    state: absent

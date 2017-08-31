@@ -44,7 +44,7 @@ workload:
         timeout: 0.25
         enable: "True"
     load:
-        type: 'cpulimit' # Options: 'stress_ng' or 'cpulimit' or 'cpulimit_host' or '' to disable load
+        type: 'cpulimit_host' # Options: 'stress_ng' or 'cpulimit' or 'cpulimit_host' or '' to disable load
         stress_ng:
           base_seed: 1
           dockers: 8
@@ -53,7 +53,7 @@ workload:
         cpulimit:
           base_seed: 1
           cores: 8
-          processes_per_core: 1000
+          processes_per_core: 100
           percentage: 50
           sleep: 0.5
         cpulimit_host:

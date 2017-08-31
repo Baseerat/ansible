@@ -1,0 +1,18 @@
+---
+
+- name: clone libzmq source code
+  git:
+    repo: git://github.com/zeromq/libzmq.git
+    dest: /root/libzmq
+    version: master
+
+- name: build libzmq
+  shell: cd /root/libzmq;
+         ./autogen.sh;
+         ./configure --enable-drafts;
+         make -j4;
+         make install;
+         ldconfig
+
+- name: build pyzmq
+  shell: pip install -v --pre pyzmq --install-option=--enable-drafts

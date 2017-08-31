@@ -1,0 +1,21 @@
+---
+
+- name: provision common host
+  hosts:
+          prme-nsx-perf-001
+         ,prme-nsx-perf-002
+         ,prme-nsx-perf-003
+         ,prme-nsx-perf-007
+         ,prme-nsx-perf-008
+         ,prme-nsx-perf-009
+  gather_facts: false
+
+  vars_files:
+    - "vars/proxmox/defaults.yml"
+    - "vars/kubernetes/main.yml"
+    - "vars/kubernetes/configs/{{ configs }}.yml"
+    - "vars/kubernetes/defaults.yml"
+    - "vars/common_host.yml"
+
+  roles:
+    - common_host
