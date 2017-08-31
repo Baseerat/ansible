@@ -1,0 +1,18 @@
+---
+
+- name: destory broker
+  shell: pkill -u root -f broker
+  when: 'feedback.zeromq_broker.node == inventory_hostname'
+  failed_when: false
+  become: true
+
+- name: remove broker files and executables
+  shell: cd /home/mshahbaz/libzmq/tests;
+         rm -f broker*
+  when: 'feedback.zeromq_broker.node == inventory_hostname'
+  become: true
+
+- name: reset kvm vcpu affinity
+  shell: taskset -a -p 0xffff $(qm list | grep {{ inventory_hostname }} | awk '{print $6}')
+  when: 'feedback.zeromq_broker.node == inventory_hostname'
+  delegate_to: "prme-nsx-perf-00{{ prme_id }}"

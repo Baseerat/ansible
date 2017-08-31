@@ -5,6 +5,7 @@
   gather_facts: false
 
   vars_files:
+    - "vars/proxmox/defaults.yml"
     - "vars/kubernetes/main.yml"
     - "vars/kubernetes/configs/{{ configs }}.yml"
     - "vars/kubernetes/defaults.yml"

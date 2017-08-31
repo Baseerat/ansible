@@ -1,0 +1,50 @@
+#include "testutil.hpp"
+
+int main(void)
+{
+        //setup_test_environment ();
+        void *ctx = zmq_ctx_new ();
+        assert (ctx);
+
+        zmq_msg_t msg;
+        zmq_msg_t *msg_ = &msg;
+
+        void *dish = zmq_socket (ctx, ZMQ_DISH);
+        int rc = zmq_bind (dish, "udp://*:{{ port }}");
+        assert (rc == 0);
+
+        void *radio = zmq_socket (ctx, ZMQ_RADIO);
+        /*int rc = zmq_connect (radio, "udp://ip:port");
+        assert (rc == 0);*/
+
+        // __insert_here__
+
+        msleep (SETTLE_TIME);
+
+        rc = zmq_join (dish, "{{ topic }}");
+        assert (rc == 0);
+
+        while (true)
+        {
+            rc = zmq_msg_init (msg_);
+            assert (rc == 0);
+            rc = zmq_msg_recv (msg_, dish, 0);
+            assert (rc != -1);
+            rc = zmq_msg_send (msg_, radio, 0);
+            assert (rc != -1);
+            //printf("%i\n", rc);
+            zmq_msg_close (msg_);
+        }
+
+        rc = zmq_close (dish);
+        assert (rc == 0);
+
+        rc = zmq_close (radio);
+        assert (rc == 0);
+
+        rc = zmq_ctx_term (ctx);
+        assert (rc == 0);
+        return 0;
+}
+
+/* To build, run: gcc broker.cpp -o radio -lzmq -O2 */

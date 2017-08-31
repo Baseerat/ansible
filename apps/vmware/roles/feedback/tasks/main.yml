@@ -1,10 +1,17 @@
 ---
 
-- name: setup memcached
-  include: roles/feedback/tasks/memcached/setup.yml
-  tags: setup_memcached
+#- name: setup memcached
+#  include: roles/feedback/tasks/memcached/setup.yml
+#  tags: setup_memcached
+#
+#- name: cleanup memcached
+#  include: roles/feedback/tasks/memcached/cleanup.yml
+#  tags: cleanup_memcached
 
-- name: cleanup memcached
-  include: roles/feedback/tasks/memcached/cleanup.yml
-  tags: cleanup_memcached
+- name: setup zeromq broker
+  include: roles/feedback/tasks/zeromq/setup.yml
+  tags: setup_zeromq_broker
 
+- name: cleanup zeromq broker
+  include: roles/feedback/tasks/zeromq/cleanup.yml
+  tags: cleanup_zeromq_broker

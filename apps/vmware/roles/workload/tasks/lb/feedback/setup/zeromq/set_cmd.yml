@@ -29,6 +29,6 @@
 - name: run zeromq-dish.py script
   shell: zeromq-dish.py {{ workload.lb.apache_servers.feedback.zeromq.dish.broker.port }} {{ endpoint_port.stdout }}
                         {{ service_address.stdout }} {{ service_port.stdout }} {{ workload.lb.apache_servers.feedback.zeromq.dish.timeout }}
-                        {{ workload.lb.apache_servers.feedback.zeromq.dish.group }} {{ workload.lb.apache_servers.feedback.zeromq.dish.enable }} &
+                        {{ workload.lb.apache_servers.feedback.zeromq.dish.group }} {{ workload.lb.ipvsadm.feedback.enable }} &
   when: '"minion" in nodes[inventory_hostname]["type"]'
   become: true

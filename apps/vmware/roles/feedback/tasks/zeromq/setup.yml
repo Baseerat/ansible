@@ -1,0 +1,46 @@
+---
+
+- name: set kvm vcpu affinity
+  shell: taskset -a -p 0x0100 $(qm list | grep {{ inventory_hostname }} | awk '{print $6}')
+  when: 'feedback.zeromq_broker.node == inventory_hostname'
+  delegate_to: "prme-nsx-perf-00{{ prme_id }}"
+
+- pause:
+    seconds: 2
+
+- name: upload broker.cpp to brokers
+  template:
+    src: roles/feedback/templates/zeromq_broker.cpp.j2
+    dest: /home/mshahbaz/libzmq/tests/broker.cpp
+  vars:
+    topic: "{{ feedback.zeromq_broker.topic }}"
+    port: "{{ feedback.zeromq_broker.port }}"
+  when: 'feedback.zeromq_broker.node == inventory_hostname'
+  become: true
+
+- name: add connections to broker.cpp
+  lineinfile:
+    path: /home/mshahbaz/libzmq/tests/broker.cpp
+    line: 'rc = zmq_connect (radio, "udp://{{ ip }}:{{ port}}"); assert (rc == 0);'
+    insertafter: '__insert_here__'
+    state: present
+  vars:
+    ip: "{{ proxmox_vm_network_address_prefix }}{{ item.prme_id }}.{{ item.vm_id }}"
+    port: "{{ feedback.zeromq_broker.port }}"
+  with_items: "{{ feedback.zeromq_broker.subs }}"
+  when: 'feedback.zeromq_broker.node == inventory_hostname'
+  become: true
+
+- name: build broker.cpp
+  shell: cd /home/mshahbaz/libzmq/tests;
+         gcc broker.cpp -o broker -lzmq -O2
+  when: 'feedback.zeromq_broker.node == inventory_hostname'
+  become: true
+
+- name: launch broker
+  shell: cd /home/mshahbaz/libzmq/tests;
+         ./broker &
+         sleep 2;
+         taskset -a -p 0x4 $(pidof broker)
+  when: 'feedback.zeromq_broker.node == inventory_hostname'
+  become: true

@@ -1,10 +1,10 @@
 ---
 
 - name: install common utilities
-  include: roles/workload/tasks/common/install.yml
+  include: roles/common/tasks/common/install.yml
   tags: install_common
 
 - name: remove common utilities
-  include: roles/workload/tasks/common/remove.yml
+  include: roles/common/tasks/common/remove.yml
   tags: remove_common
 
