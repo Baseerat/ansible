@@ -1,0 +1,21 @@
+---
+
+- name: stop zeromq-dish.sh/py scripts
+  shell: pkill -u root -f zeromq-dish
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  failed_when: false
+  become: true
+
+- name: remove zeromq-dish.sh script
+  file:
+    path: /usr/local/bin/zeromq-dish.sh
+    state: absent
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: remove zeromq-dish.py script
+  file:
+    path: /usr/local/bin/zeromq-dish.py
+    state: absent
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true

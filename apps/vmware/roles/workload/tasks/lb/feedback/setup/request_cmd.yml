@@ -7,3 +7,7 @@
 - name: configure zeromq feedback request cmd
   include: roles/workload/tasks/lb/feedback/setup/zeromq/request_cmd.yml
   when: 'workload.lb.apache_servers.feedback.type == "zeromq"'
+
+- name: configure zeromq host feedback request cmd
+  include: roles/workload/tasks/lb/feedback/setup/zeromq_host/request_cmd.yml
+  when: 'workload.lb.apache_servers.feedback.type == "zeromq_host"'

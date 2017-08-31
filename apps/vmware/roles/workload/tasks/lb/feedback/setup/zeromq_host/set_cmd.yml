@@ -1,0 +1,40 @@
+---
+
+- name: copy zeromq-dish.py script
+  copy:
+    src: roles/workload/files/zeromq-dish.py
+    dest: /usr/local/bin/zeromq-dish.py
+    mode: 0755
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: get service address
+  shell: kubectl --namespace={{ workload.lb.apache_servers.namespace }} get service apache-servers -s {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} -o jsonpath={.spec.clusterIP}
+  register: service_address
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: get service port
+  shell: kubectl --namespace={{ workload.lb.apache_servers.namespace }} get service apache-servers -s {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} -o jsonpath={.spec.ports[].port}
+  register: service_port
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: get endpoint port
+  shell: kubectl --namespace={{ workload.lb.apache_servers.namespace }} get endpoints apache-servers -s {{ k8s_node_address_prefix }}{{ nodes[inventory_hostname]['master']['prme_id'] }}.{{ nodes[inventory_hostname]['master']['vm_id'] }}:{{ k8s_api_server_port }} -o jsonpath={.subsets[].ports[].port}
+  register: endpoint_port
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: upload zeromq-dish.sh script
+  template:
+    src: roles/workload/templates/zeromq-dish.sh.j2
+    dest: /usr/local/bin/zeromq-dish.sh
+    mode: 0755
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true
+
+- name: run zeromq-dish.sh script
+  shell: zeromq-dish.sh &
+  when: '"minion" in nodes[inventory_hostname]["type"]'
+  become: true

@@ -8,7 +8,7 @@ workload:
       namespace: default
       policy: wlc
       feedback:
-        type: '' # Options: 'zeromq' or 'memcached' or'' to disable feedback
+        type: '' # Options: 'zeromq_host' or 'zeromq' or 'memcached' or'' to disable feedback
         zeromq:
           radio:
             broker:

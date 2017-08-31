@@ -1,0 +1,39 @@
+---
+
+- name: copy zeromq-radio.py script
+  copy:
+    src: roles/workload/files/zeromq-radio.py
+    dest: /usr/local/bin/zeromq-radio.py
+    mode: 0755
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache"'
+  delegate_to: prme-nsx-perf-00{{ prme_id }}
+
+- name: get running docker ids for apache servers only
+  shell: docker ps --filter "name=k8s_apache-servers" -q
+  register: k8s_docker_ids
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache"'
+  become: true
+
+- name: get running docker ips
+  shell: docker exec -i {{ item }} hostname -i
+  register: docker_ips
+  with_items: "{{ k8s_docker_ids.stdout_lines }}"
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache"'
+  become: true
+
+- name: add cpus map to zeromq-radio.py
+  lineinfile:
+    path: /usr/local/bin/zeromq-radio.py
+    line: "    '{{ docker_ips.results[item|int].stdout }}': {{ (item|int + 1) * 2 }},"
+    insertafter: '__insert_here__'
+    state: present
+  with_sequence: start=0 end={{ workload.lb.apache_servers.replicas_per_node|int - 1 }} format=%d
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache"'
+  delegate_to: prme-nsx-perf-00{{ prme_id }}
+
+- name: run zeromq-radio.py script
+  shell: zeromq-radio.py {{ workload.lb.apache_servers.feedback.zeromq.radio.broker.address }}:{{ workload.lb.apache_servers.feedback.zeromq.radio.broker.port }}
+                         {{ workload.lb.apache_servers.feedback.zeromq.radio.timeout }} {{ workload.lb.apache_servers.feedback.zeromq.radio.group }}
+                         {{ workload.lb.apache_servers.feedback.zeromq.radio.param }} &
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache"'
+  delegate_to: prme-nsx-perf-00{{ prme_id }}
