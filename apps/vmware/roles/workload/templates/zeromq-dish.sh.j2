@@ -1,0 +1,3 @@
+#!/bin/bash
+
+until zeromq-dish.py {{ workload.lb.apache_servers.feedback.zeromq.dish.broker.port }} {{ endpoint_port.stdout }} {{ service_address.stdout }} {{ service_port.stdout }} {{ workload.lb.apache_servers.feedback.zeromq.dish.timeout }} {{ workload.lb.apache_servers.feedback.zeromq.dish.group }} {{ workload.lb.ipvsadm.feedback.enable }}; do :; done

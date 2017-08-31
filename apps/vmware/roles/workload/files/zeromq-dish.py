@@ -24,7 +24,10 @@ dish.bind('udp://*:%s' % broker_port)
 dish.join(group)
 
 while True:
-    state = dish.recv_pyobj()
+    try:
+        state = dish.recv_pyobj(flags=zmq.NOBLOCK)
+    except zmq.Again:
+        continue
 
     for server_address in state:
         weight = state[server_address]
@@ -33,6 +36,7 @@ while True:
         script = "sudo ipvsadm -e -t %s:%s -r %s:%s -m -w %s" % (service_address, service_port, server_address, server_port, weight)
         commands.getstatusoutput(script)
         # print(script)
+
     time.sleep(timeout)
 
 dish.close()

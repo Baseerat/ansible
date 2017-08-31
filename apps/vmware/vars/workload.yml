@@ -14,13 +14,13 @@ workload:
             broker:
               address: 192.168.1.120
               port: 12345
-            timeout: 0.02
+            timeout: 0.25
             group: zeromq
             param: 0.5 # Options: [cpu:alpha_value]
           dish:
             broker:
               port: 12345
-            timeout: 0.02
+            timeout: 0.25
             group: zeromq
 #        memcached:
 #          namespace: default
