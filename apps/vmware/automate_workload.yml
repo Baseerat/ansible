@@ -31,5 +31,5 @@
       shell: sleep 60;  ansible-playbook workload.yml --tags setup_lb_workload;
              sleep 60;  ansible-playbook workload.yml --tags run_lb_workload;
              sleep 180; ansible-playbook workload.yml --tags collect_lb_workload;
-                        ansible-playbook workload.yml --tags cleanup_lb_workload
+             sleep 60;  ansible-playbook workload.yml --tags cleanup_lb_workload
 #      with_sequence: start=0 end=2 format=%d

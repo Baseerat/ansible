@@ -3,24 +3,28 @@
 - name: stop stress-ng-rand.sh scripts
   shell: pkill -u root -f stress-ng-rand.sh
   failed_when: false
-  when: '"minion" in nodes[inventory_hostname]["type"]'
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache" and
+          workload.lb.nodes[inventory_hostname].load'
   become: true
 
 - name: stop left over dockers
   shell: docker stop stress-ng-{{ prme_id }}{{ vm_id }}{{ item }}
   failed_when: false
   with_sequence: start=0 end={{ workload.lb.load.stress_ng.dockers|int - 1 }} format=%d
-  when: '"minion" in nodes[inventory_hostname]["type"]'
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache" and
+          workload.lb.nodes[inventory_hostname].load'
   become: true
 
 - name: remove stress-ng-rand.sh script
   file:
     path: /usr/local/bin/stress-ng-rand.sh
     state: absent
-  when: '"minion" in nodes[inventory_hostname]["type"]'
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache" and
+          workload.lb.nodes[inventory_hostname].load'
   become: true
 
 - name: remove stress-ng docker image
   shell: docker rmi lorel/docker-stress-ng
-  when: '"minion" in nodes[inventory_hostname]["type"]'
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache" and
+          workload.lb.nodes[inventory_hostname].load'
   become: true

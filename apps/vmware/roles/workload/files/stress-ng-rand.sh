@@ -8,10 +8,10 @@ while : ; do
 
   if [ $FLIP -eq 1 ]
   then
-    docker run --name $2 -id --rm lorel/docker-stress-ng --cpu $3
-    sleep $4
+    docker run --name $2 --cpuset-cpus $3 -id --rm lorel/docker-stress-ng --cpu $4
+    sleep $5
     docker stop $2
   else
-    sleep $4
+    sleep $5
   fi
 done

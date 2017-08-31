@@ -5,16 +5,19 @@
     src: roles/workload/files/stress-ng-rand.sh
     dest: /usr/local/bin/stress-ng-rand.sh
     mode: 0755
-  when: '"minion" in nodes[inventory_hostname]["type"]'
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache" and
+          workload.lb.nodes[inventory_hostname].load'
   become: true
 
 - name: pull stress-ng docker image
   shell: docker pull lorel/docker-stress-ng
-  when: '"minion" in nodes[inventory_hostname]["type"]'
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache" and
+          workload.lb.nodes[inventory_hostname].load'
   become: true
 
 - name: run stress-ng-rand.sh script
-  shell: stress-ng-rand.sh $(({{ workload.lb.load.stress_ng.base_seed }} + {{ item|int }} + {{ prme_id }}{{ vm_id }})) stress-ng-{{ prme_id }}{{ vm_id }}{{ item }} {{ workload.lb.load.stress_ng.cpus }} {{ workload.lb.load.stress_ng.sleep }} &
+  shell: stress-ng-rand.sh $(({{ workload.lb.load.stress_ng.base_seed }} + {{ item|int }} + {{ prme_id }}{{ vm_id }})) stress-ng-{{ prme_id }}{{ vm_id }}{{ item }} {{ item|int + 1 }}  {{ workload.lb.load.stress_ng.cpus }} {{ workload.lb.load.stress_ng.sleep }} &
   with_sequence: start=0 end={{ workload.lb.load.stress_ng.dockers|int - 1 }} format=%d
-  when: '"minion" in nodes[inventory_hostname]["type"]'
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache" and
+          workload.lb.nodes[inventory_hostname].load'
   become: true
