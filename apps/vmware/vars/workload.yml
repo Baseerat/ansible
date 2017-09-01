@@ -8,7 +8,7 @@ workload:
       namespace: default
       policy: wlc
       feedback:
-        type: '' # Options: 'zeromq_host' or 'zeromq' or 'memcached' or'' to disable feedback
+        type: 'zeromq_host' # Options: 'zeromq_host' or 'zeromq' or 'memcached' or'' to disable feedback
         zeromq:
           radio:
             broker:
@@ -30,7 +30,7 @@ workload:
     httperf_clients:
       replicas: 7
       namespace: default
-      uri: /cgi-bin/cpu.py?loop_count=1 # /index.html, /cgi-bin/cpu.py?loop_count=1
+      uri: /cgi-bin/cpu.py?loop_count=5000 # /index.html, /cgi-bin/cpu.py?loop_count=1
       num_conns: "{{ 2000 }}"
       num_calls: 1
       rate: "{{ 32 }}"
@@ -56,14 +56,14 @@ workload:
             prme2-k8s-node-120:
               taskset:
                 - 2
-              cpus_per_task: 64
+              cpus_per_task: 80
             prme3-k8s-node-120:
               taskset:
                 - 8
                 - 10
                 - 12
                 - 14
-              cpus_per_task: 128
+              cpus_per_task: 64
           sleep: 0.5
         cpulimit:
           base_seed: 1
