@@ -12,7 +12,7 @@
   ignore_errors: yes
 
 - name: install essential utilities
-  shell: apt-get -y install cpulimit expect htop tmux unzip git python-pip python-yaml python-setuptools build-essential dh-autoreconf pve-headers-`uname -r` pkg-config cmake uuid-dev python-dev python-psutil
+  shell: apt-get -y install cpulimit expect htop tmux unzip git python-pip python-yaml python-setuptools build-essential dh-autoreconf pve-headers-`uname -r` pkg-config cmake uuid-dev python-dev python-psutil stress-ng
 
 - name: update .bashrc file
   template:
