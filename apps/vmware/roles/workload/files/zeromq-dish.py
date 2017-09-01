@@ -24,10 +24,12 @@ dish.bind('udp://*:%s' % broker_port)
 dish.join(group)
 
 while True:
-    try:
-        state = dish.recv_pyobj(flags=zmq.NOBLOCK)
-    except zmq.Again:
-        continue
+    # try:
+    #     state = dish.recv_pyobj(flags=zmq.NOBLOCK)
+    # except zmq.Again:
+    #     continue
+
+    state = dish.recv_pyobj()
 
     for server_address in state:
         weight = state[server_address]
@@ -37,7 +39,7 @@ while True:
         commands.getstatusoutput(script)
         # print(script)
 
-    time.sleep(timeout)
+    # time.sleep(timeout)
 
 dish.close()
 ctx.term()
