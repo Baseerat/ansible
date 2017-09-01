@@ -8,7 +8,7 @@ while : ; do
 
   if [ $FLIP -eq 1 ]
   then
-    taskset -c $2 stress-ng --cpu $3
+    taskset -c $2 stress-ng --cpu $3 &
     sleep $4
     pkill -u root -f stress-ng
   else
