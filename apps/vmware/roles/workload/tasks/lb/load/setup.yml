@@ -4,6 +4,10 @@
   include: roles/workload/tasks/lb/load/stress_ng/setup.yml
   when: 'workload.lb.load.type == "stress_ng"'
 
+- name: setup load generator using stress-ng host
+  include: roles/workload/tasks/lb/load/stress_ng_host/setup.yml
+  when: 'workload.lb.load.type == "stress_ng_host"'
+
 - name: setup load generator using cpulimit
   include: roles/workload/tasks/lb/load/cpulimit/setup.yml
   when: 'workload.lb.load.type == "cpulimit"'

@@ -4,6 +4,10 @@
   include: roles/workload/tasks/lb/load/stress_ng/cleanup.yml
   when: 'workload.lb.load.type == "stress_ng"'
 
+- name: cleanup load generator using stress-ng host
+  include: roles/workload/tasks/lb/load/stress_ng_host/cleanup.yml
+  when: 'workload.lb.load.type == "stress_ng_host"'
+
 - name: cleanup load generator using cpulimit
   include: roles/workload/tasks/lb/load/cpulimit/cleanup.yml
   when: 'workload.lb.load.type == "cpulimit"'

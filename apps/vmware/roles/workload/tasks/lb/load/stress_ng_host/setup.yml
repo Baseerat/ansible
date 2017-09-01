@@ -1,0 +1,16 @@
+---
+
+- name: copy stress-ng-host-rand.sh script
+  copy:
+    src: roles/workload/files/stress-ng-host-rand.sh
+    dest: /usr/local/bin/stress-ng-host-rand.sh
+    mode: 0755
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache" and
+          workload.lb.nodes[inventory_hostname].load'
+  delegate_to: prme-nsx-perf-00{{ prme_id }}
+
+- name: run stress-ng-host-rand.sh script
+  shell: stress-ng-host-rand.sh $(({{ workload.lb.load.stress_ng_host.base_seed }} + {{ prme_id }}{{ vm_id }})) {{ workload.lb.load.stress_ng_host.taskset }}  {{ workload.lb.load.stress_ng_host.cpus }} {{ workload.lb.load.stress_ng_host.sleep }} &
+  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache" and
+          workload.lb.nodes[inventory_hostname].load'
+  delegate_to: prme-nsx-perf-00{{ prme_id }}

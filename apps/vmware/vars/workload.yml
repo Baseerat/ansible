@@ -14,7 +14,7 @@ workload:
             broker:
               address: 192.168.1.120
               port: 12345
-            timeout: 0.25
+            timeout: 0.25 # Note: for now only works with values >= 3
             group: zeromq
             param: 0.5 # Options: [cpu:alpha_value]
           dish:
@@ -44,11 +44,16 @@ workload:
         timeout: 0.25
         enable: "True"
     load:
-        type: 'cpulimit_host' # Options: 'stress_ng' or 'cpulimit' or 'cpulimit_host' or '' to disable load
+        type: 'stress_ng_host' # Options: 'stress_ng' or 'cpulimit' or 'cpulimit_host' or '' to disable load
         stress_ng:
           base_seed: 1
           dockers: 8
           cpus: 100
+          sleep: 0.5
+        stress_ng_host:
+          base_seed: 1
+          taskset: '0,2,4,6,8,10,12,14'
+          cpus: 32
           sleep: 0.5
         cpulimit:
           base_seed: 1
@@ -59,8 +64,8 @@ workload:
         cpulimit_host:
           base_seed: 1
           cores: 8
-          processes_per_core: 100
-          percentage: 50
+          processes_per_core: 50
+          percentage: 60
           sleep: 0.5
     nodes:
       prme2-k8s-node-120:
