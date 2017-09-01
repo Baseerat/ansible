@@ -8,13 +8,13 @@ workload:
       namespace: default
       policy: wlc
       feedback:
-        type: 'zeromq_host' # Options: 'zeromq_host' or 'zeromq' or 'memcached' or'' to disable feedback
+        type: '' # Options: 'zeromq_host' or 'zeromq' or 'memcached' or'' to disable feedback
         zeromq:
           radio:
             broker:
               address: 192.168.1.120
               port: 12345
-            timeout: 0.3 # Note: for now only works with values >= 3
+            timeout: 0.3 # Note: for now only works with values >= 0.3
             group: zeromq
             param: 0.5 # Options: [cpu:alpha_value]
           dish:
@@ -52,8 +52,18 @@ workload:
           sleep: 0.5
         stress_ng_host:
           base_seed: 1
-          taskset: '0,2,4,6,8,10,12,14'
-          cpus: '{{ 8 * 48 }}'
+          options:
+            prme2-k8s-node-120:
+              taskset:
+                - 2
+              cpus_per_task: 64
+            prme3-k8s-node-120:
+              taskset:
+                - 8
+                - 10
+                - 12
+                - 14
+              cpus_per_task: 128
           sleep: 0.5
         cpulimit:
           base_seed: 1

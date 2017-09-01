@@ -1,22 +1,15 @@
 ---
 
-- name: stop stress-host-ng-rand.sh scripts
-  shell: pkill -u root -f stress-host-ng-rand.sh
-  failed_when: false
-  when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache" and
-          workload.lb.nodes[inventory_hostname].load'
-  delegate_to: prme-nsx-perf-00{{ prme_id }}
-
-- name: stop left over stress-ng(s)
+- name: stop stress-ng* scripts
   shell: pkill -u root -f stress-ng
   failed_when: false
   when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache" and
           workload.lb.nodes[inventory_hostname].load'
   delegate_to: prme-nsx-perf-00{{ prme_id }}
 
-- name: remove stress-host-ng-rand.sh script
+- name: remove stress-ng-host-rand.sh script
   file:
-    path: /usr/local/bin/stress-host-ng-rand.sh
+    path: /usr/local/bin/stress-ng-host-rand.sh
     state: absent
   when: '"minion" in nodes[inventory_hostname]["type"] and workload.lb.nodes[inventory_hostname].nodetype == "apache" and
           workload.lb.nodes[inventory_hostname].load'
