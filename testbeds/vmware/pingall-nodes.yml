@@ -1,6 +1,6 @@
 ---
 
-- name: ping all nodes
+- name: ping all prme hosts
   hosts: prme*k8s-node-*
   gather_facts: false
   become: true

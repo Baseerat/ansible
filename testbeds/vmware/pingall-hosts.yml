@@ -1,0 +1,9 @@
+---
+
+- name: ping all hosts
+  hosts: prme-nsx-perf-00*
+  gather_facts: true
+
+  tasks:
+  - name: ping all prme hosts
+    ping:
