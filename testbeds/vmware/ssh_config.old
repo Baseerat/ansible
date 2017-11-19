@@ -1,0 +1,68 @@
+Host prme-nsx-perf-001
+    Hostname 10.115.40.158
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/vmw_prme_rsa
+
+Host prme-nsx-perf-002
+    Hostname 10.115.40.159
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/vmw_prme_rsa
+
+Host prme-nsx-perf-003
+    Hostname 10.115.40.160
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/vmw_prme_rsa
+
+Host prme-nsx-perf-004
+    Hostname 10.115.40.93
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/vmw_prme_rsa
+
+Host prme-nsx-perf-005
+    Hostname 10.115.40.94
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/vmw_prme_rsa
+
+Host prme-nsx-perf-006
+    Hostname 10.115.40.95
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/vmw_prme_rsa
+
+Host prme-nsx-perf-007
+    Hostname 10.115.40.96
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/vmw_prme_rsa
+
+Host prme-nsx-perf-008
+    Hostname 10.115.40.97
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/vmw_prme_rsa
+
+Host prme-nsx-perf-009
+    Hostname 10.115.40.98
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/vmw_prme_rsa
+
+Host mshahbaz-poweredge-3-pve
+    Hostname 128.112.168.28
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/pu_pve_rsa
+
+
+# For accessing kubernetes dashboard
+Host prme-nsx-perf-001-k8s
+    Hostname prme-nsx-perf-001
+    User root
+    ForwardAgent yes
+    IdentityFile ./keys/vmw_prme_rsa
+    LocalForward 8080 192.168.1.120:8080
