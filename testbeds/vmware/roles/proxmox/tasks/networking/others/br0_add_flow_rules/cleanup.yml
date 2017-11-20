@@ -1,9 +1,9 @@
 ---
 
 - name: cleanup ovs (kernel) as gateway bridge
-  include: roles/proxmox/tasks/networking/others/br0_add_flow_rules/switches/ovs_kernel/cleanup.yml
+  import_tasks: roles/proxmox/tasks/networking/others/br0_add_flow_rules/switches/ovs_kernel/cleanup.yml
   when: 'overlay_switch.bridge.type == "ovs_kernel"'
 
 - name: cleanup pisces as gateway bridge
-  include: roles/proxmox/tasks/networking/others/br0_add_flow_rules/switches/pisces/cleanup.yml
+  import_tasks: roles/proxmox/tasks/networking/others/br0_add_flow_rules/switches/pisces/cleanup.yml
   when: 'overlay_switch.bridge.type == "pisces"'

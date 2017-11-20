@@ -101,7 +101,7 @@
     state: started
 
 - name: add hosts to the inventory file
-  include: roles/proxmox/tasks/vms/hosts/add.yml
+  include_tasks: roles/proxmox/tasks/vms/hosts/add.yml
   vars:
     hostname: "{{ _hostname }}"
   with_items: "{{ ansible_play_hosts }}"

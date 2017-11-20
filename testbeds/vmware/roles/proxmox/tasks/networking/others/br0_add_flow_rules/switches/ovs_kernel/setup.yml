@@ -15,7 +15,7 @@
   with_items: "{{ networking[inventory_hostname].remote_nodes }}"
 
 - name: add route for remote VMs
-  include: roles/proxmox/tasks/networking/others/br0_add_flow_rules/switches/ovs_kernel/flows/add_remote_rules.yml remote_node="{{ _remote_node }}"
+  include_tasks: roles/proxmox/tasks/networking/others/br0_add_flow_rules/switches/ovs_kernel/flows/add_remote_rules.yml remote_node="{{ _remote_node }}"
   with_items: "{{ networking[inventory_hostname].remote_nodes }}"
   loop_control:
     loop_var: _remote_node

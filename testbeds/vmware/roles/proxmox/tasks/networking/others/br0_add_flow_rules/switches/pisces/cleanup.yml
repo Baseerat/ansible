@@ -1,7 +1,7 @@
 ---
 
 - name: delete static arp entries
-  include: roles/proxmox/tasks/networking/others/br0_add_flow_rules/switches/pisces/del_arp.yml remote_node="{{ item }}"
+  include_tasks: roles/proxmox/tasks/networking/others/br0_add_flow_rules/switches/pisces/del_arp.yml remote_node="{{ item }}"
   with_items: "{{ networking[inventory_hostname]['remote_nodes'] }}"
 
 - name: remove existing rules from br0
