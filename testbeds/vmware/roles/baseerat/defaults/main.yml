@@ -1,12 +1,12 @@
 ---
 
 baseerat_interfaces:
-  prme-nsx-perf-001: 2
-  prme-nsx-perf-002: 1
-  prme-nsx-perf-003: 1
-  prme-nsx-perf-007: 1
-  prme-nsx-perf-008: 1
-  prme-nsx-perf-009: 1
+#  prme-nsx-perf-001: 2
+#  prme-nsx-perf-002: 1
+#  prme-nsx-perf-003: 1
+  prme-nsx-perf-007: 8
+  prme-nsx-perf-008: 7
+  prme-nsx-perf-009: 7
 
 baseerat_gw_address_prefix: 192.168.
 
@@ -19,18 +19,18 @@ baseerat_groups:
 #    port: 12347
 
 baseerat_bitmaps:
-  prme-nsx-perf-001:
-    '192.168.200.200':
-      12345: 0x1E2233
+#  prme-nsx-perf-001:
+#    '192.168.200.200':
+#      12345: 0x1E2233
 #    '192.168.200.201':
 #      12346: 0x142030
 #    '192.168.200.202':
 #      12347: 0x182232
 #  prme-nsx-perf-002: 0x122030
 #  prme-nsx-perf-003: 0x122030
-#  prme-nsx-perf-007:
-#    '192.168.200.200':
-#      12345: 0x182132
+  prme-nsx-perf-007:
+    '192.168.200.200':
+      12345: 0x162030
 #    '192.168.200.201':
 #      12346: 0x182134
 #    '192.168.200.202':

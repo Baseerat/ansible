@@ -18,7 +18,7 @@
     name: "{{ proxmox_name_prefix }}{{ proxmox_prme_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }}"
     newid: "{{ proxmox_vm_id }}"
 #  ignore_errors: yes
-#  failed_when: false
+  failed_when: false
 #  delegate_to: localhost
 
 - name: set VM cores, sockets, and memory

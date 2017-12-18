@@ -1,6 +1,9 @@
 ---
 
 nodes:
+  prme-nsx-perf-001:
+    prme_id: 1
+    vm_ids: [ ]
   prme-nsx-perf-002:
     prme_id: 2
     vm_ids: [120, ]

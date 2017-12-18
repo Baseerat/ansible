@@ -31,6 +31,11 @@
          python setup.py install;
          cd /root
 
+- name: delete ovs repository
+  file:
+    path: /root/ovs
+    state: absent
+
 - name: clone ovs source code
   git:
     repo: https://github.com/Baseerat/ovs.git
