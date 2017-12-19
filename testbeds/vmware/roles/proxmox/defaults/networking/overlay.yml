@@ -49,6 +49,54 @@ overlay:
     dpdk:
       cpu_mask: '0x0002'
       memory_channels: 4
+  prme-nsx-perf-007:
+    interfaces:
+      vmware_switch: eth2
+      tor_network: eth5
+    options:
+      eth2:
+        pci_id: "0000:42:00.0"
+        address: 172.16.40.96
+        netmask: 255.255.255.0
+      eth5:
+        pci_id: "0000:42:00.1"
+        address: 172.16.140.96
+        netmask: 255.255.255.0
+    dpdk:
+      cpu_mask: '0x0002'
+      memory_channels: 4
+  prme-nsx-perf-008:
+    interfaces:
+      vmware_switch: eth2
+      tor_network: eth5
+    options:
+      eth2:
+        pci_id: "0000:42:00.0"
+        address: 172.16.40.97
+        netmask: 255.255.255.0
+      eth5:
+        pci_id: "0000:42:00.1"
+        address: 172.16.140.97
+        netmask: 255.255.255.0
+    dpdk:
+      cpu_mask: '0x0002'
+      memory_channels: 4
+  prme-nsx-perf-009:
+    interfaces:
+      vmware_switch: eth2
+      tor_network: eth5
+    options:
+      eth2:
+        pci_id: "0000:42:00.0"
+        address: 172.16.40.98
+        netmask: 255.255.255.0
+      eth5:
+        pci_id: "0000:42:00.1"
+        address: 172.16.140.98
+        netmask: 255.255.255.0
+    dpdk:
+      cpu_mask: '0x0002'
+      memory_channels: 4
 
 switches:
   pisces:

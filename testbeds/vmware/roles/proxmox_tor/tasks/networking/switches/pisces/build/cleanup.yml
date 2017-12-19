@@ -40,9 +40,11 @@
 
 - name: remove rte_kni module
   shell: rmmod rte_kni
+  failed_when: false
 
 - name: remove igb_uio module
   shell: rmmod igb_uio
+  failed_when: false
 
 - name: modprobe uio
   modprobe:

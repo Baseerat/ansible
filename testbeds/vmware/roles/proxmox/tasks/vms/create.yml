@@ -19,7 +19,7 @@
     newid: "{{ proxmox_vm_id }}"
 #  ignore_errors: yes
   failed_when: false
-  delegate_to: localhost
+#  delegate_to: localhost
 
 - name: set VM cores, sockets, and memory
   shell: pvesh set /nodes/{{ inventory_hostname }}/qemu/{{ proxmox_vm_id }}/config -sockets {{ proxmox_vm_sockets }};
@@ -91,7 +91,7 @@
     api_host: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
     name: "{{ proxmox_name_prefix }}{{ proxmox_prme_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }}"
     vmid: "{{ proxmox_vm_id }}"
-  delegate_to: localhost
+#  delegate_to: localhost
 
 - name: wait for ssh to come up
   wait_for:

@@ -19,3 +19,7 @@
 - name: collect fanout stats
   include: roles/zeromq_vms/tasks/fanout/collect.yml
   tags: collect_fanout_stats
+
+- name: collect dish fanout stats
+  include: roles/zeromq_vms/tasks/fanout/collect_dish.yml
+  tags: collect_dish_fanout_stats

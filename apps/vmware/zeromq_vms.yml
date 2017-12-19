@@ -3,9 +3,9 @@
 - name: provision zeromq vms
   hosts:
 #         prme*k8s-node-*
-         prme1-k8s-node-120
-        ,prme2-k8s-node-120
-        ,prme3-k8s-node-120
+         prme7-k8s-node-120
+        ,prme8-k8s-node-120
+        ,prme9-k8s-node-120
   gather_facts: false
 
   vars_files:

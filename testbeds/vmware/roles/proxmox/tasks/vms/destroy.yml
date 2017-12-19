@@ -27,7 +27,7 @@
     api_host: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
     name: "{{ proxmox_name_prefix }}{{ proxmox_prme_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }}"
     vmid: "{{ proxmox_vm_id }}"
-  delegate_to: localhost
+#  delegate_to: localhost
 
 - name: destroy VM
   proxmox_kvm:
@@ -38,4 +38,4 @@
     api_host: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
     name: "{{ proxmox_name_prefix }}{{ proxmox_prme_id }}-{{ proxmox_vm_hostname_prefix }}{{ proxmox_vm_id }}"
     vmid: "{{ proxmox_vm_id }}"
-  delegate_to: localhost
+#  delegate_to: localhost

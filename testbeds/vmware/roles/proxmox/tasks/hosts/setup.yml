@@ -14,6 +14,9 @@
 - name: install essential utilities
   shell: apt-get -y install cpulimit expect htop tmux unzip git python-pip python-yaml python-setuptools build-essential dh-autoreconf pve-headers-`uname -r` pkg-config cmake uuid-dev python-dev python-psutil stress-ng
 
+- name: install essential utilities
+  shell: pip install proxmoxer
+
 - name: update .bashrc file
   template:
     src: roles/proxmox/templates/host_bashrc.j2

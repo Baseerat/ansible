@@ -1,0 +1,23 @@
+---
+
+- name: test
+  hosts: prme-nsx-perf-00*
+  gather_facts: true
+
+  tasks:
+  - shell: pip install proxmoxer
+
+#  - name: clone VM
+#    proxmox_kvm:
+#      state: present
+#      node: "prme-nsx-perf-002"
+#      api_user: "root@pam"
+#      api_password: "nicira"
+#      api_host: "10.115.40.159"
+#      clone: "ubuntu-14-101"
+#      vmid: "101"
+#      name: "ubuntu-14-102"
+#      newid: "102"
+##    ignore_errors: yes
+##    failed_when: false
+##    delegate_to: localhost
