@@ -1,7 +1,7 @@
 ---
 
 - name: remove hosts from the inventory file
-  include_tasks: roles/proxmox/tasks/vms/hosts/remove.yml
+  include: roles/proxmox/tasks/vms/hosts/remove.yml
   vars:
     hostname: "{{ _hostname }}"
   with_items: "{{ ansible_play_hosts }}"

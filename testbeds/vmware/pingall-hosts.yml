@@ -5,8 +5,5 @@
   gather_facts: true
 
   tasks:
-#  - name: ping all prme hosts
-#    ping:
-
-  - debug:
-      msg: "{{ hostvars[inventory_hostname]['ansible_eth5'].ipv4.address }}"
+  - name: ping all prme hosts
+    ping:

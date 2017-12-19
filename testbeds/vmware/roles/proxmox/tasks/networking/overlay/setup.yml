@@ -1,11 +1,11 @@
 ---
 
 - name: setup pisces
-  import_tasks: roles/proxmox/tasks/networking/overlay/switches/pisces/setup.yml
+  include: roles/proxmox/tasks/networking/overlay/switches/pisces/setup.yml
   when: 'overlay_switch.type == "pisces"'
 
 - name: setup ovs (kernel)
-  import_tasks: roles/proxmox/tasks/networking/overlay/switches/ovs_kernel/setup.yml
+  include: roles/proxmox/tasks/networking/overlay/switches/ovs_kernel/setup.yml
   when: 'overlay_switch.type == "ovs_kernel"'
 
 - name: add iptables rule to filter traffic coming from eth0 belonging to the overlay subnet

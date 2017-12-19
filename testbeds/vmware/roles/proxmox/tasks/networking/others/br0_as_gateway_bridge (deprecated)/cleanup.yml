@@ -1,5 +1,5 @@
 ---
 
 - name: cleanup ovs (kernel) as gateway bridge
-  import_tasks: roles/proxmox/tasks/networking/others/br0_as_gateway_bridge/switches/ovs_kernel/cleanup.yml
+  include: roles/proxmox/tasks/networking/others/br0_as_gateway_bridge/switches/ovs_kernel/cleanup.yml
   when: 'overlay_switch.bridge.type == "ovs_kernel"'

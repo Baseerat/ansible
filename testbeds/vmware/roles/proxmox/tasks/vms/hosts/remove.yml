@@ -1,7 +1,7 @@
 ---
 
 - name: remove hosts
-  include_tasks: roles/proxmox/tasks/vms/hosts/_remove.yml
+  include: roles/proxmox/tasks/vms/hosts/_remove.yml
   vars:
     proxmox_vm_id: "{{ _vm_id }}"
     proxmox_prme_id: "{{ nodes[hostname]['prme_id'] }}"

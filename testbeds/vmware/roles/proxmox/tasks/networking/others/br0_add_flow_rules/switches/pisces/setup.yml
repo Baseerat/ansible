@@ -1,7 +1,7 @@
 ---
 
 - name: add static arp entries
-  include_tasks: roles/proxmox/tasks/networking/others/br0_add_flow_rules/switches/pisces/add_arp.yml remote_node="{{ item }}"
+  include: roles/proxmox/tasks/networking/others/br0_add_flow_rules/switches/pisces/add_arp.yml remote_node="{{ item }}"
   with_items: "{{ networking[inventory_hostname]['remote_nodes'] }}"
 
 - name: include overlay variables
@@ -21,8 +21,12 @@
          cd /root
 
 - name: add underlay flow rules for remote interfaces in br0
-  include_tasks: roles/proxmox/tasks/networking/others/br0_add_flow_rules/switches/pisces/flows/add_underlay_remote_rules.yml remote_node="{{ item }}"
+  include: roles/proxmox/tasks/networking/others/br0_add_flow_rules/switches/pisces/flows/add_underlay_remote_rules.yml remote_node="{{ item }}"
   with_items: "{{ networking[inventory_hostname]['remote_nodes'] }}"
+
+
+
+
 
 
 #- name: add low priority local rule
@@ -34,7 +38,7 @@
 #  with_items: "{{ networking[inventory_hostname].remote_nodes }}"
 #
 #- name: add route for remote VMs
-#  include_tasks: roles/proxmox/tasks/networking/others/br0_add_flow_rules/switches/ovs_kernel/flows/add_remote_rules.yml remote_node="{{ _remote_node }}"
+#  include: roles/proxmox/tasks/networking/others/br0_add_flow_rules/switches/ovs_kernel/flows/add_remote_rules.yml remote_node="{{ _remote_node }}"
 #  with_items: "{{ networking[inventory_hostname].remote_nodes }}"
 #  loop_control:
 #    loop_var: _remote_node
