@@ -29,6 +29,7 @@
     insertafter: '^  #   add additional collectors here'
     state: present
   with_sequence: start=0 end={{ collectors.count|int - 1}} format=%d
+#  with_sequence: start=0 end={{ 1 - 1}} format=%d
   when: 'inventory_hostname in "prme7-k8s-node-120"'
   become: true
 

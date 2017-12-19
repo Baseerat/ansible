@@ -3,30 +3,30 @@
 - name: get current date and time
   shell: 'date "+%Y%m%d%H%M%S.%6N"'
   register: current_date_time
-  when: 'inventory_hostname in "prme1-k8s-node-120"'
-  delegate_to: "prme-nsx-perf-001"
+  when: 'inventory_hostname in "prme7-k8s-node-120"'
+  delegate_to: "prme-nsx-perf-007"
 
 - name: create directory with date and time
   shell: ssh {{ sflow_analyst_host }} mkdir -p {{ sflow_analyst_path }}/apps/sflow/{{ current_date_time.stdout }}
-  when: 'inventory_hostname in "prme1-k8s-node-120"'
-  delegate_to: "prme-nsx-perf-001"
+  when: 'inventory_hostname in "prme7-k8s-node-120"'
+  delegate_to: "prme-nsx-perf-007"
 
 - name: fetch sflow stats to host
   shell: scp -r {{ ansible_user }}@{{ ansible_host }}:/tmp/sflow_stats__* /tmp/
-  when: 'inventory_hostname in "prme1-k8s-node-120"'
-  delegate_to: "prme-nsx-perf-001"
+  when: 'inventory_hostname in "prme7-k8s-node-120"'
+  delegate_to: "prme-nsx-perf-007"
 
 - name: fetch sflow stats to analyst host
   shell: scp -r /tmp/sflow_stats__* {{ sflow_analyst_host }}:{{ sflow_analyst_path }}/apps/sflow/{{ current_date_time.stdout }}
-  when: 'inventory_hostname in "prme1-k8s-node-120"'
-  delegate_to: "prme-nsx-perf-001"
+  when: 'inventory_hostname in "prme7-k8s-node-120"'
+  delegate_to: "prme-nsx-perf-007"
 
 - name: cleanup sflow stats
   shell: cd /tmp; rm -rf sflow_stats__*
-  when: 'inventory_hostname in "prme1-k8s-node-120"'
+  when: 'inventory_hostname in "prme7-k8s-node-120"'
   become: true
 
 - name: cleanup sflow stats on the host
   shell: cd /tmp; rm -rf sflow_stats__*
-  when: 'inventory_hostname in "prme1-k8s-node-120"'
-  delegate_to: "prme-nsx-perf-001"
+  when: 'inventory_hostname in "prme7-k8s-node-120"'
+  delegate_to: "prme-nsx-perf-007"

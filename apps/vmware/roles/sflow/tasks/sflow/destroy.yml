@@ -2,7 +2,7 @@
 
 - name: destroy sflow stats script
   shell: pkill -u root -f ifstat
-  when: 'inventory_hostname in "prme1-k8s-node-120"'
+  when: 'inventory_hostname in "prme7-k8s-node-120"'
   failed_when: false
   become: true
 
@@ -19,7 +19,7 @@
   service:
     name: hsflowd
     state: stopped
-  when: 'inventory_hostname in "prme1-k8s-node-120"'
+  when: 'inventory_hostname in "prme7-k8s-node-120"'
   become: true
 
 - name: remove hsflowd
@@ -27,12 +27,12 @@
     name: hsflowd
     purge: yes
     state: absent
-  when: 'inventory_hostname in "prme1-k8s-node-120"'
+  when: 'inventory_hostname in "prme7-k8s-node-120"'
   become: true
 
 - name: remove hsflowd debian files
   file:
     path: /home/mshahbaz/hsflowd-ubuntu14_2.0.11-1_amd64.deb
     state: absent
-  when: 'inventory_hostname in "prme1-k8s-node-120"'
+  when: 'inventory_hostname in "prme7-k8s-node-120"'
   become: true
