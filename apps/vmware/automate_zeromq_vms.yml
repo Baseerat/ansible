@@ -31,7 +31,7 @@
     - lineinfile:
         path: vars/zeromq_vms/configs/fanout/zeromq-1,2,3xnone-7x1-8x1-9x1.yml
         regexp: '^  type:'
-        line: '  type: "unicast"'
+        line: '  type: "baseerat"'
 
     - lineinfile:
         path: vars/zeromq_vms/configs/fanout/zeromq-1,2,3xnone-7x1-8x1-9x1.yml
@@ -42,65 +42,65 @@
              sleep 30;
              ansible-playbook zeromq_vms.yml --tags destroy_fanout
 
-    - lineinfile:
-        path: vars/zeromq_vms/configs/fanout/zeromq-1,2,3xnone-7x1-8x1-9x1.yml
-        regexp: '^fanout_sub_count_per_node:'
-        line: 'fanout_sub_count_per_node: 3'
-    - name: running zeromq with unicast scheme and 4 sub
-      shell: ansible-playbook zeromq_vms.yml --tags launch_fanout;
-             sleep 30;
-             ansible-playbook zeromq_vms.yml --tags destroy_fanout
-
-    - lineinfile:
-        path: vars/zeromq_vms/configs/fanout/zeromq-1,2,3xnone-7x1-8x1-9x1.yml
-        regexp: '^fanout_sub_count_per_node:'
-        line: 'fanout_sub_count_per_node: 7'
-    - name: running zeromq with unicast scheme and 8 sub
-      shell: ansible-playbook zeromq_vms.yml --tags launch_fanout;
-             sleep 30;
-             ansible-playbook zeromq_vms.yml --tags destroy_fanout
-
-    - lineinfile:
-        path: vars/zeromq_vms/configs/fanout/zeromq-1,2,3xnone-7x1-8x1-9x1.yml
-        regexp: '^fanout_sub_count_per_node:'
-        line: 'fanout_sub_count_per_node: 15'
-    - name: running zeromq with unicast scheme and 16 sub
-      shell: ansible-playbook zeromq_vms.yml --tags launch_fanout;
-             sleep 30;
-             ansible-playbook zeromq_vms.yml --tags destroy_fanout
-
-    - lineinfile:
-        path: vars/zeromq_vms/configs/fanout/zeromq-1,2,3xnone-7x1-8x1-9x1.yml
-        regexp: '^fanout_sub_count_per_node:'
-        line: 'fanout_sub_count_per_node: 31'
-    - name: running zeromq with unicast scheme and 32 sub
-      shell: ansible-playbook zeromq_vms.yml --tags launch_fanout;
-             sleep 30;
-             ansible-playbook zeromq_vms.yml --tags destroy_fanout
-
-    - lineinfile:
-        path: vars/zeromq_vms/configs/fanout/zeromq-1,2,3xnone-7x1-8x1-9x1.yml
-        regexp: '^fanout_sub_count_per_node:'
-        line: 'fanout_sub_count_per_node: 63'
-    - name: running zeromq with unicast scheme and 64 sub
-      shell: ansible-playbook zeromq_vms.yml --tags launch_fanout;
-             sleep 30;
-             ansible-playbook zeromq_vms.yml --tags destroy_fanout
-
-    - lineinfile:
-        path: vars/zeromq_vms/configs/fanout/zeromq-1,2,3xnone-7x1-8x1-9x1.yml
-        regexp: '^fanout_sub_count_per_node:'
-        line: 'fanout_sub_count_per_node: 127'
-    - name: running zeromq with unicast scheme and 128 sub
-      shell: ansible-playbook zeromq_vms.yml --tags launch_fanout;
-             sleep 30;
-             ansible-playbook zeromq_vms.yml --tags destroy_fanout
-
-    - lineinfile:
-        path: vars/zeromq_vms/configs/fanout/zeromq-1,2,3xnone-7x1-8x1-9x1.yml
-        regexp: '^fanout_sub_count_per_node:'
-        line: 'fanout_sub_count_per_node: 255'
-    - name: running zeromq with unicast scheme and 256 sub
-      shell: ansible-playbook zeromq_vms.yml --tags launch_fanout;
-             sleep 30;
-             ansible-playbook zeromq_vms.yml --tags destroy_fanout
+#    - lineinfile:
+#        path: vars/zeromq_vms/configs/fanout/zeromq-1,2,3xnone-7x1-8x1-9x1.yml
+#        regexp: '^fanout_sub_count_per_node:'
+#        line: 'fanout_sub_count_per_node: 3'
+#    - name: running zeromq with unicast scheme and 4 sub
+#      shell: ansible-playbook zeromq_vms.yml --tags launch_fanout;
+#             sleep 30;
+#             ansible-playbook zeromq_vms.yml --tags destroy_fanout
+#
+#    - lineinfile:
+#        path: vars/zeromq_vms/configs/fanout/zeromq-1,2,3xnone-7x1-8x1-9x1.yml
+#        regexp: '^fanout_sub_count_per_node:'
+#        line: 'fanout_sub_count_per_node: 7'
+#    - name: running zeromq with unicast scheme and 8 sub
+#      shell: ansible-playbook zeromq_vms.yml --tags launch_fanout;
+#             sleep 30;
+#             ansible-playbook zeromq_vms.yml --tags destroy_fanout
+#
+#    - lineinfile:
+#        path: vars/zeromq_vms/configs/fanout/zeromq-1,2,3xnone-7x1-8x1-9x1.yml
+#        regexp: '^fanout_sub_count_per_node:'
+#        line: 'fanout_sub_count_per_node: 15'
+#    - name: running zeromq with unicast scheme and 16 sub
+#      shell: ansible-playbook zeromq_vms.yml --tags launch_fanout;
+#             sleep 30;
+#             ansible-playbook zeromq_vms.yml --tags destroy_fanout
+#
+#    - lineinfile:
+#        path: vars/zeromq_vms/configs/fanout/zeromq-1,2,3xnone-7x1-8x1-9x1.yml
+#        regexp: '^fanout_sub_count_per_node:'
+#        line: 'fanout_sub_count_per_node: 31'
+#    - name: running zeromq with unicast scheme and 32 sub
+#      shell: ansible-playbook zeromq_vms.yml --tags launch_fanout;
+#             sleep 30;
+#             ansible-playbook zeromq_vms.yml --tags destroy_fanout
+#
+#    - lineinfile:
+#        path: vars/zeromq_vms/configs/fanout/zeromq-1,2,3xnone-7x1-8x1-9x1.yml
+#        regexp: '^fanout_sub_count_per_node:'
+#        line: 'fanout_sub_count_per_node: 63'
+#    - name: running zeromq with unicast scheme and 64 sub
+#      shell: ansible-playbook zeromq_vms.yml --tags launch_fanout;
+#             sleep 30;
+#             ansible-playbook zeromq_vms.yml --tags destroy_fanout
+#
+#    - lineinfile:
+#        path: vars/zeromq_vms/configs/fanout/zeromq-1,2,3xnone-7x1-8x1-9x1.yml
+#        regexp: '^fanout_sub_count_per_node:'
+#        line: 'fanout_sub_count_per_node: 127'
+#    - name: running zeromq with unicast scheme and 128 sub
+#      shell: ansible-playbook zeromq_vms.yml --tags launch_fanout;
+#             sleep 30;
+#             ansible-playbook zeromq_vms.yml --tags destroy_fanout
+#
+#    - lineinfile:
+#        path: vars/zeromq_vms/configs/fanout/zeromq-1,2,3xnone-7x1-8x1-9x1.yml
+#        regexp: '^fanout_sub_count_per_node:'
+#        line: 'fanout_sub_count_per_node: 255'
+#    - name: running zeromq with unicast scheme and 256 sub
+#      shell: ansible-playbook zeromq_vms.yml --tags launch_fanout;
+#             sleep 30;
+#             ansible-playbook zeromq_vms.yml --tags destroy_fanout
