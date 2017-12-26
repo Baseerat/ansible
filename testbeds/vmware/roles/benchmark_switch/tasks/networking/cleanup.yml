@@ -6,10 +6,10 @@
 #- name: cleanup pisces
 #  include: roles/benchmark_switch/tasks/networking/switches/pisces/cleanup.yml
 #  when: 'switch.type == "pisces"'
-#
-#- name: cleanup ovs (dpdk)
-#  include: roles/benchmark_switch/tasks/networking/switches/ovs_dpdk/cleanup.yml
-#  when: 'switch.type == "ovs_dpdk"'
+
+- name: cleanup ovs (dpdk)
+  include: roles/benchmark_switch/tasks/networking/switches/ovs_dpdk/cleanup.yml
+  when: 'switch.type == "ovs_dpdk"'
 
 - name: cleanup linux bridge
   include: roles/benchmark_switch/tasks/networking/switches/linux_bridge/cleanup.yml

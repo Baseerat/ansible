@@ -22,3 +22,7 @@
 - name: cleanup ping
   include: roles/benchmark_tester/tasks/networking/testers/ping/cleanup.yml
   when: 'tester.type == "ping"'
+
+- name: cleanup moongen
+  include: roles/benchmark_tester/tasks/networking/testers/moongen/cleanup.yml
+  when: 'tester.type == "moongen"'

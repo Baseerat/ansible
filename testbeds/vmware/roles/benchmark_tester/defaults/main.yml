@@ -5,37 +5,31 @@ proxmox_vm_network_address_prefix: 192.168.
 nodes:
   prme-nsx-perf-004:
     interfaces:
-#      - eth9 # prme-nsx-perf-005:eth2
-#      - eth6 # prme-nsx-perf-005:eth5
-      - eth7 # prme-nsx-perf-005:eth8
+      - eth9 # prme-nsx-perf-005:eth2
+      - eth6 # prme-nsx-perf-005:eth5
+#      - eth7 # prme-nsx-perf-005:eth8
     options:
-#      eth9:
-#        pci_id: "0000:44:00.1"
-#        if_index: -
-#      eth6:
-#        pci_id: "0000:43:00.0"
-#        if_index: -
-      eth7:
-        pci_id: "0000:43:00.1"
-        if_index: 3
+      eth9:
+        pci_id: "0000:44:00.1"
+      eth6:
+        pci_id: "0000:43:00.0"
+#      eth7:
+#        pci_id: "0000:43:00.1"
 #    dpdk:
 #      cpu_mask: '0x0AA0'
 #      memory_channels: 4
   prme-nsx-perf-006:
     interfaces:
-#      - eth7 # prme-nsx-perf-005:eth6
-#      - eth9 # prme-nsx-perf-005:eth7
-      - eth6 # prme-nsx-perf-005:eth9
+      - eth7 # prme-nsx-perf-005:eth6
+      - eth9 # prme-nsx-perf-005:eth7
+#      - eth6 # prme-nsx-perf-005:eth9
     options:
-#      eth7:
-#        pci_id: "0000:41:00.1"
-#        if_index: -
-#      eth9:
-#        pci_id: "0000:42:00.1"
-#        if_index: -
-      eth6:
-        pci_id: "0000:41:00.0"
-        if_index: 3
+      eth7:
+        pci_id: "0000:41:00.1"
+      eth9:
+        pci_id: "0000:42:00.1"
+#      eth6:
+#        pci_id: "0000:41:00.0"
 #    dpdk:
 #      cpu_mask: '0x0CC0'
 #      memory_channels: 4

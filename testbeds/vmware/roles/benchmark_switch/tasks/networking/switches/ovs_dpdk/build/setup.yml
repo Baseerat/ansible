@@ -1,10 +1,10 @@
 ---
 
 #- name: install essentials #***DO NOT UNCOMMENT***
-#  include: roles/proxmox_dc/tasks/networking/switches/ovs_dpdk/build/essentials.yml
+#  include: roles/benchmark_switch/tasks/networking/switches/ovs_dpdk/build/essentials.yml
 
 - name: configure huge page tables
-  script: roles/proxmox_dc/files/hugetlbfs.sh setup 512
+  script: roles/benchmark_switch/files/hugetlbfs.sh setup 512
 
 - name: get dpdk source code
   unarchive:

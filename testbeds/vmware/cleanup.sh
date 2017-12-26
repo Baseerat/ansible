@@ -1,8 +1,9 @@
 #!/bin/sh
 
-#ansible-playbook benchmark_tester.yml --tags clean_moongen
 #ansible-playbook benchmark_tester.yml --tags cleanup_tester
+#ansible-playbook benchmark_tester.yml --tags clean_moongen
 #ansible-playbook benchmark_switch.yml --tags cleanup_switch
+#ansible-playbook benchmark_switch.yml --tags clean_ovs_dpdk
 #ansible-playbook benchmark_switch.yml --tags clean_pisces
 
 #ansible-playbook kubernetes.yml --tags destroy_apps

@@ -60,4 +60,4 @@
     state: absent
 
 #- name: reset huge page tables #***This doesn't work***
-#  script: roles/proxmox_tor/files/hugetlbfs.sh cleanup
+#  script: roles/benchmark_switch/files/hugetlbfs.sh cleanup

@@ -3,10 +3,10 @@
 #- name: setup pisces
 #  include: roles/benchmark_switch/tasks/networking/switches/pisces/setup.yml
 #  when: 'switch.type == "pisces"'
-#
-#- name: setup ovs (dpdk)
-#  include: roles/benchmark_switch/tasks/networking/switches/ovs_dpdk/setup.yml
-#  when: 'switch.type == "ovs_dpdk"'
+
+- name: setup ovs (dpdk)
+  include: roles/benchmark_switch/tasks/networking/switches/ovs_dpdk/setup.yml
+  when: 'switch.type == "ovs_dpdk"'
 
 - name: setup linux bridge
   include: roles/benchmark_switch/tasks/networking/switches/linux_bridge/setup.yml

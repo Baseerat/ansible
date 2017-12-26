@@ -1,26 +1,14 @@
 ---
 
-- name: create an ovs bridge br0
-  shell: cd /root/ovs/utilities;
-         ./ovs-vsctl add-br br0 -- set bridge br0 datapath_type=netdev;
+- name: launch tx
+  shell: cd /root/MoonGen;
+         ./build/MoonGen ./examples/custom/{{ tester.moongen.benchmark }} {{ tester.moongen.ports }} &
          cd /root
+  when: 'inventory_hostname in "prme-nsx-perf-004"'
 
-- name: bring up br0
-  shell: ip link set dev br0 up
-
-- name: add interfaces to br0
-  shell: cd /root/ovs/utilities;
-         ./ovs-vsctl add-port br0 dpdk{{ item }} -- set interface dpdk{{ item }} type=dpdk;
+- name: launch rx
+  shell: cd /root/MoonGen;
+         ./build/MoonGen ./examples/custom/packet-rx.lua {{ tester.moongen.ports }} | \
+         grep "Received \|Total " > /tmp/{{ tester.moongen.benchmark }}.log &
          cd /root
-  with_sequence: start=0 end={{ nodes[inventory_hostname]['interfaces']|length - 1 }} format=%d
-
-- name: delete existing flow rules
-  shell: cd /root/ovs/utilities;
-         ./ovs-ofctl del-flows br0;
-         cd /root
-
-- name: add flow rules
-  shell: cd /root/ovs/utilities;
-         ./ovs-ofctl add-flow br0 '{{ item }}';
-         cd /root
-  with_items: "{{ tor_switch.ovs_dpdk.flow_rules[inventory_hostname] }}"
+  when: 'inventory_hostname in "prme-nsx-perf-006"'

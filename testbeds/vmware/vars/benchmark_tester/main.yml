@@ -1,4 +1,7 @@
 ---
 
 tester:
-  type: "ping" # Options: linux_bridge, ovs_dpdk, pisces
+  type: "moongen" # Options: ping, moongen
+  moongen:
+    benchmark: packet-tx--eth-ip.lua
+    ports: '0 1'

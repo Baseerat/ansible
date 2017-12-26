@@ -23,4 +23,4 @@
   shell: cd /root/ovs/utilities;
          ./ovs-ofctl add-flow br0 '{{ item }}';
          cd /root
-  with_items: "{{ dc_switch.ovs_dpdk.flow_rules[inventory_hostname] }}"
+  with_items: "{{ switch.ovs_dpdk.flow_rules[inventory_hostname] }}"
