@@ -1,0 +1,16 @@
+---
+
+#- name: setup pisces
+#  include: roles/benchmark_switch/tasks/networking/switches/pisces/setup.yml
+#  when: 'switch.type == "pisces"'
+#
+#- name: setup ovs (dpdk)
+#  include: roles/benchmark_switch/tasks/networking/switches/ovs_dpdk/setup.yml
+#  when: 'switch.type == "ovs_dpdk"'
+
+- name: setup linux bridge
+  include: roles/benchmark_switch/tasks/networking/switches/linux_bridge/setup.yml
+  when: 'switch.type == "linux_bridge"'
+
+#- name: add iptables rule to filter traffic coming from eth0 belonging to the overlay subnet
+#  shell: iptables -I INPUT -s {{ proxmox_vm_network_address_prefix }}0.0/16 -i eth0 -j DROP

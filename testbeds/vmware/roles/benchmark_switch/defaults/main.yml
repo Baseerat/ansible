@@ -1,0 +1,43 @@
+---
+
+proxmox_vm_network_address_prefix: 192.168.
+
+nodes:
+  prme-nsx-perf-005:
+    interfaces:
+#      - eth2  # prme-nsx-perf-004:eth9
+#      - eth5  # prme-nsx-perf-004:eth6
+      - eth8  # prme-nsx-perf-004:eth7
+#      - eth6  # prme-nsx-perf-006:eth7
+#      - eth7  # prme-nsx-perf-006:eth9
+      - eth9  # prme-nsx-perf-006:eth6
+    options:
+#      eth2:
+#        pci_id: "0000:41:00.0"
+#        if_index: 1 # NOTE: for some reason this is assigned in the order of eth ids (e.g., eth2=1, and eth7=2).
+#      eth5:
+#        pci_id: "0000:41:00.1"
+#        if_index: -
+      eth8:
+        pci_id: "0000:44:00.0"
+        if_index: 1
+#      eth6:
+#        pci_id: "0000:43:00.0"
+#        if_index: -
+#      eth7:
+#        pci_id: "0000:43:00.1"
+#        if_index: -
+      eth9:
+        pci_id: "0000:44:00.1"
+        if_index: 2
+    dpdk:
+      cpu_mask: '0x0220'
+      memory_channels: 4
+
+switches:
+  pisces:
+    cflags: '-O2 -Wno-cast-align' # Options: -g or ''
+    p4_programs:
+      base_dir: files
+  ovs_dpdk:
+    cflags: '-O2 -Wno-cast-align' # Options: -g or ''

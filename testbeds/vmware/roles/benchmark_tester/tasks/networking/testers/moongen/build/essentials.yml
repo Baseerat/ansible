@@ -1,0 +1,15 @@
+---
+
+- name: ensure that pve-no-subscription repository is present in the /etc/apt/sources.list
+  lineinfile:
+    path: /etc/apt/sources.list
+    line: "deb http://download.proxmox.com/debian/pve jessie pve-no-subscription"
+    state: present
+
+- name: update cache
+  apt:
+    update_cache: yes
+  ignore_errors: yes
+
+- name: install essential utilities
+  shell: apt-get -y install unzip git python-pip python-yaml python-setuptools build-essential dh-autoreconf cmake pve-headers-`uname -r`

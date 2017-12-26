@@ -1,0 +1,18 @@
+---
+
+- name: create a linux bridge br0
+  shell: brctl addbr br0
+
+- name: disable stp on br0
+  shell: brctl stp br0 no
+
+- name: bring up br0
+  shell: ip link set dev br0 up
+
+- name: bring up interfaces
+  shell: ip link set dev {{ item }} up
+  with_items: "{{ nodes[inventory_hostname]['interfaces'] }}"
+
+- name: add interfaces to br0
+  shell: brctl addif br0 {{ item }}
+  with_items: "{{ nodes[inventory_hostname]['interfaces'] }}"

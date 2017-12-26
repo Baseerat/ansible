@@ -1,5 +1,10 @@
 #!/bin/sh
 
+#ansible-playbook benchmark_tester.yml --tags clean_moongen
+#ansible-playbook benchmark_tester.yml --tags cleanup_tester
+#ansible-playbook benchmark_switch.yml --tags cleanup_switch
+#ansible-playbook benchmark_switch.yml --tags clean_pisces
+
 #ansible-playbook kubernetes.yml --tags destroy_apps
 #ansible-playbook kubernetes.yml --tags destroy_cluster
 #ansible-playbook kubernetes.yml --tags destroy_overlay
@@ -23,4 +28,3 @@ ansible-playbook proxmox_tor.yml --tags clean_pisces
 ansible-playbook proxmox_dc.yml --tags cleanup_dc_network
 #ansible-playbook proxmox_dc.yml --tags clean_ovs_dpdk
 ansible-playbook proxmox_dc.yml --tags clean_pisces
-

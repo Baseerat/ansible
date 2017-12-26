@@ -1,0 +1,12 @@
+---
+
+- name: benchmark_switch
+  hosts:
+          prme-nsx-perf-005
+  gather_facts: true
+
+  vars_files:
+    - "vars/benchmark_switch/main.yml"
+
+  roles:
+    - benchmark_switch

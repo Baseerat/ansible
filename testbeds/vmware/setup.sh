@@ -26,3 +26,8 @@ ansible-playbook kubernetes.yml --tags install_common
 ansible-playbook kubernetes.yml --tags create_overlay
 ansible-playbook kubernetes.yml --tags create_cluster
 #ansible-playbook kubernetes.yml --tags create_apps
+
+#ansible-playbook benchmark_switch.yml --tags install_pisces
+#ansible-playbook benchmark_switch.yml --tags setup_switch
+#ansible-playbook benchmark_tester.yml --tags setup_tester
+#ansible-playbook benchmark_tester.yml --tags install_moongen

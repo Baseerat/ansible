@@ -1,0 +1,4 @@
+---
+
+tester:
+  type: "ping" # Options: linux_bridge, ovs_dpdk, pisces

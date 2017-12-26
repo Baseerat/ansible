@@ -1,0 +1,32 @@
+---
+
+- name: set dpdk rte variables
+  set_fact:
+    RTE_SDK: /root/MoonGen/deps/dpdk
+    RTE_TARGET: x86_64-native-linuxapp-gcc
+
+- name: remove interfaces from dpdk
+  shell: "{{ RTE_SDK }}/tools/dpdk_nic_bind.py -b ixgbe {{ nodes[inventory_hostname].options[item].pci_id }};
+         ip link set dev {{ item }} down"
+  with_items: "{{ nodes[inventory_hostname]['interfaces'] }}"
+
+- name: remove rte_kni module
+  shell: rmmod rte_kni
+  failed_when: false
+
+- name: remove igb_uio module
+  shell: rmmod igb_uio
+  failed_when: false
+
+- name: modprobe uio
+  modprobe:
+    name: uio
+    state: absent
+
+- name: delete moongen repository
+  file:
+    path: /root/MoonGen
+    state: absent
+
+#- name: reset huge page tables #***This doesn't work***
+#  script: roles/proxmox_tor/files/hugetlbfs.sh cleanup

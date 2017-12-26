@@ -1,0 +1,23 @@
+---
+
+switch:
+  type: "linux_bridge" # Options: linux_bridge, ovs_dpdk, pisces
+#  pisces:
+#    p4_program: "baseerat_bitmap.p4"
+#    flow_rules: # Also, see defaults/main.yml for eths' if_indexes.
+#      prme-nsx-perf-005:
+#        - "table=0,priority=10,ipv4__dstAddr={{ '172.16.140.158' | ipaddr('address') | ipaddr('int') }} actions=1" # to prme-nsx-perf-001
+#        - "table=0,priority=10,ipv4__dstAddr={{ '172.16.140.159' | ipaddr('address') | ipaddr('int') }} actions=1" # to prme-nsx-perf-002
+#        - "table=0,priority=10,ipv4__dstAddr={{ '172.16.140.160' | ipaddr('address') | ipaddr('int') }} actions=1" # to prme-nsx-perf-003
+#        - "table=0,priority=10,ipv4__dstAddr={{ '172.16.140.96'  | ipaddr('address') | ipaddr('int') }} actions=2" # to prme-nsx-perf-007
+#        - "table=0,priority=10,ipv4__dstAddr={{ '172.16.140.97'  | ipaddr('address') | ipaddr('int') }} actions=2" # to prme-nsx-perf-008
+#        - "table=0,priority=10,ipv4__dstAddr={{ '172.16.140.98'  | ipaddr('address') | ipaddr('int') }} actions=2" # to prme-nsx-perf-009
+#  ovs_dpdk:
+#    flow_rules: # Also, see defaults/main.yml for eths' if_indexes.
+#      prme-nsx-perf-005:
+#        - "table=0,priority=10,ip,nw_dst=172.16.140.158 actions=1" # to prme-nsx-perf-001
+#        - "table=0,priority=10,ip,nw_dst=172.16.140.159 actions=1" # to prme-nsx-perf-002
+#        - "table=0,priority=10,ip,nw_dst=172.16.140.160 actions=1" # to prme-nsx-perf-003
+#        - "table=0,priority=10,ip,nw_dst=172.16.140.96 actions=2" # to prme-nsx-perf-007
+#        - "table=0,priority=10,ip,nw_dst=172.16.140.97 actions=2" # to prme-nsx-perf-008
+#        - "table=0,priority=10,ip,nw_dst=172.16.140.98 actions=2" # to prme-nsx-perf-009

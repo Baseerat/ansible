@@ -1,0 +1,17 @@
+---
+
+- name: install moongen
+  include: roles/benchmark_tester/tasks/networking/testers/moongen/build/setup.yml
+  tags: install_moongen
+
+- name: clean moongen
+  include: roles/benchmark_tester/tasks/networking/testers/moongen/build/cleanup.yml
+  tags: clean_moongen
+
+- name: setup tester
+  include: roles/benchmark_tester/tasks/networking/setup.yml
+  tags: setup_tester
+
+- name: cleanup tester
+  include: roles/benchmark_tester/tasks/networking/cleanup.yml
+  tags: cleanup_tester

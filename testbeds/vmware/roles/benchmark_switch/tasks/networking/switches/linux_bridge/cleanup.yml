@@ -1,0 +1,18 @@
+---
+
+- name: remove interfaces from br0
+  shell: brctl delif br0 {{ item }}
+  with_items: "{{ nodes[inventory_hostname]['interfaces'] }}"
+
+- name: bring down interfaces
+  shell: ip link set dev {{ item }} down
+  with_items: "{{ nodes[inventory_hostname]['interfaces'] }}"
+
+- name: bring down br0
+  shell: ip link set dev br0 down
+
+- name: disable stp on br0
+  shell: brctl stp br0 no
+
+- name: delete linux bridge br0
+  shell: brctl delbr br0

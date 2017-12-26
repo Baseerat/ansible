@@ -1,0 +1,61 @@
+---
+
+#- name: install essentials #***DO NOT UNCOMMENT***
+#  include: roles/benchmark_tester/tasks/networking/testers/moongen/build/essentials.yml
+
+- name: configure huge page tables
+  script: roles/benchmark_tester/files/hugetlbfs.sh setup 512
+
+- name: clone moogen source code
+  git:
+    repo: https://github.com/Baseerat/MoonGen.git
+    dest: /root/MoonGen
+    version: dpdk2.1
+
+- name: initialize moongen submodules
+  shell: cd /root/MoonGen;
+         git submodule update --init;
+         cd /root
+
+- name: build LuaJIT
+  shell: cd /root/MoonGen/deps/luajit;
+         make -j 2 'CFLAGS=-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT';
+         make install DESTDIR=$(pwd)
+
+- name: patch and build dpdk
+  shell: cd /root/MoonGen/deps/dpdk;
+         patch -p1 -N < ../../setup-scripts/patches/dpdk-config.patch;
+         make -j 8 install T=x86_64-native-linuxapp-gcc;
+         cd /root
+
+- name: set dpdk rte variables
+  set_fact:
+    RTE_SDK: /root/MoonGen/deps/dpdk
+    RTE_TARGET: x86_64-native-linuxapp-gcc
+
+- name: modprobe uio
+  modprobe:
+    name: uio
+    state: present
+
+- name: install igb_uio module
+  shell: insmod {{ RTE_SDK }}/{{ RTE_TARGET }}/kmod/igb_uio.ko
+
+- name: install rte_kni module
+  shell: insmod {{ RTE_SDK }}/{{ RTE_TARGET }}/kmod/rte_kni.ko "lo_mode=lo_mode_ring"
+
+- name: add interfaces to dpdk
+  shell: ip link set dev {{ item }} down;
+         {{ RTE_SDK }}/tools/dpdk_nic_bind.py -b igb_uio {{ item }}
+  with_items: "{{ nodes[inventory_hostname]['interfaces'] }}"
+
+- name: build moongen
+  shell: cd /root/MoonGen/build;
+         cmake ..;
+         make
+
+- name: update lua/dpdk-conf.lua
+  lineinfile:
+    path: /root/MoonGen/lua/dpdk-conf.lua
+    regexp: '^\tcores ='
+    line: 'cores = {2,4,6,8,10,12,14},'
