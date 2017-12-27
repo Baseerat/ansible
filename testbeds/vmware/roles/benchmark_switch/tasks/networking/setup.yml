@@ -1,8 +1,8 @@
 ---
 
-#- name: setup pisces
-#  include: roles/benchmark_switch/tasks/networking/switches/pisces/setup.yml
-#  when: 'switch.type == "pisces"'
+- name: setup pisces
+  include: roles/benchmark_switch/tasks/networking/switches/pisces/setup.yml
+  when: 'switch.type == "pisces"'
 
 - name: setup ovs (dpdk)
   include: roles/benchmark_switch/tasks/networking/switches/ovs_dpdk/setup.yml

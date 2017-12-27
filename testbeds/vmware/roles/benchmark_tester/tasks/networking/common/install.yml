@@ -1,9 +1,0 @@
----
-
-- name: install openvswitch-switch
-  apt:
-    name: openvswitch-switch
-
-- name: install openvswitch-common
-  apt:
-    name: openvswitch-common

@@ -51,7 +51,7 @@
 
 - name: delete p4 program
   file:
-    path: /root/ovs/include/p4/examples/{{ dc_switch.pisces.p4_program }}
+    path: /root/ovs/include/p4/examples/{{ switch.pisces.p4_program }}
     state: absent
 
 - name: delete ovs repository
@@ -80,4 +80,4 @@
     state: absent
 
 #- name: reset huge page tables #***This doesn't work***
-#  script: roles/proxmox_dc/files/hugetlbfs.sh cleanup
+#  script: roles/benchmark_switch/files/hugetlbfs.sh cleanup

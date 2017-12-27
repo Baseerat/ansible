@@ -1,21 +1,5 @@
 ---
 
-#- name: setup pisces
-#  include: roles/benchmark_tester/tasks/networking/switches/pisces/setup.yml
-#  when: 'tor_switch.type == "pisces"'
-#
-#- name: setup ovs (kernel)
-#  include: roles/benchmark_tester/tasks/networking/switches/ovs_kernel/setup.yml
-#  when: 'tor_switch.type == "ovs_kernel"'
-#
-#- name: setup ovs (dpdk)
-#  include: roles/benchmark_tester/tasks/networking/switches/ovs_dpdk/setup.yml
-#  when: 'tor_switch.type == "ovs_dpdk"'
-#
-#- name: setup linux bridge
-#  include: roles/benchmark_tester/tasks/networking/switches/linux_bridge/setup.yml
-#  when: 'tor_switch.type == "linux_bridge"'
-
 - name: setup ping
   include: roles/benchmark_tester/tasks/networking/testers/ping/setup.yml
   when: 'tester.type == "ping"'

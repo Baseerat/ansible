@@ -18,3 +18,8 @@
   shell: cd /root/ovs/utilities;
          ./ovs-vsctl del-br br0;
          cd /root
+
+- name: delete p4 script
+  file:
+    path: /root/ovs/include/p4/examples/{{ switch.pisces.p4_script }}
+    state: absent

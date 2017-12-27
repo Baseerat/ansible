@@ -1,10 +1,10 @@
 ---
 
 #- name: install essentials #***DO NOT UNCOMMENT***
-#  include: roles/proxmox_dc/tasks/networking/switches/pisces/build/essentials.yml
+#  include: roles/benchmark_switch/tasks/networking/switches/pisces/build/essentials.yml
 
 - name: configure huge page tables
-  script: roles/proxmox_dc/files/hugetlbfs.sh setup 512
+  script: roles/benchmark_switch/files/hugetlbfs.sh setup 512
 
 - name: get p4-hlir source code
   unarchive:
@@ -27,6 +27,11 @@
   shell: cd /tmp/p4c-behavioral-Baseerat;
          python setup.py install;
          cd /root
+
+- name: delete ovs repository
+  file:
+    path: /root/ovs
+    state: absent
 
 - name: clone ovs source code
   git:
@@ -52,8 +57,8 @@
 
 - name: copy p4 program
   copy:
-    src: "{{ switches.pisces.p4_programs.base_dir }}/p4_programs/{{ dc_switch.pisces.p4_program }}"
-    dest: /root/ovs/include/p4/examples/{{ dc_switch.pisces.p4_program }}
+    src: "{{ switches.pisces.p4_programs.base_dir }}/p4_programs/{{ switch.pisces.p4_program }}"
+    dest: /root/ovs/include/p4/examples/{{ switch.pisces.p4_program }}
 
 - name: build ovs
   shell: cd /root/ovs;
@@ -63,7 +68,7 @@
          export DPDK_BUILD=$RTE_SDK/$RTE_TARGET;
          ./boot.sh;
          ./configure --with-dpdk=$DPDK_BUILD CFLAGS="{{ switches.pisces.cflags }}" \
-                     p4inputfile=./include/p4/examples/{{ dc_switch.pisces.p4_program }} \
+                     p4inputfile=./include/p4/examples/{{ switch.pisces.p4_program }} \
                      p4outputdir=./include/p4/src;
          make clean;
          make -j 8;
