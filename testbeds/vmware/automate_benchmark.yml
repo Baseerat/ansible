@@ -1,0 +1,74 @@
+---
+
+- name: provision automate benchmark
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+#    - lineinfile:
+#        path: vars/benchmark_switch/main.yml
+#        regexp: '^    p4_program:'
+#        line: '    p4_program: "baseerat_vswitch_no_headers.p4"'
+#    - lineinfile:
+#        path: vars/benchmark_switch/main.yml
+#        regexp: '^    p4_script:'
+#        line: '    p4_script: "baseerat_vswitch_no_headers.sh"'
+#    - name: running benchmark
+#      shell: ansible-playbook benchmark_switch.yml --tags install_pisces;
+#             ansible-playbook benchmark_switch.yml --tags setup_switch;
+#             ansible-playbook benchmark_tester.yml --tags setup_tester;
+#             sleep 80;
+#             ansible-playbook benchmark_tester.yml --tags cleanup_tester;
+#             ansible-playbook benchmark_switch.yml --tags cleanup_switch;
+#             ansible-playbook benchmark_switch.yml --tags clean_pisces;
+
+    - lineinfile:
+        path: vars/benchmark_switch/main.yml
+        regexp: '^    p4_program:'
+        line: '    p4_program: "baseerat_vswitch_5_headers_combined.p4"'
+    - lineinfile:
+        path: vars/benchmark_switch/main.yml
+        regexp: '^    p4_script:'
+        line: '    p4_script: "baseerat_vswitch_5_headers_combined.sh"'
+    - name: running benchmark
+      shell: ansible-playbook benchmark_switch.yml --tags install_pisces;
+             ansible-playbook benchmark_switch.yml --tags setup_switch;
+             ansible-playbook benchmark_tester.yml --tags setup_tester;
+             sleep 80;
+             ansible-playbook benchmark_tester.yml --tags cleanup_tester;
+             ansible-playbook benchmark_switch.yml --tags cleanup_switch;
+             ansible-playbook benchmark_switch.yml --tags clean_pisces;
+
+    - lineinfile:
+        path: vars/benchmark_switch/main.yml
+        regexp: '^    p4_program:'
+        line: '    p4_program: "baseerat_vswitch_10_headers_combined.p4"'
+    - lineinfile:
+        path: vars/benchmark_switch/main.yml
+        regexp: '^    p4_script:'
+        line: '    p4_script: "baseerat_vswitch_10_headers_combined.sh"'
+    - name: running benchmark
+      shell: ansible-playbook benchmark_switch.yml --tags install_pisces;
+             ansible-playbook benchmark_switch.yml --tags setup_switch;
+             ansible-playbook benchmark_tester.yml --tags setup_tester;
+             sleep 80;
+             ansible-playbook benchmark_tester.yml --tags cleanup_tester;
+             ansible-playbook benchmark_switch.yml --tags cleanup_switch;
+             ansible-playbook benchmark_switch.yml --tags clean_pisces;
+
+    - lineinfile:
+        path: vars/benchmark_switch/main.yml
+        regexp: '^    p4_program:'
+        line: '    p4_program: "baseerat_vswitch_15_headers_combined.p4"'
+    - lineinfile:
+        path: vars/benchmark_switch/main.yml
+        regexp: '^    p4_script:'
+        line: '    p4_script: "baseerat_vswitch_15_headers_combined.sh"'
+    - name: running benchmark
+      shell: ansible-playbook benchmark_switch.yml --tags install_pisces;
+             ansible-playbook benchmark_switch.yml --tags setup_switch;
+             ansible-playbook benchmark_tester.yml --tags setup_tester;
+             sleep 80;
+             ansible-playbook benchmark_tester.yml --tags cleanup_tester;
+             ansible-playbook benchmark_switch.yml --tags cleanup_switch;
+             ansible-playbook benchmark_switch.yml --tags clean_pisces;
