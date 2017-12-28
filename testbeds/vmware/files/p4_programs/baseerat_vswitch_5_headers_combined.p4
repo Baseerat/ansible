@@ -51,6 +51,12 @@ header_type vxlan_t {
     }
 }
 
+header_type bitmap_hdr_combined_t {
+    fields {
+        data : 448;  // (5 * (32 + 48)) + 48
+    }
+}
+
 // Parser functions
 
 parser start {
@@ -144,10 +150,22 @@ parser parse_udp {
     }
 }
 
+#define VXLAN_VNI_BASEERAT 0xABCDEF
+
 header vxlan_t vxlan_;
 
 parser parse_vxlan {
     extract(vxlan_);
+    return select(latest.vni) {
+        VXLAN_VNI_BASEERAT : parse_bitmap_hdr_combined;
+        default: ingress;
+    }
+}
+
+header bitmap_hdr_combined_t bitmap_hdr_combined_;
+
+parser parse_bitmap_hdr_combined {
+    extract(bitmap_hdr_combined_);
     return ingress;
 }
 

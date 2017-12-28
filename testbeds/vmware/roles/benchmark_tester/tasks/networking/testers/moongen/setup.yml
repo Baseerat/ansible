@@ -2,13 +2,14 @@
 
 - name: launch tx
   shell: cd /root/MoonGen;
-         ./build/MoonGen ./examples/custom/{{ tester.moongen.benchmark }} {{ tester.moongen.ports }} &
+         ./build/MoonGen ./examples/custom/baseerat/{{ tester.moongen.benchmark }} {{ tester.moongen.ports }} | \
+         grep "Sent \|Total " > /tmp/tx__{{ tester.moongen.benchmark }}__{{ switch.pisces.p4_program }}.log &
          cd /root
-  when: 'inventory_hostname in "prme-nsx-perf-004"'
+  when: 'inventory_hostname in "prme-nsx-perf-004" and switch.type == "pisces"'
 
 - name: launch rx
   shell: cd /root/MoonGen;
          ./build/MoonGen ./examples/custom/packet-rx.lua {{ tester.moongen.ports }} | \
-         grep "Received \|Total " > /tmp/{{ tester.moongen.benchmark }}.log &
+         grep "Received \|Total " > /tmp/rx__{{ tester.moongen.benchmark }}__{{ switch.pisces.p4_program }}.log &
          cd /root
-  when: 'inventory_hostname in "prme-nsx-perf-006"'
+  when: 'inventory_hostname in "prme-nsx-perf-006"  and switch.type == "pisces"'

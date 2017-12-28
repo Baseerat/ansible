@@ -3,5 +3,5 @@
 tester:
   type: "moongen" # Options: ping, moongen
   moongen:
-    benchmark: packet-tx--eth-ip.lua
+    benchmark: packet-tx--eth-ip-udp-vxlan-eth-ip-icmp-148B.lua
     ports: '0 1'

@@ -31,3 +31,6 @@
     src: "{{ switches.pisces.p4_programs.base_dir }}/p4_programs/{{ switch.pisces.p4_script }}"
     dest: /root/ovs/include/p4/examples/{{ switch.pisces.p4_script }}
   when: "switch.pisces.p4_script != ''"
+
+#- name: run p4 script
+#  shell: sh  /root/ovs/include/p4/examples/{{ switch.pisces.p4_script }}
