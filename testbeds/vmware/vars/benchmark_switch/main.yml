@@ -3,8 +3,8 @@
 switch:
   type: "pisces" # Options: linux_bridge, ovs_dpdk, pisces
   pisces:
-    p4_program: "baseerat_vswitch_15_headers_combined.p4"
-    p4_script: "baseerat_vswitch_15_headers_combined.sh"
+    p4_program: "baseerat_vswitch_5_headers.p4"
+    p4_script: "baseerat_vswitch_5_headers.sh"
     flow_rules: # Also, see defaults/main.yml for eths' if_indexes.
       prme-nsx-perf-005:
 #        - "table=0,priority=10,ipv4__dstAddr={{ '10.0.0.14' | ipaddr('address') | ipaddr('int') }} actions=1" # to prme-nsx-perf-001

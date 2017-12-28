@@ -51,12 +51,16 @@ header_type vxlan_t {
     }
 }
 
-header_type bitmap_hdr_combined_t {
+header_type bitmap_hdr_t {
     fields {
-        data_0 : 848;  // (10 * (32 + 48)) + 48
-        data_1 : 848;  // (10 * (32 + 48)) + 48
-        data_2 : 848;  // (10 * (32 + 48)) + 48
-        data_3 : 848;  // (10 * (32 + 48)) + 48
+        ids : IDS_WIDTH;
+        bitmap : NUM_HOSTS;
+    }
+}
+
+header_type bitmap_t {
+    fields {
+        bitmap : NUM_HOSTS;
     }
 }
 
@@ -160,15 +164,50 @@ header vxlan_t vxlan_;
 parser parse_vxlan {
     extract(vxlan_);
     return select(latest.vni) {
-        VXLAN_VNI_BASEERAT : parse_bitmap_hdr_combined;
+        VXLAN_VNI_BASEERAT : parse_bitmap_hdr0;
         default: ingress;
     }
 }
 
-header bitmap_hdr_combined_t bitmap_hdr_combined_;
+header bitmap_hdr_t bitmap_hdr0_;
 
-parser parse_bitmap_hdr_combined {
-    extract(bitmap_hdr_combined_);
+parser parse_bitmap_hdr0 {
+    extract(bitmap_hdr0_);
+    return parse_bitmap_hdr1;
+}
+
+header bitmap_hdr_t bitmap_hdr1_;
+
+parser parse_bitmap_hdr1 {
+    extract(bitmap_hdr1_);
+    return parse_bitmap_hdr2;
+}
+
+header bitmap_hdr_t bitmap_hdr2_;
+
+parser parse_bitmap_hdr2 {
+    extract(bitmap_hdr2_);
+    return parse_bitmap_hdr3;
+}
+
+header bitmap_hdr_t bitmap_hdr3_;
+
+parser parse_bitmap_hdr3 {
+    extract(bitmap_hdr3_);
+    return parse_bitmap_hdr4;
+}
+
+header bitmap_hdr_t bitmap_hdr4_;
+
+parser parse_bitmap_hdr4 {
+    extract(bitmap_hdr4_);
+    return parse_default_bitmap;
+}
+
+header bitmap_t default_bitmap_;
+
+parser parse_default_bitmap {
+    extract(default_bitmap_);
     return ingress;
 }
 

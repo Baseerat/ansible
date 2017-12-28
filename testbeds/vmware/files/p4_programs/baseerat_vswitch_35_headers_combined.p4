@@ -53,7 +53,10 @@ header_type vxlan_t {
 
 header_type bitmap_hdr_combined_t {
     fields {
-        data : 2848;  // (35 * (32 + 48)) + 48
+        data_0 : 848;  // (10 * (32 + 48)) + 48
+        data_1 : 848;  // (10 * (32 + 48)) + 48
+        data_2 : 848;  // (10 * (32 + 48)) + 48
+        data_3 : 448;  // (5 * (32 + 48)) + 48
     }
 }
 
