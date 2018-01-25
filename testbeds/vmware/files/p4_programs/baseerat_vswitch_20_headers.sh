@@ -37,6 +37,36 @@ $DIR/ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=0,priority=32768,ipv4_
                                    add_header:bitmap_hdr9_, \
                                    set_field:0x00112233->bitmap_hdr9__ids, \
                                    set_field:0x1F2F3F4F5F6F->bitmap_hdr9__bitmap, \
+                                   add_header:bitmap_hdr10_, \
+                                   set_field:0x11223344->bitmap_hdr10__ids, \
+                                   set_field:0x1F2F3F4F5F6F->bitmap_hdr10__bitmap, \
+                                   add_header:bitmap_hdr11_, \
+                                   set_field:0x22334455->bitmap_hdr11__ids, \
+                                   set_field:0x1F2F3F4F5F6F->bitmap_hdr11__bitmap, \
+                                   add_header:bitmap_hdr12_, \
+                                   set_field:0x33445566->bitmap_hdr12__ids, \
+                                   set_field:0x1F2F3F4F5F6F->bitmap_hdr12__bitmap, \
+                                   add_header:bitmap_hdr13_, \
+                                   set_field:0x44556677->bitmap_hdr13__ids, \
+                                   set_field:0x1F2F3F4F5F6F->bitmap_hdr13__bitmap, \
+                                   add_header:bitmap_hdr14_, \
+                                   set_field:0x55667788->bitmap_hdr14__ids, \
+                                   set_field:0x1F2F3F4F5F6F->bitmap_hdr14__bitmap, \
+                                   add_header:bitmap_hdr15_, \
+                                   set_field:0x66778899->bitmap_hdr15__ids, \
+                                   set_field:0x1F2F3F4F5F6F->bitmap_hdr15__bitmap, \
+                                   add_header:bitmap_hdr16_, \
+                                   set_field:0x77889900->bitmap_hdr16__ids, \
+                                   set_field:0x1F2F3F4F5F6F->bitmap_hdr16__bitmap, \
+                                   add_header:bitmap_hdr17_, \
+                                   set_field:0x88990011->bitmap_hdr17__ids, \
+                                   set_field:0x1F2F3F4F5F6F->bitmap_hdr17__bitmap, \
+                                   add_header:bitmap_hdr18_, \
+                                   set_field:0x99001122->bitmap_hdr18__ids, \
+                                   set_field:0x1F2F3F4F5F6F->bitmap_hdr18__bitmap, \
+                                   add_header:bitmap_hdr19_, \
+                                   set_field:0x00112233->bitmap_hdr19__ids, \
+                                   set_field:0x1F2F3F4F5F6F->bitmap_hdr19__bitmap, \
                                    add_header:default_bitmap_, \
                                    set_field:0x1F2F3F4F5F6F->default_bitmap__bitmap, \
                                    deparse, \
@@ -73,6 +103,36 @@ $DIR/ovs-ofctl --protocols=OpenFlow15 add-flow br0 "table=0,priority=32768,ipv4_
                                    add_header:bitmap_hdr9_, \
                                    set_field:0x00112233->bitmap_hdr9__ids, \
                                    set_field:0x1F2F3F4F5F6F->bitmap_hdr9__bitmap, \
+                                   add_header:bitmap_hdr10_, \
+                                   set_field:0x11223344->bitmap_hdr10__ids, \
+                                   set_field:0x1F2F3F4F5F6F->bitmap_hdr10__bitmap, \
+                                   add_header:bitmap_hdr11_, \
+                                   set_field:0x22334455->bitmap_hdr11__ids, \
+                                   set_field:0x1F2F3F4F5F6F->bitmap_hdr11__bitmap, \
+                                   add_header:bitmap_hdr12_, \
+                                   set_field:0x33445566->bitmap_hdr12__ids, \
+                                   set_field:0x1F2F3F4F5F6F->bitmap_hdr12__bitmap, \
+                                   add_header:bitmap_hdr13_, \
+                                   set_field:0x44556677->bitmap_hdr13__ids, \
+                                   set_field:0x1F2F3F4F5F6F->bitmap_hdr13__bitmap, \
+                                   add_header:bitmap_hdr14_, \
+                                   set_field:0x55667788->bitmap_hdr14__ids, \
+                                   set_field:0x1F2F3F4F5F6F->bitmap_hdr14__bitmap, \
+                                   add_header:bitmap_hdr15_, \
+                                   set_field:0x66778899->bitmap_hdr15__ids, \
+                                   set_field:0x1F2F3F4F5F6F->bitmap_hdr15__bitmap, \
+                                   add_header:bitmap_hdr16_, \
+                                   set_field:0x77889900->bitmap_hdr16__ids, \
+                                   set_field:0x1F2F3F4F5F6F->bitmap_hdr16__bitmap, \
+                                   add_header:bitmap_hdr17_, \
+                                   set_field:0x88990011->bitmap_hdr17__ids, \
+                                   set_field:0x1F2F3F4F5F6F->bitmap_hdr17__bitmap, \
+                                   add_header:bitmap_hdr18_, \
+                                   set_field:0x99001122->bitmap_hdr18__ids, \
+                                   set_field:0x1F2F3F4F5F6F->bitmap_hdr18__bitmap, \
+                                   add_header:bitmap_hdr19_, \
+                                   set_field:0x00112233->bitmap_hdr19__ids, \
+                                   set_field:0x1F2F3F4F5F6F->bitmap_hdr19__bitmap, \
                                    add_header:default_bitmap_, \
                                    set_field:0x1F2F3F4F5F6F->default_bitmap__bitmap, \
                                    deparse, \

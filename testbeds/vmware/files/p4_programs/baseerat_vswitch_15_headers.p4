@@ -51,11 +51,16 @@ header_type vxlan_t {
     }
 }
 
-header_type bitmap_hdr_combined_t {
+header_type bitmap_hdr_t {
     fields {
-        data_0 : 800;  // (10 * (32 + 48))
-        data_1 : 800;  // (10 * (32 + 48))
-        data_2 : 848;  // (10 * (32 + 48)) + 48
+        ids : IDS_WIDTH;
+        bitmap : NUM_HOSTS;
+    }
+}
+
+header_type bitmap_t {
+    fields {
+        bitmap : NUM_HOSTS;
     }
 }
 
@@ -159,15 +164,120 @@ header vxlan_t vxlan_;
 parser parse_vxlan {
     extract(vxlan_);
     return select(latest.vni) {
-        VXLAN_VNI_BASEERAT : parse_bitmap_hdr_combined;
+        VXLAN_VNI_BASEERAT : parse_bitmap_hdr0;
         default: ingress;
     }
 }
 
-header bitmap_hdr_combined_t bitmap_hdr_combined_;
+header bitmap_hdr_t bitmap_hdr0_;
 
-parser parse_bitmap_hdr_combined {
-    extract(bitmap_hdr_combined_);
+parser parse_bitmap_hdr0 {
+    extract(bitmap_hdr0_);
+    return parse_bitmap_hdr1;
+}
+
+header bitmap_hdr_t bitmap_hdr1_;
+
+parser parse_bitmap_hdr1 {
+    extract(bitmap_hdr1_);
+    return parse_bitmap_hdr2;
+}
+
+header bitmap_hdr_t bitmap_hdr2_;
+
+parser parse_bitmap_hdr2 {
+    extract(bitmap_hdr2_);
+    return parse_bitmap_hdr3;
+}
+
+header bitmap_hdr_t bitmap_hdr3_;
+
+parser parse_bitmap_hdr3 {
+    extract(bitmap_hdr3_);
+    return parse_bitmap_hdr4;
+}
+
+header bitmap_hdr_t bitmap_hdr4_;
+
+parser parse_bitmap_hdr4 {
+    extract(bitmap_hdr4_);
+    return parse_bitmap_hdr5;
+}
+
+header bitmap_hdr_t bitmap_hdr5_;
+
+parser parse_bitmap_hdr5 {
+    extract(bitmap_hdr5_);
+    return parse_bitmap_hdr6;
+}
+
+header bitmap_hdr_t bitmap_hdr6_;
+
+parser parse_bitmap_hdr6 {
+    extract(bitmap_hdr6_);
+    return parse_bitmap_hdr7;
+}
+
+header bitmap_hdr_t bitmap_hdr7_;
+
+parser parse_bitmap_hdr7 {
+    extract(bitmap_hdr7_);
+    return parse_bitmap_hdr8;
+}
+
+header bitmap_hdr_t bitmap_hdr8_;
+
+parser parse_bitmap_hdr8 {
+    extract(bitmap_hdr8_);
+    return parse_bitmap_hdr9;
+}
+
+header bitmap_hdr_t bitmap_hdr9_;
+
+parser parse_bitmap_hdr9 {
+    extract(bitmap_hdr9_);
+    return parse_bitmap_hdr10;
+}
+
+header bitmap_hdr_t bitmap_hdr10_;
+
+parser parse_bitmap_hdr10 {
+    extract(bitmap_hdr10_);
+    return parse_bitmap_hdr11;
+}
+
+header bitmap_hdr_t bitmap_hdr11_;
+
+parser parse_bitmap_hdr11 {
+    extract(bitmap_hdr11_);
+    return parse_bitmap_hdr12;
+}
+
+header bitmap_hdr_t bitmap_hdr12_;
+
+parser parse_bitmap_hdr12 {
+    extract(bitmap_hdr12_);
+    return parse_bitmap_hdr13;
+}
+
+header bitmap_hdr_t bitmap_hdr13_;
+
+parser parse_bitmap_hdr13 {
+    extract(bitmap_hdr13_);
+    return parse_bitmap_hdr14;
+}
+
+header bitmap_hdr_t bitmap_hdr14_;
+
+parser parse_bitmap_hdr14 {
+    extract(bitmap_hdr14_);
+    return parse_default_bitmap;
+}
+
+header bitmap_t default_bitmap_;
+
+parser parse_default_bitmap {
+    extract(default_bitmap_);
     return ingress;
 }
 
